@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+    <tr>
+        <td colspan="6" class="text-right">
+            <button type="button" class="btn btn-primary" ng-click="add()">新增</button>
+        </td>
+    </tr>
+    <tr>
+        <th class="text-center">ID</th>
+        <th class="text-center">姓名</th>
+        <th class="text-center">年龄</th>
+        <th class="text-center">性别</th>
+        <th colspan="2" class="text-center">操作</th>
+    </tr>
+    <tr class="text-center" ng-repeat="list in dataList">
+        <td>{{list.id}}</td>
+        <td>{{list.name}}</td>
+        <td>{{list.age}}</td>
+        <td>{{list.sex}}</td>
+        <td><button type="button" class="btn btn-info" ng-click="find(list)">查看</button></td>
+        <td><button type="button" class="btn btn-danger" ng-click="del(list.id)">删除</button></td>
+    </tr>
+</table>

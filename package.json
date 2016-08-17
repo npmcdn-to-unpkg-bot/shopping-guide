@@ -1,0 +1,21 @@
+{
+  "name": "scms",
+  "version": "0.1.0",
+  "description": "a simple cms",
+  "main": "bin/www",
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "debug": "nodemon --debug ./bin/www"
+  },
+  "keywords": [
+    "cms"
+  ],
+  "author": "youpeng",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mysql": "^2.11.1"
+  },
+  "devDependencies": {}
+}
