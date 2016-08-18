@@ -1,0 +1,12 @@
+<link rel="stylesheet" type="text/css" href="../lib/bootstrap/dist/css/bootstrap.css">
+<link href="../style/signin.css" rel="stylesheet">
+
+<div class="signin">
+    <div class="signin-head"><img src="../images/head_120.png" alt="" class="img-circle"></div>
+    <form class="form-horizontal form-signin" name="myForm" ng-submit="login(myForm)" novalidate>
+        <input type="text" name="user_name" ng-model="user.name" class="form-control" placeholder="用户名" required autofocus/>
+        <input type="password" name="user_pwd" ng-model="user.pwd" class="form-control" placeholder="密码" required/>
+        <button class="btn btn-lg btn-warning btn-block" type="submit">登录</button>
+    </form>
+</div>
+

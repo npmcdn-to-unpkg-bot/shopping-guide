@@ -12,6 +12,7 @@ module.exports = function() {
   app.use(express.static('./public'));
 
   require('../app/routes/user.server.routes.js')(app);
+  require('../app/routes/admin.server.routes.js')(app);
 
   app.use(function(req, res, next) {
     res.status(404);

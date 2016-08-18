@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <h3 class="modal-title">新增用户</h3>
+</div>
+<div class="modal-body">
+    <form name="myForm" ng-submit="save(myForm)" novalidate>
+        <div class="form-group">
+            <label>姓名</label>
+            <input type="text" class="form-control" name="name" ng-model="vm.name" placeholder="姓名">
+        </div>
+        <div class="form-group">
+            <label>姓名</label>
+            <input type="text" class="form-control" name="nick_name" ng-model="vm.nick_name" placeholder="昵称">
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" class="form-control" name="pwd" ng-model="vm.pwd" placeholder="密码">
+        </div>
+        <div class="form-group">
+            <label>电话</label>
+            <input type="text" class="form-control" name="phone" ng-model="vm.phone" placeholder="电话">
+        </div>
+        <div class="form-group">
+            <label>用户类型</label>
+            <select
+                    class="form-control"
+                    name="type"
+                    ng-model="vm.type"
+                    ng-options="type.value as type.text for type in  userType">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>性别</label>
+            <select
+                    class="form-control"
+                    name="sex"
+                    ng-model="vm.sex"
+                    ng-options="type.value as type.text for type in  sexType">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>年龄</label>
+            <input type="text" class="form-control" name="age" ng-model="vm.age" placeholder="年龄">
+        </div>
+        <div class="form-group">
+            <label>地址</label>
+            <input type="text" class="form-control" name="addr" ng-model="vm.addr" placeholder="地址">
+        </div>
+        <div class="form-group">
+            <label>关联淘宝账号</label>
+            <input type="text" class="form-control" name="taobao_user" ng-model="vm.taobao_user" placeholder="淘宝账号">
+        </div>
+        <div class="form-group">
+            <label>角色类型</label>
+            <select
+                    class="form-control"
+                    name="role"
+                    ng-model="vm.role"
+                    ng-options="type.value as type.text for type in  roleType">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">保存</button>
+    </form>
+</div>
+<div class="modal-footer" style="border-top: none;"></div>
