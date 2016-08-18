@@ -1,11 +1,14 @@
 /**
+ * Created by youpeng on 16/8/19.
+ */
+/**
  * Created by youpeng on 16/8/4.
  */
 
 angular.module('webapp')
-  .service('UserService', ['$http', '$q', UserService]);
+  .service('MerchantService', ['$http', '$q', MerchantService]);
 
-function UserService($http, $q) {
+function MerchantService($http, $q) {
   function handleRequest(method, url, data) {
     var defered = $q.defer();
     var config = {
@@ -30,19 +33,19 @@ function UserService($http, $q) {
 
   return {
     list: function(params) {
-      return handleRequest('GET', '/user', params);
+      return handleRequest('GET', '/merchant', params);
     },
     save: function(data) {
-      return handleRequest('POST', '/user', data);
+      return handleRequest('POST', '/merchant', data);
     },
     put: function(data) {
-      return handleRequest('PUT', '/user', data);
+      return handleRequest('PUT', '/merchant', data);
     },
     detail: function(id) {
-      return handleRequest('GET', '/user/'+ id);
+      return handleRequest('GET', '/merchant/'+ id);
     },
     del: function(id) {
-      return handleRequest('DELETE', '/user/'+ id);
+      return handleRequest('DELETE', '/merchant/'+ id);
     }
   }
 }

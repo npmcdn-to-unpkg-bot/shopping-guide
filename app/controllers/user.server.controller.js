@@ -15,7 +15,7 @@ module.exports = {
             authChecked.send(res, req, 200, {err: 0, data: data});
           });
         } else {
-          authChecked.send(res, req, data.status, data.data);
+          authChecked.send(res, req, data.status, data);
         }
       }, function(err) {
       });
@@ -30,14 +30,57 @@ module.exports = {
     authChecked.get_user_by_token(cookie.token)
       .then(function(data) {
         if (data.status === 200) {
-          pool(sql,req.body).then(function(data) {
+          pool(sql, req.body).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data: data});
           });
         } else {
-          authChecked.send(res, req, data.status, data.data);
+          authChecked.send(res, req, data.status, data);
         }
       }, function(err) {
       });
-  }
+  },
+  getById: function(req, res, next, id) {
+    var sql = "select * from user where id = " + id + "";
+    var cookie = querystring.parse(req.headers['cookie'].replace(/; /g, '&'));
+    authChecked.get_user_by_token(cookie.token)
+      .then(function(data) {
+        if (data.status === 200) {
+          pool(sql).then(function(data) {
+            req.data = data[0];
+            return next();
+          });
+        } else {
+          authChecked.send(res, req, data.status, data);
+        }
+      }, function(err) {
+      });
+  },
+  deleteById: function(req, res, next, id) {
+    var sql = "delete from  user where id = " + id + "";
+    var cookie = querystring.parse(req.headers['cookie'].replace(/; /g, '&'));
+    authChecked.get_user_by_token(cookie.token)
+      .then(function(data) {
+        if (data.status === 200) {
+          pool(sql).then(function(data) {
+            console.log(data);
+            req.del = data[0];
+            return next();
+          });
+        } else {
+          authChecked.send(res, req, data.status, data);
+        }
+      }, function(err) {
+      });
+  },
 
+  getId: function(req, res, next) {
+    if (req.del) {
+      authChecked.send(res, req, 200, {err: 0, data: req.del});
+    }
+  },
+  get: function(req, res, next) {
+    if (req.data) {
+      authChecked.send(res, req, 200, {err: 0, data: req.data});
+    }
+  }
 };

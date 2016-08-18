@@ -18,6 +18,10 @@ webapp.config([
         templateUrl: 'views/user.html',
         controller: 'UserController'
       })
+      .when('/merchant', {
+        templateUrl: 'views/merchant.html',
+        controller: 'MerchantController'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -32,3 +36,4 @@ function UserInterceptor($httpProvider) {
 function timestampMarker($httpProvider) {
   $httpProvider.interceptors.push('timestampMarker');
 }
+
