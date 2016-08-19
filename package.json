@@ -20,13 +20,9 @@
     "composable-middleware": "^0.3.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-<<<<<<< HEAD
     "log4js": "^0.6.38",
-    "mysql": "^2.11.1"
-=======
     "mysql": "^2.11.1",
     "querystring": "^0.2.0"
->>>>>>> origin/youpeng
   },
   "devDependencies": {}
 }

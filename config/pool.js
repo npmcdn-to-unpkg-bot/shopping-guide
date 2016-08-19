@@ -1,7 +1,7 @@
 var mysqldb = require('./mysql.js');
 var pool = mysqldb('pool');
 
-function execQuery(sql, callback) {
+function execQuery(sql, data, callback) {
         var errinfo;
 
         pool.getConnection(function(err, connection) {
@@ -9,7 +9,7 @@ function execQuery(sql, callback) {
                 errinfo = 'DB-获取数据库连接异常！';
                 throw errinfo;
             } else {
-                var querys = connection.query(sql, function(err, rows) {
+                var querys = connection.query(sql, data, function(err, rows) {
                     release(connection);
                     if (err) {
                         errinfo = 'DB-SQL语句执行错误:' + err;
@@ -32,11 +32,11 @@ function execQuery(sql, callback) {
         } catch (err) {}
     }
 
-module.exports = function(sql){
-    
+module.exports = function(sql, data){
+    data = data ? data : []
     //对外接口返回Promise函数形式
     return new Promise(function(resolve, reject){
-        execQuery(sql, function(err, rows){
+        execQuery(sql, data, function(err, rows){
             if(err){
                 reject(err);
             }else{
