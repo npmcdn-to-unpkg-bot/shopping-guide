@@ -19,15 +19,15 @@ module.exports = function() {
 
     var nowDate = new Date().getTime();
 
-    console.log("\t-->   ".dim + req.method.bold + "  " + req.originalUrl.dim);
+    console.log("\t-->   ".dim.gray + req.method.bold + "  " + req.originalUrl.dim);
 
     next();
 
     if(res.statusCode == 200 ) {
-      console.log("\t<--   ".dim + req.method.bold + "  " + req.originalUrl.dim + "  " + (res.statusCode+"").green + "  " + ((new Date().getTime() - nowDate) + "ms").yellow);
+      console.log("\t<--   ".dim.gray + req.method.bold + "  " + req.originalUrl.dim + "  " + (res.statusCode+"").green + "  " + ((new Date().getTime() - nowDate) + "ms").yellow);
     }
     else {
-      console.log("\t<--   ".dim + req.method.bold + "  " + req.originalUrl.dim + "  " + (res.statusCode+"").red + "  " + ((new Date().getTime() - nowDate) + "ms").yellow); 
+      console.log("\t<--   ".dim.gray + req.method.bold + "  " + req.originalUrl.dim + "  " + (res.statusCode+"").red + "  " + ((new Date().getTime() - nowDate) + "ms").yellow); 
     }
   });
 
