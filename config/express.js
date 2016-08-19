@@ -22,6 +22,11 @@ module.exports = function() {
 
   log.use(app);  
 
+  app.use(function (req, res, next) {
+    console.log('Time:', Date.now());
+    next();
+  });
+
   require('../app/routes/user.server.routes.js')(app);
   require('../app/routes/admin.server.routes.js')(app);
 
