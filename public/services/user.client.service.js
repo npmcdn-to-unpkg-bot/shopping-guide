@@ -30,13 +30,14 @@ function UserService($http, $q) {
 
   return {
     list: function(params) {
+      console.log(params);
       return handleRequest('GET', '/user', params);
     },
     save: function(data) {
       return handleRequest('POST', '/user', data);
     },
-    put: function(data) {
-      return handleRequest('PUT', '/user', data);
+    put: function(id, data) {
+      return handleRequest('PUT', '/user/'+ id, data);
     },
     detail: function(id) {
       return handleRequest('GET', '/user/'+ id);

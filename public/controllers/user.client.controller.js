@@ -22,15 +22,15 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
       con = s;
     } else {
       con = {
-        page: $scope.currentPage - 1,
+        page: 1,
         num: 10
       }
     }
     $scope.maxSize = 10;
-    // 给list赋值con
 
-    UserService.list().then(
+    UserService.list(con).then(
       function(data) {
+        // totalItems ?
         $scope.totalItems = 614;
         $scope.dataList = data.data;
       },
@@ -65,12 +65,13 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
     return '';
   };
   // 搜索
+  $scope.currentPage = 1;
   vm.search = function() {
     var payload = angular.copy($scope.vm.filters);
     var cons = {
       filters: payload || null,
       keywords: $scope.vm.keywords || null,
-      page: $scope.currentPage - 1,
+      page: $scope.currentPage,
       num: 10
     };
 
@@ -139,7 +140,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
             return false;
           }
           console.log($scope.vm);
-          UserService.put($scope.vm).then(function(data) {
+          UserService.put(id, $scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
             console.log(err);
