@@ -19,6 +19,7 @@
     "composable-middleware": "^0.3.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "log4js": "^0.6.38",
     "mysql": "^2.11.1"
   },
   "devDependencies": {}

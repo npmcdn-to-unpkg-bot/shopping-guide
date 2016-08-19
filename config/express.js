@@ -3,6 +3,15 @@
  */
 var express = require('express');
 var bodyParser = require('body-parser');
+// var log4js = require('log4js');
+// var logger = log4js.getLogger();
+
+// logger.debug("Some debug messages");
+
+
+var log = require('./logHelper');
+
+
 module.exports = function() {
   console.log('init express...');
   var app = express();
@@ -10,6 +19,8 @@ module.exports = function() {
   app.use(bodyParser.json());
 
   app.use(express.static('./public'));
+
+  log.use(app);  
 
   require('../app/routes/user.server.routes.js')(app);
   require('../app/routes/admin.server.routes.js')(app);
