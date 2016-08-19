@@ -8,6 +8,7 @@ var log = require('./logHelper');
 var logger = log.helper;  
 
 module.exports = function() {
+  
   console.log('init express...');
   var app = express();
 
