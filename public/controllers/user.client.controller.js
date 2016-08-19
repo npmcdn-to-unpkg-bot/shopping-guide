@@ -42,7 +42,7 @@ function UserController($scope, UserService, $uibModal) {
           });
         };
 
-        $scope.cancel = function () {
+        $scope.cancel = function() {
           $uibModalInstance.dismiss('cancel');
         };
       }
@@ -57,7 +57,7 @@ function UserController($scope, UserService, $uibModal) {
       templateUrl: 'views/temptate/find_user.html',
       controller: function($scope, $uibModalInstance) {
         $scope.user = list;
-        $scope.cancel = function () {
+        $scope.cancel = function() {
           $uibModalInstance.dismiss('cancel');
         };
       }
@@ -72,12 +72,12 @@ function UserController($scope, UserService, $uibModal) {
       templateUrl: 'views/temptate/add_user.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
-          $scope.CONFIGS = CONFIGS;
-          UserService.detail(id).then(function(data) {
-            $scope.vm = data.data;
-          }, function(err) {
-            console.log(err);
-          });
+        $scope.CONFIGS = CONFIGS;
+        UserService.detail(id).then(function(data) {
+          $scope.vm = data.data;
+        }, function(err) {
+          console.log(err);
+        });
         $scope.save = function(form) {
           if (form.$valid === false) {
             return false;
@@ -90,7 +90,7 @@ function UserController($scope, UserService, $uibModal) {
           });
         };
 
-        $scope.cancel = function () {
+        $scope.cancel = function() {
           $uibModalInstance.dismiss('cancel');
         };
       }
@@ -108,18 +108,16 @@ function UserController($scope, UserService, $uibModal) {
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           UserService.del(id).then(function(data) {
-            console.log(data);
-            $uibModalInstance.close(data);
+            $uibModalInstance.close(index);
           }, function(err) {
             console.log(err);
           });
         }
       }
-    }).result.then(function(item) {
-      delete dataList[index];
+    }).result.then(function(index) {
+      $scope.dataList.splice(index, 1);
     });
   };
-
 
 
 }

@@ -39,32 +39,17 @@ module.exports = {
       }, function(err) {
       });
   },
-  getById: function(req, res, next, id) {
-    var sql = "select * from user where id = " + id + "";
+
+
+  getById: function(req, res, next) {
+    console.log(req.params.nid);
+    var sql = "select * from user where id = " + req.params.nid + "";
     var cookie = querystring.parse(req.headers['cookie'].replace(/; /g, '&'));
     authChecked.get_user_by_token(cookie.token)
       .then(function(data) {
         if (data.status === 200) {
           pool(sql).then(function(data) {
-            req.data = data[0];
-            return next();
-          });
-        } else {
-          authChecked.send(res, req, data.status, data);
-        }
-      }, function(err) {
-      });
-  },
-  deleteById: function(req, res, next, id) {
-    var sql = "delete from  user where id = " + id + "";
-    var cookie = querystring.parse(req.headers['cookie'].replace(/; /g, '&'));
-    authChecked.get_user_by_token(cookie.token)
-      .then(function(data) {
-        if (data.status === 200) {
-          pool(sql).then(function(data) {
-            console.log(data);
-            req.del = data[0];
-            return next();
+            authChecked.send(res, req, 200, {err: 0, data: data[0]});
           });
         } else {
           authChecked.send(res, req, data.status, data);
@@ -73,14 +58,20 @@ module.exports = {
       });
   },
 
-  getId: function(req, res, next) {
-    if (req.del) {
-      authChecked.send(res, req, 200, {err: 0, data: req.del});
-    }
-  },
-  get: function(req, res, next) {
-    if (req.data) {
-      authChecked.send(res, req, 200, {err: 0, data: req.data});
-    }
+
+  deleteById: function(req, res, next) {
+    var sql = "delete from  user where id = " + req.params.nid + "";
+    var cookie = querystring.parse(req.headers['cookie'].replace(/; /g, '&'));
+    authChecked.get_user_by_token(cookie.token)
+      .then(function(data) {
+        if (data.status === 200) {
+          pool(sql).then(function(data) {
+            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+          });
+        } else {
+          authChecked.send(res, req, data.status, data);
+        }
+      }, function(err) {
+      });
   }
 };

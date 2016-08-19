@@ -7,9 +7,9 @@ module.exports = function(app) {
     .put(UserController.create);
 
   app.route('/user/:nid')
-    .get(UserController.get)
-    .delete(UserController.getId);
+    .get(UserController.getById)
+    .delete(UserController.deleteById);
 
-  app.param('nid', UserController.getById);
-  app.param('nid', UserController.deleteById);
+  // app.param('nid', UserController.getById);
+  // app.param('nid', UserController.deleteById);
 };
