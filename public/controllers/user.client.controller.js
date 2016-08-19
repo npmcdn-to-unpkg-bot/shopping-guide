@@ -4,14 +4,34 @@
 angular.module('webapp')
   .controller('UserController', ['$scope', 'UserService', '$uibModal', 'CONFIGS', UserController]);
 
-function UserController($scope, UserService, $uibModal) {
+function UserController($scope, UserService, $uibModal, CONFIGS) {
+
+  var vm = $scope.vm = {};
+
+  vm.CONFIGS = CONFIGS;
 
   $scope.dataList = [];
 
+  $scope.payload = {};
+
   // 列表
-  $scope.loadNews = function() {
+
+  $scope.loadNews = function(s) {
+    var con;
+    if (s) {
+      con = s;
+    } else {
+      con = {
+        page: $scope.currentPage - 1,
+        num: 10
+      }
+    }
+    $scope.maxSize = 10;
+    // 给list赋值con
+
     UserService.list().then(
       function(data) {
+        $scope.totalItems = 614;
         $scope.dataList = data.data;
       },
       function(err) {
@@ -20,6 +40,42 @@ function UserController($scope, UserService, $uibModal) {
   };
 
   $scope.loadNews();
+
+  vm.statusSexName = function(value) {
+    var status = _.find(CONFIGS.sexType, {value: value});
+    if (status) {
+      return status.text;
+    }
+    return '';
+  };
+
+  vm.statusTypeName = function(value) {
+    var status = _.find(CONFIGS.userType, {value: value});
+    if (status) {
+      return status.text;
+    }
+    return '';
+  };
+
+  vm.statusRoleName = function(value) {
+    var status = _.find(CONFIGS.roleType, {value: value});
+    if (status) {
+      return status.text;
+    }
+    return '';
+  };
+  // 搜索
+  vm.search = function() {
+    var payload = angular.copy($scope.vm.filters);
+    var cons = {
+      filters: payload || null,
+      keywords: $scope.vm.keywords || null,
+      page: $scope.currentPage - 1,
+      num: 10
+    };
+
+    $scope.loadNews(cons);
+  };
 
 
   // 新增
