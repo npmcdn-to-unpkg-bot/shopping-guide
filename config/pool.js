@@ -3,7 +3,7 @@ var pool = mysqldb('pool');
 
 function execQuery(sql, data, callback) {
         var errinfo;
-
+        console.log(data);
         pool.getConnection(function(err, connection) {
             if (err) {
                 errinfo = 'DB-获取数据库连接异常！';
