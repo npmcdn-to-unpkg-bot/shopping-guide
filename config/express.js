@@ -1,16 +1,11 @@
 /**
  * Created by youpeng on 16/7/28.
  */
+var colors = require( "colors")
 var express = require('express');
 var bodyParser = require('body-parser');
-// var log4js = require('log4js');
-// var logger = log4js.getLogger();
-
-// logger.debug("Some debug messages");
-
-
 var log = require('./logHelper');
-
+var logger = log.helper;  
 
 module.exports = function() {
   console.log('init express...');
@@ -18,14 +13,30 @@ module.exports = function() {
 
   app.use(bodyParser.json());
 
+
+  app.use(function (req, res, next) {
+
+    var nowDate = new Date().getTime();
+
+    console.log("\t-->   ".dim + req.method.bold + "  " + req.originalUrl.dim);
+
+    next();
+
+    if(res.statusCode == 200 ) {
+      console.log("\t<--   ".dim + req.method.bold + "  " + req.originalUrl.dim + "  " + (res.statusCode+"").green + "  " + ((new Date().getTime() - nowDate) + "ms").yellow);
+    }
+    else {
+      console.log("\t<--   ".dim + req.method.bold + "  " + req.originalUrl.dim + "  " + (res.statusCode+"").red + "  " + ((new Date().getTime() - nowDate) + "ms").yellow); 
+    }
+  });
+
   app.use(express.static('./public'));
 
   log.use(app);  
 
-  app.use(function (req, res, next) {
-    console.log('Time:', Date.now());
-    next();
-  });
+  
+
+  
 
   require('../app/routes/user.server.routes.js')(app);
   require('../app/routes/admin.server.routes.js')(app);
