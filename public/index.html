@@ -10,8 +10,14 @@
     <title>导购</title>
     <link rel="stylesheet" type="text/css" href="style/common.css">
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+    <!--<link rel="stylesheet" type="text/css" href="style/loading.css">-->
 </head>
 <body>
+<!--<div class="loading-modal modal" ng-if="loading">-->
+    <!--<div class="loading">-->
+        <!--<img src="images/loading.jpg" alt=""/><span ng-bind="loading_text"></span>-->
+    <!--</div>-->
+<!--</div>-->
 <div id="wrap" ng-init="shows = false">
     <!-- 左侧菜单栏目块 -->
     <div class="leftMeun" id="leftMeun" ng-class="shows == true?'show':''">
@@ -22,35 +28,35 @@
             <p id="userName">{{userName || '未登录'}}</p>
             <p><span>{{nickName}}</span></p>
             <p>
-                <a ng-if="userName || nickName">退出登录</a>
-                <a ng-if="!userName && !nickName" ng-href="#/">请先登录</a>
+                <a ng-if="userName">退出登录</a>
+                <a ng-if="!userName" ng-href="#/">请先登录</a>
             </p>
         </div>
         <item-list>
             <div class="meun-title">账号管理</div>
-            <div class="meun-item meun-item-active"><a ng-href="#/user"><img
-                    src="images/icon_source.png">资源管理</a>
+            <div class="meun-item"><a ng-href="#/user"><img
+                    src="images/icon_source.png">用户管理</a>
             </div>
-            <div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img
-                    src="images/icon_chara_grey.png">权限管理
+            <div class="meun-item"><a ng-href="#/merchant"><img
+                    src="images/icon_chara_grey.png">商户管理</a>
             </div>
-            <div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img
+            <div class="meun-item"><img
                     src="images/icon_user_grey.png">用户管理
             </div>
-            <div class="meun-item" href="#chan" aria-controls="chan" role="tab" data-toggle="tab"><img
+            <div class="meun-item"><img
                     src="images/icon_change_grey.png">修改密码
             </div>
             <div class="meun-title">地区管理</div>
-            <div class="meun-item" href="#scho" aria-controls="scho" role="tab" data-toggle="tab"><img
+            <div class="meun-item"><img
                     src="images/icon_house_grey.png">地区管理
             </div>
-            <div class="meun-item" href="#regu" aria-controls="regu" role="tab" data-toggle="tab"><img
+            <div class="meun-item"><img
                     src="images/icon_rule_grey.png">规则管理
             </div>
-            <div class="meun-item" href="#stud" aria-controls="stud" role="tab" data-toggle="tab"><img
+            <div class="meun-item"><img
                     src="images/icon_card_grey.png">人员信息
             </div>
-            <div class="meun-item" href="#sitt" aria-controls="sitt" role="tab" data-toggle="tab"><img
+            <div class="meun-item"><img
                     src="images/icon_char_grey.png">座位管理
             </div>
         </item-list>
@@ -68,13 +74,17 @@
 <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
 <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="lib/angular-cookies/angular-cookies.js"></script>
+<script src="lib/lodash/dist/lodash.min.js"></script>
 <script src="webapp.js"></script>
+<script src="common/Constants.js"></script>
 <script src="factory/factory.js"></script>
 <script src="directives/directives.js"></script>
 <script src="services/user.client.service.js"></script>
 <script src="services/admin.client.service.js"></script>
+<script src="services/merchant.client.services.js"></script>
 <script src="controllers/user.client.controller.js"></script>
 <script src="controllers/admin.client.controller.js"></script>
+<script src="controllers/merchant.client.controller.js"></script>
 </body>
 </html>
 

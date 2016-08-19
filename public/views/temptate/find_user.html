@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h3 class="modal-title">
+        详情
+        <a class="close pull-right" ng-click="cancel()">X</a>
+    </h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">姓名</label>
+            <p class="form-control-static">{{user.name}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">昵称</label>
+            <p class="form-control-static">{{user.nick_name}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">密码</label>
+            <p class="form-control-static">{{user.pwd}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">电话</label>
+            <p class="form-control-static">{{user.phone}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用户类型</label>
+            <p ng-if="user.type == 0" class="form-control-static">超级管理员</p>
+            <p ng-if="user.type == 1" class="form-control-static">普通用户</p>
+            <p ng-if="user.type == 2" class="form-control-static">商户</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">性别</label>
+            <p class="form-control-static">{{user.sex ? '女' : '男'}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">年龄</label>
+            <p class="form-control-static">{{user.age}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">地址</label>
+            <p class="form-control-static">{{user.addr}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">关联淘宝账号</label>
+            <p class="form-control-static">{{user.taobao_user}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">角色类型</label>
+            <p ng-if="user.role == 0" class="form-control-static">超级管理员</p>
+            <p ng-if="user.role == 1" class="form-control-static">普通用户</p>
+            <p ng-if="user.role == 2" class="form-control-static">商户</p>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" style="border-top: none;"></div>

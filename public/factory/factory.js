@@ -25,10 +25,11 @@ function UserInterceptor($q, $rootScope, $location, $cookies) {
 
 }
 
-function timestampMarker() {
+function timestampMarker($rootScope) {
   var timestampMarker =
   {
     request: function(config) {
+      // $rootScope.loading = true;
       config.requestTimestamp = new Date().getTime();
       return config;
     },

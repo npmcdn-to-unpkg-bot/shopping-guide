@@ -13,9 +13,9 @@ function UserService($http, $q) {
       url: url
     };
 
-    if ("POST" === method) {
+    if ("POST" === method || "PUT" === method) {
       config.data = data;
-    } else if ("GET" === method) {
+    } else if ("GET" === method || "DELETE" === method) {
       config.params = data;
     }
 
@@ -35,8 +35,14 @@ function UserService($http, $q) {
     save: function(data) {
       return handleRequest('POST', '/user', data);
     },
+    put: function(data) {
+      return handleRequest('PUT', '/user', data);
+    },
     detail: function(id) {
       return handleRequest('GET', '/user/'+ id);
+    },
+    del: function(id) {
+      return handleRequest('DELETE', '/user/'+ id);
     }
   }
 }
