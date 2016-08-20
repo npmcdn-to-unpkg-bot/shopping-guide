@@ -26,12 +26,12 @@ module.exports = {
 
 
     
-    var sql = `select * from user where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from merchant where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
       
 
-      var sql = `select count(id) as count from user `;
+      var sql = `select count(id) as count from merchant `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});

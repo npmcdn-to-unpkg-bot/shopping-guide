@@ -30,19 +30,19 @@ function UserService($http, $q) {
 
   return {
     list: function(params) {
-      return handleRequest('GET', '/merchant', params);
+      return handleRequest('GET', '/user', params);
     },
     save: function(data) {
-      return handleRequest('POST', '/merchant', data);
+      return handleRequest('POST', '/user', data);
     },
     put: function(id, data) {
-      return handleRequest('PUT', '/merchant/'+ id, data);
+      return handleRequest('PUT', '/user/'+ id, data);
     },
     detail: function(id) {
-      return handleRequest('GET', '/merchant/'+ id);
+      return handleRequest('GET', '/user/'+ id);
     },
     del: function(id) {
-      return handleRequest('DELETE', '/merchant/'+ id);
+      return handleRequest('DELETE', '/user/'+ id);
     }
   }
 }
