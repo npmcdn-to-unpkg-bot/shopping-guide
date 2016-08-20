@@ -31,7 +31,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
     UserService.list(con).then(
       function(data) {
         // totalItems ?
-        $scope.totalItems = 614;
+        $scope.totalItems = data.count;
         $scope.dataList = data.data;
       },
       function(err) {
@@ -80,7 +80,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
 
 
   // 新增
-  $scope.add = function() {
+  $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/add_user.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
@@ -107,8 +107,6 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
         };
       }
     }).result.then(function(item) {
-      console.log($scope.dataList);
-      console.log(item.data);
       $scope.dataList.push(item.data);
     });
   };
