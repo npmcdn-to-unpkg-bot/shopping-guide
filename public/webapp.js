@@ -11,8 +11,8 @@ webapp.config([
   function($routeProvider, $routeParams) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/admin.html',
-        controller: 'AdminController'
+        templateUrl: 'views/merchant.html',
+        controller: 'MerchantController'
       })
       .when('/user', {
         templateUrl: 'views/user.html',

@@ -41,29 +41,22 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
 
   $scope.loadNews();
 
-  vm.statusSexName = function(value) {
-    var status = _.find(CONFIGS.sexType, {value: value});
+  vm.moneyStatusName = function(value) {
+    var status = _.find(CONFIGS.moneyStatus, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.statusTypeName = function(value) {
-    var status = _.find(CONFIGS.userType, {value: value});
+  vm.merchantStatusName = function(value) {
+    var status = _.find(CONFIGS.merchantStatus, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.statusRoleName = function(value) {
-    var status = _.find(CONFIGS.roleType, {value: value});
-    if (status) {
-      return status.text;
-    }
-    return '';
-  };
   // 搜索
   $scope.currentPage = 1;
   vm.search = function() {
