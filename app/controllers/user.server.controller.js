@@ -24,6 +24,7 @@ module.exports = {
       where += ` and name like '%${req.query.keywords}%'`;
     }
 
+
     console.log(where);
     
     var sql = `select * from user where ${where} order by id limit ${page},${num}`;
