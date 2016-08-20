@@ -60,8 +60,10 @@ module.exports = function() {
   });
 
 
-  require('../app/routes/user.server.routes.js')(app);
   require('../app/routes/admin.server.routes.js')(app);
+  require('../app/routes/user.server.routes.js')(app);
+  require('../app/routes/merchant.server.routes.js')(app);
+  
 
   app.use(function(req, res, next) {
     res.status(404);

@@ -1,5 +1,5 @@
 <div>
-    <pre style="border-radius: 0;margin-bottom: 0;">用户管理</pre>
+    <pre style="border-radius: 0;margin-bottom: 0;">商户管理</pre>
     <div class="row" style="margin: 20px;">
         <div class="col-xs-6">
             <input class="form-control input-sm" type="text" ng-keypress="vm.searchKeypress($event)" ng-model="vm.query"
@@ -12,7 +12,7 @@
 
     <div class="row" style="margin: 20px;">
         <div class="col-xs-2">
-            <div>性别：</div>
+            <div>预付金：</div>
             <select
                     class="form-control input-sm"
                     ng-model="vm.filters.sex"
@@ -21,7 +21,7 @@
             </select>
         </div>
         <div class="col-xs-2">
-            <div>用户类型：</div>
+            <div>保证金：</div>
             <select
                     class="form-control input-sm"
                     ng-model="vm.filters.type"
@@ -30,7 +30,16 @@
             </select>
         </div>
         <div class="col-xs-2">
-            <div>角色类型：</div>
+            <div>审核状态：</div>
+            <select
+                    class="form-control input-sm"
+                    ng-model="vm.filters.role"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.roleType"
+                    ng-change="vm.search(true)">
+            </select>
+        </div>
+        <div class="col-xs-2">
+            <div>入驻时间</div>
             <select
                     class="form-control input-sm"
                     ng-model="vm.filters.role"
@@ -47,15 +56,19 @@
                                           ng-click="vm.keywords=null;vm.query='';vm.search(true)">&times;</span>
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.sex || vm.filters.sex == 0">
-                性别:{{vm.statusSexName(vm.filters.sex)}} <span class="close"
+                预防金:{{vm.statusSexName(vm.filters.sex)}} <span class="close"
                                                               ng-click="vm.filters.sex=null;vm.search(true)">&times;</span>
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.type || vm.filters.type == 0">
-                用户类型:{{vm.statusTypeName(vm.filters.type)}} <span class="close"
+                保证金:{{vm.statusTypeName(vm.filters.type)}} <span class="close"
                                                                   ng-click="vm.filters.type=null;vm.search(true)">&times;</span>
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.role || vm.filters.role == 0">
-                角色类型:{{vm.statusRoleName(vm.filters.role)}} <span class="close"
+                审核状态:{{vm.statusRoleName(vm.filters.role)}} <span class="close"
+                                                                  ng-click="vm.filters.role=null;vm.search(true)">&times;</span>
+            </label>
+            <label class="criterion btn-primary" ng-if="vm.filters.role || vm.filters.role == 0">
+                入驻时间:{{vm.statusRoleName(vm.filters.role)}} <span class="close"
                                                                   ng-click="vm.filters.role=null;vm.search(true)">&times;</span>
             </label>
         </div>
@@ -63,16 +76,19 @@
 
     <table class="table table-bordered">
         <tr>
-            <td colspan="6" class="text-right">
+            <td colspan="9" class="text-right">
                 <button type="button" class="btn btn-primary" ng-click="add(dataList.length)">新增</button>
             </td>
         </tr>
         <tr>
             <th class="text-center"></th>
-            <th class="text-center">用户名</th>
-            <th class="text-center">性别</th>
-            <th class="text-center">用户类型</th>
-            <th class="text-center">角色</th>
+            <th class="text-center">商户名</th>
+            <th class="text-center">关联用户</th>
+            <th class="text-center">商户手机</th>
+            <th class="text-center">保证金</th>
+            <th class="text-center">预付金</th>
+            <th class="text-center">审核时间</th>
+            <th class="text-center">入驻时间</th>
             <th class="text-center">操作</th>
         </tr>
         <tr class="text-center" ng-repeat="list in dataList">
@@ -90,7 +106,7 @@
             </td>
         </tr>
         <tr class="text-center">
-            <td colspan="6">
+            <td colspan="9">
                 <ul uib-pagination
                     boundary-links="true"
                     total-items="totalItems"
