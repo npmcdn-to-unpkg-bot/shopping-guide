@@ -82,7 +82,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
   // 新增
   $scope.add = function(len) {
     $uibModal.open({
-      templateUrl: 'views/temptate/add_user.html',
+      templateUrl: 'views/temptate/user/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.title = "新增用户";
         $scope.vm = {};
@@ -114,7 +114,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
   // 查看
   $scope.find = function(list) {
     $uibModal.open({
-      templateUrl: 'views/temptate/find_user.html',
+      templateUrl: 'views/temptate/user/find.html',
       controller: function($scope, $uibModalInstance) {
         $scope.user = list;
         $scope.cancel = function() {
@@ -129,7 +129,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
 
   $scope.edit = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/add_user.html',
+      templateUrl: 'views/temptate/user/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
@@ -164,7 +164,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
 
   $scope.del = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/delete_user.html',
+      templateUrl: 'views/temptate/user/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           UserService.del(id).then(function(data) {
