@@ -10,8 +10,6 @@ module.exports = {
 
     var query = req.query.filters ? JSON.parse(req.query.filters) : {};
 
-    console.log(query);
-
     var num = req.query.num ? req.query.num : 10;
     var page = req.query.page ? (req.query.page-1) * num : 0;
 
@@ -20,6 +18,10 @@ module.exports = {
       if(query[obj] != null){
         where += ` and ${obj}=${query[obj]}`
       }
+    }
+
+    if(req.query.keywords != null){
+      where += ` and name like '%${req.query.keywords}%'`;
     }
 
     console.log(where);
