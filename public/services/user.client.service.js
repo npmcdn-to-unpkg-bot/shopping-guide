@@ -30,7 +30,6 @@ function UserService($http, $q) {
 
   return {
     list: function(params) {
-      console.log(params);
       return handleRequest('GET', '/user', params);
     },
     save: function(data) {

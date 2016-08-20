@@ -84,14 +84,17 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
     $uibModal.open({
       templateUrl: 'views/temptate/add_user.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
+        $scope.title = "新增用户";
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
+        $scope.vm.sex = CONFIGS.sexType[0].value;
+        $scope.vm.type = CONFIGS.sexType[1].value;
+        $scope.vm.role = CONFIGS.sexType[1].value;
 
         $scope.save = function(form) {
           if (form.$valid === false) {
             return false;
           }
-          console.log($scope.vm);
           UserService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
@@ -104,7 +107,9 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
         };
       }
     }).result.then(function(item) {
-      $scope.dataList.push(item);
+      console.log($scope.dataList);
+      console.log(item.data);
+      $scope.dataList.push(item.data);
     });
   };
 
@@ -131,6 +136,7 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
         UserService.detail(id).then(function(data) {
+          $scope.title = "修改用户";
           $scope.vm = data.data;
         }, function(err) {
           console.log(err);
@@ -139,9 +145,8 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
           if (form.$valid === false) {
             return false;
           }
-          console.log($scope.vm);
           UserService.put(id, $scope.vm).then(function(data) {
-            $uibModalInstance.close(data);
+            $uibModalInstance.close($scope.vm);
           }, function(err) {
             console.log(err);
           });
