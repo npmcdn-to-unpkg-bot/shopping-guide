@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('MerchantController', ['$rootScope', '$scope', 'MerchantService', '$cookies', '$location', MerchantController]);
+  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', MerchantController]);
 
-function MerchantController($rootScope, $scope, AdminService, $cookies, $location) {
+function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
 
   var vm = $scope.vm = {};
 
@@ -28,7 +28,7 @@ function MerchantController($rootScope, $scope, AdminService, $cookies, $locatio
     }
     $scope.maxSize = 10;
 
-    UserService.list(con).then(
+    MerchantService.list(con).then(
       function(data) {
         // totalItems ?
         $scope.totalItems = data.count;

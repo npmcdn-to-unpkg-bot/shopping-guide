@@ -18,7 +18,7 @@ module.exports = {
       } else {
         if (data[0].pwd == req.body.pwd) {
           var token = new Date().getTime() + '_' + Math.random();
-          res.cookie('token', token, {maxAge: 900000});
+          res.cookie('token', token, {maxAge: 9000000});
           var sql = "UPDATE user SET token='" + token + "' WHERE name='" + req.body.name + "'";
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data : data[0]});

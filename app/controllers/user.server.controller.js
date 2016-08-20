@@ -25,7 +25,6 @@ module.exports = {
     }
 
 
-    console.log(where);
     
     var sql = `select * from user where ${where} order by id limit ${page},${num}`;
 
