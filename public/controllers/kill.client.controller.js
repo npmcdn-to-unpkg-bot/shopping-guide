@@ -1,10 +1,10 @@
 /**
- * Created by youpeng on 16/8/19.
+ * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', 'FileUploader', MerchantController]);
+  .controller('KillController', ['$scope', 'KillService', '$uibModal', 'CONFIGS', KillController]);
 
-function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUploader) {
+function KillController($scope, KillService, $uibModal, CONFIGS) {
 
   var vm = $scope.vm = {};
 
@@ -30,7 +30,6 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
     $scope.popup2.opened = true;
   };
 
-
   // 列表
 
   $scope.loadNews = function(s) {
@@ -44,9 +43,9 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
       }
     }
     $scope.maxSize = 10;
-    MerchantService.list(con).then(
+
+    KillService.list(con).then(
       function(data) {
-        // totalItems ?
         $scope.totalItems = data.count;
         $scope.dataList = data.data;
       },
@@ -57,22 +56,29 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
 
   $scope.loadNews();
 
-  vm.moneyStatusName = function(value) {
-    var status = _.find(CONFIGS.moneyStatus, {value: value});
+  vm.statusSexName = function(value) {
+    var status = _.find(CONFIGS.sexType, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.merchantStatusName = function(value) {
-    var status = _.find(CONFIGS.merchantStatus, {value: value});
+  vm.statusTypeName = function(value) {
+    var status = _.find(CONFIGS.userType, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
+  vm.statusRoleName = function(value) {
+    var status = _.find(CONFIGS.roleType, {value: value});
+    if (status) {
+      return status.text;
+    }
+    return '';
+  };
   // 搜索
   $scope.currentPage = 1;
   vm.search = function(val) {
@@ -94,16 +100,10 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
   // 新增
   $scope.add = function(len) {
     $uibModal.open({
-      templateUrl: 'views/temptate/merchant/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
-        $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
-          autoUpload: true
-        });
-        
+      templateUrl: 'views/temptate/user/add.html',
+      controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.title = "新增用户";
         $scope.vm = {};
-
         $scope.CONFIGS = CONFIGS;
         $scope.vm.sex = CONFIGS.sexType[0].value;
         $scope.vm.type = CONFIGS.sexType[1].value;
@@ -113,7 +113,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
           if (form.$valid === false) {
             return false;
           }
-          MerchantService.save($scope.vm).then(function(data) {
+          KillService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
             console.log(err);
@@ -132,7 +132,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
   // 查看
   $scope.find = function(list) {
     $uibModal.open({
-      templateUrl: 'views/temptate/merchant/find.html',
+      templateUrl: 'views/temptate/user/find.html',
       controller: function($scope, $uibModalInstance) {
         $scope.user = list;
         $scope.cancel = function() {
@@ -147,16 +147,11 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
 
   $scope.edit = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/merchant/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
+      templateUrl: 'views/temptate/user/add.html',
+      controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        $scope.uploader = new FileUploader({
-          url: 'upload.php',
-          autoUpload: true
-        });
-
-        MerchantService.detail(id).then(function(data) {
+        KillService.detail(id).then(function(data) {
           $scope.title = "修改用户";
           $scope.vm = data.data;
         }, function(err) {
@@ -166,7 +161,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
           if (form.$valid === false) {
             return false;
           }
-          MerchantService.put(id, $scope.vm).then(function(data) {
+          KillService.put(id, $scope.vm).then(function(data) {
             $uibModalInstance.close($scope.vm);
           }, function(err) {
             console.log(err);
@@ -187,10 +182,10 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
 
   $scope.del = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/merchant/delete.html',
+      templateUrl: 'views/temptate/user/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
-          MerchantService.del(id).then(function(data) {
+          KillService.del(id).then(function(data) {
             $uibModalInstance.close(index);
           }, function(err) {
             console.log(err);
@@ -201,5 +196,6 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
       $scope.dataList.splice(index, 1);
     });
   };
+
 
 }

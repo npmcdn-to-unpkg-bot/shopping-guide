@@ -56,5 +56,17 @@ angular.module('webapp')
       {
         text: '已通过', value: 2
       }
+    ],
+    //活动状态
+    killStatus: [
+      {
+        text: '未启用', value: 0
+      },
+      {
+        text: '启用', value: 1
+      },
+      {
+        text: '停止', value: 2
+      }
     ]
 });

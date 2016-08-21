@@ -22,6 +22,10 @@ webapp.config([
         templateUrl: 'views/merchant.html',
         controller: 'MerchantController'
       })
+      .when('/kill', {
+        templateUrl: 'views/kill.html',
+        controller: 'KillController'
+      })
       .otherwise({
         redirectTo: '/'
       });
