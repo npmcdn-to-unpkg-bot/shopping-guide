@@ -27,6 +27,7 @@
     "angular-cookie": "^4.1.0",
     "angular-cookies": "^1.5.8",
     "angular-bootstrap": "^2.0.2",
-    "lodash": "^4.15.0"
+    "lodash": "^4.15.0",
+    "angular-file-upload": "^2.3.4"
   }
 }

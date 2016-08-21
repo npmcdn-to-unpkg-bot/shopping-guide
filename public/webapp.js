@@ -3,7 +3,7 @@
  */
 "use strict";
 
-var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap']);
+var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap', 'angularFileUpload']);
 
 
 webapp.config([
@@ -11,8 +11,8 @@ webapp.config([
   function($routeProvider, $routeParams) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/merchant.html',
-        controller: 'MerchantController'
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController'
       })
       .when('/user', {
         templateUrl: 'views/user.html',

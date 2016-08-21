@@ -30,9 +30,32 @@
             </select>
         </div>
         <div class="col-xs-2">
-            <div>入驻时间</div>
+            <div>入驻时间：</div>
+            <div uib-dropdown auto-close="disabled" class="daterange-dropdown" is-open="isopen1">
+                <a uib-dropdown-toggle class="btn btn-default btn-sm dropdown-toggle">
+                    请选择时间
+                    <i class="fa fa-calendar"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" style="width: 680px;">
+                    <li class="clearfix">
+                        <div class="datepicker-wrapper col-sm-6">从:
+                            <div uib-datepicker ng-model="signed_at_gte" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                        <div class="datepicker-wrapper col-sm-6">到:
+                            <div uib-datepicker ng-model="signed_at_lte" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <div class="datepicker-wrapper col-sm-12 text-center">
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    ng-click="vm.filters['signed_at'] = [signed_at_gte.valueOf(), signed_at_lte.valueOf()];isopen1=false;vm.search(true)">确定</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
+
 
     <div class="row" style="margin-left: 35px;">
         <div class="criteria">
@@ -42,15 +65,15 @@
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.money || vm.filters.money == 0">
                 保证金:{{vm.moneyStatusName(vm.filters.money)}} <span class="close"
-                                                                  ng-click="vm.filters.type=null;vm.search(true)">&times;</span>
+                                                                   ng-click="vm.filters.type=null;vm.search(true)">&times;</span>
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.merchant || vm.filters.merchant == 0">
                 审核状态:{{vm.merchantStatusName(vm.filters.merchant)}} <span class="close"
-                                                                  ng-click="vm.filters.merchant=null;vm.search(true)">&times;</span>
+                                                                          ng-click="vm.filters.merchant=null;vm.search(true)">&times;</span>
             </label>
-            <label class="criterion btn-primary" ng-if="vm.filters.role || vm.filters.role == 0">
-                入驻时间:{{vm.statusRoleName(vm.filters.role)}} <span class="close"
-                                                                  ng-click="vm.filters.role=null;vm.search(true)">&times;</span>
+            <label class="criterion btn-primary" ng-if="vm.filters.signed_at">
+                入驻时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
+                <span class="close" ng-click="vm.filters.signed_at=null;vm.search(true)">&times;</span>
             </label>
         </div>
     </div>
@@ -75,9 +98,12 @@
         <tr class="text-center" ng-repeat="list in dataList">
             <td>{{$index+1}}</td>
             <td>{{list.name}}</td>
-            <td>{{list.sex === 0 ? '男' : '女'}}</td>
-            <td>{{list.type === 0 ? '超级管理员' : list.type === 1 ? '普通用户' : list.type === 2 ? '商户' : '无法识别'}}</td>
-            <td>{{list.role === 0 ? '超级管理员' : list.type === 1 ? '普通用户' : list.type === 2 ? '商户' : '无法识别'}}</td>
+            <td>{{list.user_id}}</td>
+            <td>{{list.phone}}</td>
+            <td>{{list.money_photo}}</td>
+            <td>{{list.account}}</td>
+            <td>{{list.updateTime | date:'yyyy/MM/dd'}}</td>
+            <td>{{list.createTime | date:'yyyy/MM/dd'}}</td>
             <td>
                 <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
 

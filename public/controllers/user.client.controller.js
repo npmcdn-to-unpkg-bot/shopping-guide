@@ -30,7 +30,6 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
 
     UserService.list(con).then(
       function(data) {
-        // totalItems ?
         $scope.totalItems = data.count;
         $scope.dataList = data.data;
       },
@@ -66,7 +65,10 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
   };
   // 搜索
   $scope.currentPage = 1;
-  vm.search = function() {
+  vm.search = function(val) {
+    if (val === true) {
+      $scope.currentPage = 1;
+    }
     var payload = angular.copy($scope.vm.filters);
     var cons = {
       filters: payload || null,
