@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', 'FileUploader', MerchantController]);
+  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', 'UserService', 'FileUploader', MerchantController]);
 
-function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUploader) {
+function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserService, FileUploader) {
 
   var vm = $scope.vm = {};
 
@@ -95,8 +95,27 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/merchant/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
+      controller: function($scope, CONFIGS, $uibModalInstance, UserService, FileUploader) {
         $scope.vm = {};
+
+        UserService.list().then(
+          function(data) {
+            console.log(data);
+            $scope.userList = data.data;
+          },
+          function(err) {
+          }
+        );
+
+        $scope.getUserName = function(id) {
+           angular.forEach($scope.userList,function(value, index) {
+             if (value.id === id) {
+              $scope.vm.user_name = value.name;
+             }
+           });
+        }
+
+
 
         for (var i = 1; i <= 4; i++) {
           (function(n){
@@ -141,11 +160,11 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
           console.log($scope.vm);
 
 
-          // MerchantService.save($scope.vm).then(function(data) {
-          //   $uibModalInstance.close(data);
-          // }, function(err) {
-          //   console.log(err);
-          // });
+          MerchantService.save($scope.vm).then(function(data) {
+            $uibModalInstance.close(data);
+          }, function(err) {
+            console.log(err);
+          });
         };
 
         $scope.cancel = function() {

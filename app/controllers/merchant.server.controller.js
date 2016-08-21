@@ -57,13 +57,20 @@ module.exports = {
     var date = new Date();
 
     req.body.createTime = date.valueOf();
-    
-    var sql = "INSERT INTO user SET ?";
+
+    delete req.body.file1;
+    delete req.body.file2;
+    delete req.body.file3;
+    delete req.body.file4;
+
+    console.log(req.body);
+
+    var sql = "INSERT INTO merchant SET ?";
 
     pool(sql, req.body).then(function(data) {
       if (data) {
 
-          var sql = "select * from user where name like '%" + req.body.name + "%'";
+          var sql = "select * from merchant where name like '%" + req.body.name + "%'";
 
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -82,7 +89,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from user where id = " + req.params.nid + "";
+    var sql = "select * from merchant where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -94,7 +101,7 @@ module.exports = {
 
   edit: function(req, res, next) {
     var json = req.body;
-    var sql = `update user set ? where ?`;
+    var sql = `update merchant set ? where ?`;
     var array = [];
 
     array.push({id: req.body.id});
@@ -113,7 +120,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from  user where id = " + req.params.nid + "";
+    var sql = "delete from  merchant where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
