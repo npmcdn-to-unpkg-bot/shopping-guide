@@ -26,12 +26,12 @@ module.exports = {
 
 
 
-    var sql = `select * from user where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from commodity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
 
-      var sql = `select count(id) as count from user where ${where} `;
+      var sql = `select count(id) as count from commodity where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
@@ -52,7 +52,7 @@ module.exports = {
 
     req.body.createTime = date.valueOf();
 
-    var sql = "INSERT INTO user SET ?";
+    var sql = "INSERT INTO activity SET ?";
 
     pool(sql, req.body).then(function(data) {
       if (data) {
@@ -76,7 +76,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from user where id = " + req.params.nid + "";
+    var sql = "select * from kill where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -88,23 +88,16 @@ module.exports = {
 
   edit: function(req, res, next) {
     var json = req.body;
-    var sql = `update user set ? where ?`;
+    var sql = `update kill set ? where ?`;
     var array = [];
 
     array.push({id: req.body.id});
     delete json["id"];
     array.unshift(req.body);
 
+    console.log(array);
     pool(sql, array).then(function(data) {
-
-      var sql = `update merchant set user_name='${json.nick_name}' where user_id = ${array[1].id}`;
-
-      pool(sql, array).then(function(_data) {
-        authChecked.send(res, req, 200, {err: 0, data: data[0]});
-      }, function() {
-        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-      });
-
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
@@ -114,7 +107,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from  user where id = " + req.params.nid + "";
+    var sql = "delete from kill where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});

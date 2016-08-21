@@ -56,5 +56,47 @@ angular.module('webapp')
       {
         text: '已通过', value: 2
       }
-    ]
+    ],
+    //活动状态
+    activityStatus: [
+      {
+        text: '未启用', value: 0
+      },
+      {
+        text: '启用', value: 1
+      },
+      {
+        text: '停止', value: 2
+      }
+    ],
+    //有效性
+    activityType: [
+      {
+        text: '有效', value: 0
+      },
+      {
+        text: '无效', value: 1
+      }
+    ],
+    //广告审核状态
+    adStatus: [
+      {
+        text: '待审核', value: 0
+      },
+      {
+        text: '已驳回', value: 1
+      },
+      {
+        text: '已通过', value: 2
+      }
+    ],
+    //有效性
+    adType: [
+      {
+        text: '有效', value: 0
+      },
+      {
+        text: '无效', value: 1
+      }
+    ],
 });

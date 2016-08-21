@@ -22,6 +22,14 @@ webapp.config([
         templateUrl: 'views/merchant.html',
         controller: 'MerchantController'
       })
+      .when('/activity', {
+        templateUrl: 'views/activity.html',
+        controller: 'ActivityController'
+      })
+      .when('/ad', {
+        templateUrl: 'views/ad.html',
+        controller: 'AdController'
+      })
       .otherwise({
         redirectTo: '/'
       });

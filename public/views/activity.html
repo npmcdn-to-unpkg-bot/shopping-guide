@@ -1,0 +1,95 @@
+<div>
+    <pre style="border-radius: 0;margin-bottom: 0;">活动管理</pre>
+    <div class="row" style="margin: 20px;">
+        <div class="col-xs-6">
+            <input class="form-control input-sm" type="text" ng-keypress="vm.searchKeypress($event)" ng-model="vm.query"
+                   placeholder="请输入关键词">
+        </div>
+        <div class="col-xs-2">
+            <button class="btn btn-sm btn-danger btn-o" ng-click="vm.keywords=vm.query;vm.search(true)">搜索</button>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 20px;">
+        <div class="col-xs-2">
+            <div>状态：</div>
+            <select
+                    class="form-control input-sm"
+                    ng-model="vm.filters.status"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.activityStatus"
+                    ng-change="vm.search(true)">
+            </select>
+        </div>
+        <div class="col-xs-2">
+            <div>有效性：</div>
+            <select
+                    class="form-control input-sm"
+                    ng-model="vm.filters.type"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.activityType"
+                    ng-change="vm.search(true)">
+            </select>
+        </div>
+    </div>
+
+    <div class="row" style="margin-left: 35px;">
+        <div class="criteria">
+            <label class="criterion btn-primary" ng-if="vm.keywords">
+                关键词:{{vm.keywords}} <span class="close"
+                                          ng-click="vm.keywords=null;vm.query='';vm.search(true)">&times;</span>
+            </label>
+            <label class="criterion btn-primary" ng-if="vm.filters.status || vm.filters.status == 0">
+                活动状态:{{vm.activityStatusName(vm.filters.status)}} <span class="close"
+                                                                          ng-click="vm.filters.status=null;vm.search(true)">&times;</span>
+            </label>
+            <label class="criterion btn-primary" ng-if="vm.filters.type || vm.filters.type == 0">
+                有效性:{{vm.activityTypeName(vm.filters.type)}} <span class="close"
+                                                                          ng-click="vm.filters.type=null;vm.search(true)">&times;</span>
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="6" class="text-right">
+                <button type="button" class="btn btn-primary" ng-click="add(dataList.length)">新增</button>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-center"></th>
+            <th class="text-center">商品名</th>
+            <th class="text-center">开始时间</th>
+            <th class="text-center">结束时间</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">操作</th>
+        </tr>
+        <tr class="text-center" ng-repeat="list in dataList">
+            <td>{{$index+1}}</td>
+            <td>{{list.name}}</td>
+            <td>{{list.strTime | date:'yyyy/MM/dd'}}</td>
+            <td>{{list.endTime | date:'yyyy/MM/dd'}}</td>
+            <td>{{list.status === 0 ? '未启动' : list.status === 1 ? '启动' : list.status === 2 ? '停止' : '无法识别'}}</td>
+            <td>
+                <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
+
+                <button type="button" class="btn btn-danger btn-sm" ng-click="edit(list.id, $index)">编辑</button>
+
+                <button type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">删除</button>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td colspan="6">
+                <ul uib-pagination
+                    boundary-links="true"
+                    total-items="totalItems"
+                    ng-model="currentPage"
+                    class="pagination-sm"
+                    max-size="maxSize"
+                    ng-change="vm.search()"
+                    previous-text="上一页"
+                    next-text="下一页"
+                    first-text="首页"
+                    last-text="尾页"></ul>
+            </td>
+        </tr>
+    </table>
+</div>
