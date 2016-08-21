@@ -25,13 +25,13 @@ module.exports = {
     }
 
 
-    
+
     var sql = `select * from user where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
-      
 
-      var sql = `select count(id) as count from user `;
+
+      var sql = `select count(id) as count from user where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
@@ -51,7 +51,7 @@ module.exports = {
     var date = new Date();
 
     req.body.createTime = date.valueOf();
-    
+
     var sql = "INSERT INTO user SET ?";
 
     pool(sql, req.body).then(function(data) {

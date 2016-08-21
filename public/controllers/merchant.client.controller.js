@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', MerchantController]);
+  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', 'FileUploader', MerchantController]);
 
-function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
+function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUploader) {
 
   var vm = $scope.vm = {};
 
@@ -13,6 +13,23 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
   $scope.dataList = [];
 
   $scope.payload = {};
+
+  $scope.popup1 = {
+    opened: false
+  };
+
+  $scope.popup2 = {
+    opened: false
+  };
+
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
+
 
   // 列表
 
@@ -27,7 +44,6 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
       }
     }
     $scope.maxSize = 10;
-
     MerchantService.list(con).then(
       function(data) {
         // totalItems ?
@@ -59,7 +75,10 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
 
   // 搜索
   $scope.currentPage = 1;
-  vm.search = function() {
+  vm.search = function(val) {
+    if (val === true) {
+      $scope.currentPage = 1;
+    }
     var payload = angular.copy($scope.vm.filters);
     var cons = {
       filters: payload || null,
@@ -76,9 +95,15 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/merchant/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance) {
+      controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
+        $scope.uploader = new FileUploader({
+          url: 'upload.php',
+          autoUpload: true
+        });
+        
         $scope.title = "新增用户";
         $scope.vm = {};
+
         $scope.CONFIGS = CONFIGS;
         $scope.vm.sex = CONFIGS.sexType[0].value;
         $scope.vm.type = CONFIGS.sexType[1].value;
@@ -88,7 +113,7 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
           if (form.$valid === false) {
             return false;
           }
-          UserService.save($scope.vm).then(function(data) {
+          MerchantService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
             console.log(err);
@@ -123,10 +148,15 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
   $scope.edit = function(id, index) {
     $uibModal.open({
       templateUrl: 'views/temptate/merchant/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance) {
+      controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        UserService.detail(id).then(function(data) {
+        $scope.uploader = new FileUploader({
+          url: 'upload.php',
+          autoUpload: true
+        });
+
+        MerchantService.detail(id).then(function(data) {
           $scope.title = "修改用户";
           $scope.vm = data.data;
         }, function(err) {
@@ -160,7 +190,7 @@ function MerchantController($scope, CONFIGS, $uibModal , MerchantService) {
       templateUrl: 'views/temptate/merchant/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
-          UserService.del(id).then(function(data) {
+          MerchantService.del(id).then(function(data) {
             $uibModalInstance.close(index);
           }, function(err) {
             console.log(err);
