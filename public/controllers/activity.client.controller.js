@@ -2,7 +2,7 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('ActivityController', ['$scope', 'ActivityService', '$uibModal', 'CONFIGS', ActivityController]);
+  .controller('ActivityController', ['$scope', 'ActivityService', 'CommodityService', '$uibModal', 'CONFIGS', ActivityController]);
 
 function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
 
@@ -79,14 +79,18 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
   // 新增
   $scope.add = function(len) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/add.html',
+      templateUrl: 'views/temptate/activity/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
-        $scope.title = "新增用户";
+        $scope.title = "新增活动";
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        $scope.vm.sex = CONFIGS.sexType[0].value;
-        $scope.vm.type = CONFIGS.sexType[1].value;
-        $scope.vm.role = CONFIGS.sexType[1].value;
+        $scope.vm.status = CONFIGS.activityType[0].value;
+
+        ActivityService.save($scope.vm).then(function(data) {
+            $uibModalInstance.close(data);
+          }, function(err) {
+            console.log(err);
+        });
 
         $scope.save = function(form) {
           if (form.$valid === false) {
@@ -111,7 +115,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
   // 查看
   $scope.find = function(list) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/find.html',
+      templateUrl: 'views/temptate/activity/find.html',
       controller: function($scope, $uibModalInstance) {
         $scope.user = list;
         $scope.cancel = function() {
@@ -126,7 +130,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
 
   $scope.edit = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/add.html',
+      templateUrl: 'views/temptate/activity/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
@@ -161,7 +165,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
 
   $scope.del = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/delete.html',
+      templateUrl: 'views/temptate/activity/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           ActivityService.del(id).then(function(data) {
