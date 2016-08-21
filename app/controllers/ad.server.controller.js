@@ -60,8 +60,6 @@ module.exports = {
 
     var date = new Date();
 
-    req.body.createTime = date.valueOf();
-
     req.body.strTime = moment(req.body.strTime).format("YYYY-MM-DD");
     req.body.endTime = moment(req.body.endTime).format("YYYY-MM-DD");
 
