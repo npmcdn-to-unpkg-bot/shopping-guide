@@ -50,8 +50,6 @@ module.exports = {
 
     var date = new Date();
 
-    req.body.createTime = date.valueOf();
-
     var sql = "INSERT INTO activity SET ?";
 
     pool(sql, req.body).then(function(data) {
