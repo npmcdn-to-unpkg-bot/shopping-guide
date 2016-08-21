@@ -1,12 +1,12 @@
-var ActivityController = require('../controllers/activity.server.controller.js');
+var AdController = require('../controllers/ad.server.controller.js');
 
 module.exports = function(app) {
-  app.route('/activity')
-    .get(ActivityController.list)
-    .post(ActivityController.create);
+  app.route('/ad')
+    .get(AdController.list)
+    .post(AdController.create);
 
-  app.route('/activity/:nid')
-    .get(ActivityController.getById)
-    .put(ActivityController.edit)
-    .delete(ActivityController.deleteById);
+  app.route('/ad/:nid')
+    .get(AdController.getById)
+    .put(AdController.edit)
+    .delete(AdController.deleteById);
 };
