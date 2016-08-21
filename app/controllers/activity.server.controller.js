@@ -16,22 +16,32 @@ module.exports = {
     var where = `1=1 `;
     for(obj in query){
       if(query[obj] != null){
-        where += ` and ${obj}=${query[obj]}`
+          if (obj === "type") {
+            if(query[obj]){
+              where += "and CURRENT_TIMESTAMP>=endTime";
+            }
+            else {
+              where += "and CURRENT_TIMESTAMP<=endTime";
+            }
+          }
+          else {
+            where += ` and ${obj}=${query[obj]}`;
+          }
       }
     }
 
     if(req.query.keywords != null){
-      where += ` and commodity_name like '%${req.query.keywords}%'`;
+      where += ` and name like '%${req.query.keywords}%'`;
     }
 
 
 
-    var sql = `select * from activity where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from activity_commodity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
 
-      var sql = `select count(id) as count from activity where ${where} `;
+      var sql = `select count(id) as count from activity_commodity where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});

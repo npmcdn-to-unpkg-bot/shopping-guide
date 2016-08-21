@@ -14,21 +14,6 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
 
   $scope.payload = {};
 
-  $scope.popup1 = {
-    opened: false
-  };
-
-  $scope.popup2 = {
-    opened: false
-  };
-
-  $scope.open1 = function() {
-    $scope.popup1.opened = true;
-  };
-
-  $scope.open2 = function() {
-    $scope.popup2.opened = true;
-  };
 
   // 列表
 
@@ -56,29 +41,23 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
 
   $scope.loadNews();
 
-  vm.statusSexName = function(value) {
-    var status = _.find(CONFIGS.sexType, {value: value});
+  vm.activityStatusName = function(value) {
+    var status = _.find(CONFIGS.activityStatus, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.statusTypeName = function(value) {
-    var status = _.find(CONFIGS.userType, {value: value});
+  vm.activityTypeName = function(value) {
+    var status = _.find(CONFIGS.activityType, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.statusRoleName = function(value) {
-    var status = _.find(CONFIGS.roleType, {value: value});
-    if (status) {
-      return status.text;
-    }
-    return '';
-  };
+
   // 搜索
   $scope.currentPage = 1;
   vm.search = function(val) {

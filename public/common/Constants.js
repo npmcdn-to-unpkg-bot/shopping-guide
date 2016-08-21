@@ -69,6 +69,15 @@ angular.module('webapp')
         text: '停止', value: 2
       }
     ],
+    //有效性
+    activityType: [
+      {
+        text: '有效', value: 0
+      },
+      {
+        text: '无效', value: 1
+      }
+    ],
     //广告审核状态
     adStatus: [
       {
