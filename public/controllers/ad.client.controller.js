@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('ActivityController', ['$scope', 'ActivityService', '$uibModal', 'CONFIGS', ActivityController]);
+  .controller('AdController', ['$scope', 'AdService', '$uibModal', 'CONFIGS', AdController]);
 
-function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
+function AdController($scope, AdService, $uibModal, CONFIGS) {
 
   var vm = $scope.vm = {};
 
@@ -44,7 +44,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
     }
     $scope.maxSize = 10;
 
-    ActivityService.list(con).then(
+    AdService.list(con).then(
       function(data) {
         $scope.totalItems = data.count;
         $scope.dataList = data.data;
@@ -113,7 +113,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
           if (form.$valid === false) {
             return false;
           }
-          ActivityService.save($scope.vm).then(function(data) {
+          AdService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
             console.log(err);
@@ -151,7 +151,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        ActivityService.detail(id).then(function(data) {
+        AdService.detail(id).then(function(data) {
           $scope.title = "修改用户";
           $scope.vm = data.data;
         }, function(err) {
@@ -161,7 +161,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
           if (form.$valid === false) {
             return false;
           }
-          ActivityService.put(id, $scope.vm).then(function(data) {
+          AdService.put(id, $scope.vm).then(function(data) {
             $uibModalInstance.close($scope.vm);
           }, function(err) {
             console.log(err);
@@ -185,7 +185,7 @@ function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
       templateUrl: 'views/temptate/user/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
-          ActivityService.del(id).then(function(data) {
+          AdService.del(id).then(function(data) {
             $uibModalInstance.close(index);
           }, function(err) {
             console.log(err);
