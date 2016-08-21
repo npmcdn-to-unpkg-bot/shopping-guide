@@ -96,28 +96,56 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
     $uibModal.open({
       templateUrl: 'views/temptate/merchant/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
-        $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
-          autoUpload: true
-        });
-        
-        $scope.title = "新增用户";
         $scope.vm = {};
 
+        for (var i = 1; i <= 4; i++) {
+          (function(n){
+            var uploader = $scope['uploader'+n] = new FileUploader({
+              url: 'merchant/upload',
+              autoUpload: true
+            });
+
+            uploader.filters.push({
+              name: 'imageFilter',
+              fn: function(item, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+              }
+            });
+            $scope.vm['file'+n] = [];
+            uploader.onSuccessItem = function(fileItem, response, status, headers) {
+              if (status === 200) {
+                $scope.vm['file'+n].push(response.data);
+              }
+            };
+          })(i);
+
+        }
+
+        $scope.title = "新增商户";
+
         $scope.CONFIGS = CONFIGS;
-        $scope.vm.sex = CONFIGS.sexType[0].value;
-        $scope.vm.type = CONFIGS.sexType[1].value;
-        $scope.vm.role = CONFIGS.sexType[1].value;
+        $scope.vm.status = CONFIGS.merchantStatus[0].value;
+        $scope.vm.money_status = CONFIGS.moneyStatus[0].value;
 
         $scope.save = function(form) {
           if (form.$valid === false) {
             return false;
           }
-          MerchantService.save($scope.vm).then(function(data) {
-            $uibModalInstance.close(data);
-          }, function(err) {
-            console.log(err);
-          });
+
+          $scope.vm.identity_front = $scope.vm.file1[$scope.vm.file1.length-1];
+          $scope.vm.identity_back = $scope.vm.file2[$scope.vm.file2.length-1];
+          $scope.vm.info = $scope.vm.file3[$scope.vm.file3.length-1];
+          $scope.vm.money_photo = $scope.vm.file4[$scope.vm.file4.length-1];
+
+          console.log($scope.vm);
+
+
+          // MerchantService.save($scope.vm).then(function(data) {
+          //   $uibModalInstance.close(data);
+          // }, function(err) {
+          //   console.log(err);
+          // });
         };
 
         $scope.cancel = function() {
