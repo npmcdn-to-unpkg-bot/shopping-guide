@@ -35,8 +35,8 @@ function UserService($http, $q) {
     save: function(data) {
       return handleRequest('POST', '/user', data);
     },
-    put: function(data) {
-      return handleRequest('PUT', '/user', data);
+    put: function(id, data) {
+      return handleRequest('PUT', '/user/'+ id, data);
     },
     detail: function(id) {
       return handleRequest('GET', '/user/'+ id);

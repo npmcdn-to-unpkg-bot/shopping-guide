@@ -3,7 +3,7 @@
  */
 "use strict";
 
-var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap']);
+var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap', 'angularFileUpload']);
 
 
 webapp.config([
@@ -21,6 +21,14 @@ webapp.config([
       .when('/merchant', {
         templateUrl: 'views/merchant.html',
         controller: 'MerchantController'
+      })
+      .when('/activity', {
+        templateUrl: 'views/activity.html',
+        controller: 'ActivityController'
+      })
+      .when('/ad', {
+        templateUrl: 'views/ad.html',
+        controller: 'AdController'
       })
       .otherwise({
         redirectTo: '/'

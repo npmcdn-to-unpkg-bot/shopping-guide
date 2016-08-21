@@ -28,7 +28,7 @@ module.exports = function(option){
         });  
     }  
 
-    handleDisconnect(); 
+    // handleDisconnect(); 
 
     var pool;
 

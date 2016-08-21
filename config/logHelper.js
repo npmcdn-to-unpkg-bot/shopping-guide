@@ -90,7 +90,7 @@ helper.writeErr = function(msg, exp){
 // 配合express用的方法  
 exports.use = function(app) {  
     //页面请求日志, level用auto时,默认级别是WARN  
-    app.use(log4js.connectLogger(logInfo, {level:'debug', format:':method :url'}));  
+    // app.use(log4js.connectLogger(logInfo, {level:'debug', format:':method :url'}));  
 }  
   
 // 判断日志目录是否存在，不存在时创建日志目录  
