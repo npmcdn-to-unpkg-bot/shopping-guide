@@ -56,6 +56,7 @@ module.exports = {
 
     var date = new Date();
 
+<<<<<<< HEAD
     req.body.createTime = date.valueOf();
 
     delete req.body.file1;
@@ -66,6 +67,9 @@ module.exports = {
     console.log(req.body);
 
     var sql = "INSERT INTO merchant SET ?";
+=======
+    var sql = "INSERT INTO user SET ?";
+>>>>>>> 575cd7cf603c975ba643a4a2028bb8a1dee5dac6
 
     pool(sql, req.body).then(function(data) {
       if (data) {
