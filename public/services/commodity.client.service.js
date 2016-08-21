@@ -3,9 +3,9 @@
  */
 
 angular.module('webapp')
-  .service('AdService', ['$http', '$q', AdService]);
+  .service('CommodityService', ['$http', '$q', CommodityService]);
 
-function AdService($http, $q) {
+function CommodityService($http, $q) {
   function handleRequest(method, url, data) {
     var defered = $q.defer();
     var config = {
@@ -30,19 +30,19 @@ function AdService($http, $q) {
 
   return {
     list: function(params) {
-      return handleRequest('GET', '/ad', params);
+      return handleRequest('GET', '/commodity', params);
     },
     save: function(data) {
-      return handleRequest('POST', '/ad', data);
+      return handleRequest('POST', '/commodity', data);
     },
     put: function(id, data) {
-      return handleRequest('PUT', '/ad/'+ id, data);
+      return handleRequest('PUT', '/commodity/'+ id, data);
     },
     detail: function(id) {
-      return handleRequest('GET', '/ad/'+ id);
+      return handleRequest('GET', '/commodity/'+ id);
     },
     del: function(id) {
-      return handleRequest('DELETE', '/ad/'+ id);
+      return handleRequest('DELETE', '/commodity/'+ id);
     }
   }
 }

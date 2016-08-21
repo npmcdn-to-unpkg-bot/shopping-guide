@@ -1,7 +1,7 @@
 var pool = require('../../config/pool.js');
 var connection = require('../../config/connection.js');
 var authChecked = require('../authChecked/authChecked');
-
+var moment = require('moment');
 
 module.exports = {
 
@@ -62,6 +62,10 @@ module.exports = {
 
     req.body.createTime = date.valueOf();
 
+    req.body.strTime = moment(req.body.strTime).format("YYYY-MM-DD");
+    req.body.endTime = moment(req.body.endTime).format("YYYY-MM-DD");
+
+
     var sql = "INSERT INTO activity SET ?";
 
     pool(sql, req.body).then(function(data) {
@@ -86,7 +90,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from kill where id = " + req.params.nid + "";
+    var sql = "select * from activity where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -98,7 +102,7 @@ module.exports = {
 
   edit: function(req, res, next) {
     var json = req.body;
-    var sql = `update kill set ? where ?`;
+    var sql = `update activity set ? where ?`;
     var array = [];
 
     array.push({id: req.body.id});
@@ -117,7 +121,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from kill where id = " + req.params.nid + "";
+    var sql = "delete from activity where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});

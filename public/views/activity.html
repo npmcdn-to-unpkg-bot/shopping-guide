@@ -65,9 +65,9 @@
         <tr class="text-center" ng-repeat="list in dataList">
             <td>{{$index+1}}</td>
             <td>{{list.name}}</td>
-            <td>{{list.strTime | date:'yyyy/MM/dd hh:mm:ss'}}</td>
-            <td>{{list.endTime | date:'yyyy/MM/dd hh:mm:ss'}}</td>
-            <td>{{list.status === 0 ? '未启动' : list.type === 1 ? '启动' : list.type === 2 ? '停止' : '无法识别'}}</td>
+            <td>{{list.strTime | date:'yyyy/MM/dd'}}</td>
+            <td>{{list.endTime | date:'yyyy/MM/dd'}}</td>
+            <td>{{list.status === 0 ? '未启动' : list.status === 1 ? '启动' : list.status === 2 ? '停止' : '无法识别'}}</td>
             <td>
                 <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
 
