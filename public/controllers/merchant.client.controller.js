@@ -97,7 +97,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, FileUpl
       templateUrl: 'views/temptate/merchant/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
         $scope.uploader = new FileUploader({
-          url: 'upload.php',
+          url: 'merchant/upload',
           autoUpload: true
         });
         

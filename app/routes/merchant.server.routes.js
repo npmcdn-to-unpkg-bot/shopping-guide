@@ -1,13 +1,14 @@
-var UserController = require('../controllers/merchant.server.controller.js');
+var MerchantController = require('../controllers/merchant.server.controller.js');
 
 module.exports = function(app) {
   app.route('/merchant')
-    .get(UserController.list)
-    .post(UserController.create);
+    .get(MerchantController.list)
+    .post(MerchantController.create);
 
   app.route('/merchant/:nid')
-    .get(UserController.getById)
-    .put(UserController.edit)
-    .delete(UserController.deleteById);
-    
+    .get(MerchantController.getById)
+    .put(MerchantController.edit)
+    .delete(MerchantController.deleteById)
+    .post(MerchantController.upload);
+
 };
