@@ -68,5 +68,17 @@ angular.module('webapp')
       {
         text: '停止', value: 2
       }
+    ],
+    //广告审核状态
+    adStatus: [
+      {
+        text: '待审核', value: 0
+      },
+      {
+        text: '已驳回', value: 1
+      },
+      {
+        text: '已通过', value: 2
+      }
     ]
 });

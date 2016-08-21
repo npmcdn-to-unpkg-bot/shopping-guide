@@ -1,5 +1,5 @@
 <div>
-    <pre style="border-radius: 0;margin-bottom: 0;">活动管理</pre>
+    <pre style="border-radius: 0;margin-bottom: 0;">广告管理</pre>
     <div class="row" style="margin: 20px;">
         <div class="col-xs-6">
             <input class="form-control input-sm" type="text" ng-keypress="vm.searchKeypress($event)" ng-model="vm.query"
@@ -12,16 +12,16 @@
 
     <div class="row" style="margin: 20px;">
         <div class="col-xs-2">
-            <div>状态：</div>
+            <div>审核状态：</div>
             <select
                     class="form-control input-sm"
-                    ng-model="vm.filters.activity"
-                    ng-options="type.value as type.text for type in  vm.CONFIGS.activityStatus"
+                    ng-model="vm.filters.ad"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.adStatus"
                     ng-change="vm.search(true)">
             </select>
         </div>
         <div class="col-xs-2">
-            <div>活动时间</div>
+            <div>广告时间</div>
             <div uib-dropdown auto-close="disabled" class="daterange-dropdown" is-open="isopen1">
                 <a uib-dropdown-toggle class="btn btn-default btn-sm dropdown-toggle">
                     请选择时间
@@ -53,12 +53,12 @@
                 关键词:{{vm.keywords}} <span class="close"
                                           ng-click="vm.keywords=null;vm.query='';vm.search(true)">&times;</span>
             </label>
-            <label class="criterion btn-primary" ng-if="vm.filters.activity || vm.filters.activity == 0">
-                活动状态:{{vm.activityStatusName(vm.filters.activity)}} <span class="close"
-                                                                          ng-click="vm.filters.activity=null;vm.search(true)">&times;</span>
+            <label class="criterion btn-primary" ng-if="vm.filters.ad || vm.filters.ad == 0">
+                审核状态：:{{vm.adStatusName(vm.filters.ad)}} <span class="close"
+                                                                          ng-click="vm.filters.ad=null;vm.search(true)">&times;</span>
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.signed_at">
-                活动时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
+                广告时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
                 <span class="close" ng-click="vm.filters.signed_at=null;vm.search(true)">&times;</span>
             </label>
         </div>
@@ -66,13 +66,14 @@
 
     <table class="table table-bordered">
         <tr>
-            <td colspan="6" class="text-right">
+            <td colspan="7" class="text-right">
                 <button type="button" class="btn btn-primary" ng-click="add(dataList.length)">新增</button>
             </td>
         </tr>
         <tr>
             <th class="text-center"></th>
             <th class="text-center">商品名</th>
+            <th class="text-center">广告位置</th>
             <th class="text-center">开始时间</th>
             <th class="text-center">结束时间</th>
             <th class="text-center">状态</th>
@@ -81,9 +82,10 @@
         <tr class="text-center" ng-repeat="list in dataList">
             <td>{{$index+1}}</td>
             <td>{{list.commodity_name}}</td>
+            <td>{{list.addr === 0 ? '主banner' : list.type === 1 ? '耳机banner' : '无法识别'}}</td>
             <td>{{list.strTime | date:'yyyy/MM/dd'}}</td>
             <td>{{list.endTime | date:'yyyy/MM/dd'}}</td>
-            <td>{{list.status === 0 ? '未启动' : list.type === 1 ? '启动' : list.type === 2 ? '停止' : '无法识别'}}</td>
+            <td>{{list.status === 0 ? '待审核' : list.type === 1 ? '已驳回' : list.type === 2 ? '审核通过' : '无法识别'}}</td>
             <td>
                 <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
 
@@ -93,7 +95,7 @@
             </td>
         </tr>
         <tr class="text-center">
-            <td colspan="6">
+            <td colspan="7">
                 <ul uib-pagination
                     boundary-links="true"
                     total-items="totalItems"
