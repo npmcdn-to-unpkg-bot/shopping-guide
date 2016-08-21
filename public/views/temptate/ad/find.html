@@ -7,44 +7,22 @@
 <div class="modal-body">
     <form class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label">用户名</label>
+            <label class="col-sm-2 control-label">商品名</label>
             <p class="form-control-static">{{user.name}}</p>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">昵称</label>
-            <p class="form-control-static">{{user.nick_name}}</p>
+            <label class="col-sm-2 control-label">开始时间</label>
+            <p class="form-control-static">{{user.endTime | date:'yyyy/MM/dd'}}</p>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">电话</label>
-            <p class="form-control-static">{{user.phone}}</p>
+            <label class="col-sm-2 control-label">结束时间</label>
+            <p class="form-control-static">{{user.endTime | date:'yyyy/MM/dd'}}</p>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">用户类型</label>
-            <p ng-if="user.type == 0" class="form-control-static">超级管理员</p>
-            <p ng-if="user.type == 1" class="form-control-static">普通用户</p>
-            <p ng-if="user.type == 2" class="form-control-static">商户</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">性别</label>
-            <p class="form-control-static">{{user.sex ? '女' : '男'}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">年龄</label>
-            <p class="form-control-static">{{user.age}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">地址</label>
-            <p class="form-control-static">{{user.addr}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">关联淘宝账号</label>
-            <p class="form-control-static">{{user.taobao_user}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">角色类型</label>
-            <p ng-if="user.role == 0" class="form-control-static">超级管理员</p>
-            <p ng-if="user.role == 1" class="form-control-static">普通用户</p>
-            <p ng-if="user.role == 2" class="form-control-static">商户</p>
+            <label class="col-sm-2 control-label">状态</label>
+            <p ng-if="user.type == 0" class="form-control-static">待审核</p>
+            <p ng-if="user.type == 1" class="form-control-static">已驳回</p>
+            <p ng-if="user.type == 2" class="form-control-static">审核通过</p>
         </div>
     </form>
 </div>

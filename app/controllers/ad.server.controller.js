@@ -1,7 +1,7 @@
 var pool = require('../../config/pool.js');
 var connection = require('../../config/connection.js');
 var authChecked = require('../authChecked/authChecked');
-
+var moment = require('moment');
 
 module.exports = {
 
@@ -16,22 +16,32 @@ module.exports = {
     var where = `1=1 `;
     for(obj in query){
       if(query[obj] != null){
-        where += ` and ${obj}=${query[obj]}`
+          if (obj === "type") {
+            if(query[obj]){
+              where += "and CURRENT_TIMESTAMP>=endTime";
+            }
+            else {
+              where += "and CURRENT_TIMESTAMP<=endTime";
+            }
+          }
+          else {
+            where += ` and ${obj}=${query[obj]}`;
+          }
       }
     }
 
     if(req.query.keywords != null){
-      where += ` and commodity_name like '%${req.query.keywords}%'`;
+      where += ` and name like '%${req.query.keywords}%'`;
     }
 
 
 
-    var sql = `select * from activity where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from ad_commodity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
 
-      var sql = `select count(id) as count from activity where ${where} `;
+      var sql = `select count(id) as count from ad_commodity where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
@@ -52,15 +62,18 @@ module.exports = {
 
     req.body.createTime = date.valueOf();
 
-    var sql = "INSERT INTO activity SET ?";
+    req.body.strTime = moment(req.body.strTime).format("YYYY-MM-DD");
+    req.body.endTime = moment(req.body.endTime).format("YYYY-MM-DD");
+
+
+    var sql = "INSERT INTO ad SET ?";
 
     pool(sql, req.body).then(function(data) {
       if (data) {
+          var sql = `select * from ad_commodity where commodity_id = ${req.body.commodity_id} and strTime = '${req.body.strTime}' and endTime = '${req.body.endTime}' and status = '${req.body.status}'`;
 
-          var sql = "select * from user where name like '%" + req.body.name + "%'";
-
-          pool(sql).then(function(data) {
-            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+          pool(sql).then(function(_data) {
+            authChecked.send(res, req, 200, {err: 0, data: _data[0]});
           }, function() {
             authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
           });
@@ -76,7 +89,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from kill where id = " + req.params.nid + "";
+    var sql = "select * from ad where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -88,16 +101,22 @@ module.exports = {
 
   edit: function(req, res, next) {
     var json = req.body;
-    var sql = `update kill set ? where ?`;
+    var sql = `update ad set ? where ?`;
     var array = [];
 
     array.push({id: req.body.id});
     delete json["id"];
+    delete json["createTime"];
     array.unshift(req.body);
 
-    console.log(array);
     pool(sql, array).then(function(data) {
-      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+      var sql = "select * from ad_commodity where id = " + array[1].id + "";
+
+      pool(sql).then(function(data) {
+        authChecked.send(res, req, 200, {err: 0, data: data[0]});
+      }, function() {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
@@ -107,7 +126,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from kill where id = " + req.params.nid + "";
+    var sql = "delete from ad where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});

@@ -70,11 +70,10 @@ module.exports = {
 
     pool(sql, req.body).then(function(data) {
       if (data) {
+          var sql = `select * from activity_commodity where commodity_id = ${req.body.commodity_id} and strTime = '${req.body.strTime}' and endTime = '${req.body.endTime}' and status = '${req.body.status}'`;
 
-          var sql = "select * from user where name like '%" + req.body.name + "%'";
-
-          pool(sql).then(function(data) {
-            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+          pool(sql).then(function(_data) {
+            authChecked.send(res, req, 200, {err: 0, data: _data[0]});
           }, function() {
             authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
           });
@@ -107,11 +106,17 @@ module.exports = {
 
     array.push({id: req.body.id});
     delete json["id"];
+    delete json["createTime"];
     array.unshift(req.body);
 
-    console.log(array);
     pool(sql, array).then(function(data) {
-      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+      var sql = "select * from activity_commodity where id = " + array[1].id + "";
+
+      pool(sql).then(function(data) {
+        authChecked.send(res, req, 200, {err: 0, data: data[0]});
+      }, function() {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });

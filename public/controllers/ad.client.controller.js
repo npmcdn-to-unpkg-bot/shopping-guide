@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('AdController', ['$scope', 'AdService', '$uibModal', 'CONFIGS', AdController]);
+  .controller('AdController', ['$scope', 'AdService', 'CommodityService', '$uibModal', 'CONFIGS', AdController]);
 
-function AdController($scope, AdService, $uibModal, CONFIGS) {
+function AdController($scope, AdService, CommodityService, $uibModal, CONFIGS) {
 
   var vm = $scope.vm = {};
 
@@ -14,21 +14,6 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
 
   $scope.payload = {};
 
-  $scope.popup1 = {
-    opened: false
-  };
-
-  $scope.popup2 = {
-    opened: false
-  };
-
-  $scope.open1 = function() {
-    $scope.popup1.opened = true;
-  };
-
-  $scope.open2 = function() {
-    $scope.popup2.opened = true;
-  };
 
   // 列表
 
@@ -56,29 +41,23 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
 
   $scope.loadNews();
 
-  vm.statusSexName = function(value) {
-    var status = _.find(CONFIGS.sexType, {value: value});
+  vm.AdStatusName = function(value) {
+    var status = _.find(CONFIGS.AdStatus, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.statusTypeName = function(value) {
-    var status = _.find(CONFIGS.userType, {value: value});
+  vm.AdTypeName = function(value) {
+    var status = _.find(CONFIGS.AdType, {value: value});
     if (status) {
       return status.text;
     }
     return '';
   };
 
-  vm.statusRoleName = function(value) {
-    var status = _.find(CONFIGS.roleType, {value: value});
-    if (status) {
-      return status.text;
-    }
-    return '';
-  };
+
   // 搜索
   $scope.currentPage = 1;
   vm.search = function(val) {
@@ -100,14 +79,37 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
   // 新增
   $scope.add = function(len) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/add.html',
+      templateUrl: 'views/temptate/ad/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
-        $scope.title = "新增用户";
+        $scope.title = "新增活动";
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        $scope.vm.sex = CONFIGS.sexType[0].value;
-        $scope.vm.type = CONFIGS.sexType[1].value;
-        $scope.vm.role = CONFIGS.sexType[1].value;
+        $scope.vm.status = CONFIGS.adStatus[0].value;
+        $scope.commodity_list = [];
+
+        $scope.popup1 = {
+          opened: false
+        };
+
+        $scope.popup2 = {
+          opened: false
+        };
+
+        $scope.open1 = function() {
+          $scope.popup1.opened = true;
+        };
+
+        $scope.open2 = function() {
+          $scope.popup2.opened = true;
+        };
+
+        var commodity_query = {};
+
+        CommodityService.list(commodity_query).then(function(data) {
+          $scope.commodity_list = data.data;
+          }, function(err) {
+            console.log(err);
+        });
 
         $scope.save = function(form) {
           if (form.$valid === false) {
@@ -132,7 +134,7 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
   // 查看
   $scope.find = function(list) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/find.html',
+      templateUrl: 'views/temptate/ad/find.html',
       controller: function($scope, $uibModalInstance) {
         $scope.user = list;
         $scope.cancel = function() {
@@ -147,12 +149,39 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
 
   $scope.edit = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/add.html',
+      templateUrl: 'views/temptate/ad/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
+        $scope.commodity_list = [];
         $scope.CONFIGS = CONFIGS;
+
+        $scope.popup1 = {
+          opened: false
+        };
+
+        $scope.popup2 = {
+          opened: false
+        };
+
+        $scope.open1 = function() {
+          $scope.popup1.opened = true;
+        };
+
+        $scope.open2 = function() {
+          $scope.popup2.opened = true;
+        };
+
+        var commodity_query = {};
+
+        CommodityService.list(commodity_query).then(function(data) {
+          $scope.commodity_list = data.data;
+          }, function(err) {
+            console.log(err);
+        });
+
+
         AdService.detail(id).then(function(data) {
-          $scope.title = "修改用户";
+          $scope.title = "修改活动";
           $scope.vm = data.data;
         }, function(err) {
           console.log(err);
@@ -162,7 +191,7 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
             return false;
           }
           AdService.put(id, $scope.vm).then(function(data) {
-            $uibModalInstance.close($scope.vm);
+            $uibModalInstance.close(data.data);
           }, function(err) {
             console.log(err);
           });
@@ -182,7 +211,7 @@ function AdController($scope, AdService, $uibModal, CONFIGS) {
 
   $scope.del = function(id, index) {
     $uibModal.open({
-      templateUrl: 'views/temptate/user/delete.html',
+      templateUrl: 'views/temptate/ad/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           AdService.del(id).then(function(data) {

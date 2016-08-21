@@ -21,29 +21,13 @@
             </select>
         </div>
         <div class="col-xs-2">
-            <div>广告时间</div>
-            <div uib-dropdown auto-close="disabled" class="daterange-dropdown" is-open="isopen1">
-                <a uib-dropdown-toggle class="btn btn-default btn-sm dropdown-toggle">
-                    请选择时间
-                    <i class="fa fa-calendar"></i>
-                </a>
-                <ul class="dropdown-menu" role="menu" style="width: 680px;">
-                    <li class="clearfix">
-                        <div class="datepicker-wrapper col-sm-6">从:
-                            <div uib-datepicker ng-model="signed_at_gte" class="well well-sm" datepicker-options="options"></div>
-                        </div>
-                        <div class="datepicker-wrapper col-sm-6">到:
-                            <div uib-datepicker ng-model="signed_at_lte" class="well well-sm" datepicker-options="options"></div>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <div class="datepicker-wrapper col-sm-12 text-center">
-                            <button type="button" class="btn btn-danger btn-sm"
-                                    ng-click="vm.filters['signed_at'] = [signed_at_gte.valueOf(), signed_at_lte.valueOf()];isopen1=false;vm.search(true)">确定</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <div>有效性：</div>
+            <select
+                    class="form-control input-sm"
+                    ng-model="vm.filters.type"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.adType"
+                    ng-change="vm.search(true)">
+            </select>
         </div>
     </div>
 
@@ -57,9 +41,9 @@
                 审核状态：:{{vm.adStatusName(vm.filters.ad)}} <span class="close"
                                                                           ng-click="vm.filters.ad=null;vm.search(true)">&times;</span>
             </label>
-            <label class="criterion btn-primary" ng-if="vm.filters.signed_at">
-                广告时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
-                <span class="close" ng-click="vm.filters.signed_at=null;vm.search(true)">&times;</span>
+            <label class="criterion btn-primary" ng-if="vm.filters.type || vm.filters.type == 0">
+                有效性:{{vm.adTypeName(vm.filters.type)}} <span class="close"
+                                                                          ng-click="vm.filters.type=null;vm.search(true)">&times;</span>
             </label>
         </div>
     </div>
@@ -81,11 +65,11 @@
         </tr>
         <tr class="text-center" ng-repeat="list in dataList">
             <td>{{$index+1}}</td>
-            <td>{{list.commodity_name}}</td>
+            <td>{{list.name}}</td>
             <td>{{list.addr === 0 ? '主banner' : list.type === 1 ? '耳机banner' : '无法识别'}}</td>
             <td>{{list.strTime | date:'yyyy/MM/dd'}}</td>
             <td>{{list.endTime | date:'yyyy/MM/dd'}}</td>
-            <td>{{list.status === 0 ? '待审核' : list.type === 1 ? '已驳回' : list.type === 2 ? '审核通过' : '无法识别'}}</td>
+            <td>{{list.status === 0 ? '待审核' : list.status === 1 ? '已驳回' : list.status === 2 ? '审核通过' : '无法识别'}}</td>
             <td>
                 <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
 

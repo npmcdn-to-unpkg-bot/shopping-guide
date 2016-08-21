@@ -89,5 +89,14 @@ angular.module('webapp')
       {
         text: '已通过', value: 2
       }
-    ]
+    ],
+    //有效性
+    adType: [
+      {
+        text: '有效', value: 0
+      },
+      {
+        text: '无效', value: 1
+      }
+    ],
 });

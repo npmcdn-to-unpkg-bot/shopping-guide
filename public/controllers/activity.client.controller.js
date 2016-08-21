@@ -84,7 +84,7 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
         $scope.title = "新增活动";
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        $scope.vm.status = CONFIGS.activityType[0].value;
+        $scope.vm.status = CONFIGS.activityStatus[0].value;
         $scope.commodity_list = [];
 
         $scope.popup1 = {
@@ -152,7 +152,34 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
       templateUrl: 'views/temptate/activity/add.html',
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
+        $scope.commodity_list = [];
         $scope.CONFIGS = CONFIGS;
+
+        $scope.popup1 = {
+          opened: false
+        };
+
+        $scope.popup2 = {
+          opened: false
+        };
+
+        $scope.open1 = function() {
+          $scope.popup1.opened = true;
+        };
+
+        $scope.open2 = function() {
+          $scope.popup2.opened = true;
+        };
+
+        var commodity_query = {};
+
+        CommodityService.list(commodity_query).then(function(data) {
+          $scope.commodity_list = data.data;
+          }, function(err) {
+            console.log(err);
+        });
+
+
         ActivityService.detail(id).then(function(data) {
           $scope.title = "修改活动";
           $scope.vm = data.data;
@@ -164,7 +191,7 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
             return false;
           }
           ActivityService.put(id, $scope.vm).then(function(data) {
-            $uibModalInstance.close($scope.vm);
+            $uibModalInstance.close(data.data);
           }, function(err) {
             console.log(err);
           });
