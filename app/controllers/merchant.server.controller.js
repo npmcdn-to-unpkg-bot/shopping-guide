@@ -61,7 +61,6 @@ module.exports = {
     delete req.body.file3;
     delete req.body.file4;
 
-    console.log(req.body);
 
     var sql = "INSERT INTO merchant SET ?";
 
@@ -131,7 +130,7 @@ module.exports = {
   upload: function(req, res, next) {
     var form = new formidable.IncomingForm();   //创建上传表单
     form.encoding = 'utf-8';    //设置编辑
-    form.uploadDir = 'public' + AVATAR_UPLOAD_FOLDER;  //设置上传目录
+    form.uploadDir = AVATAR_UPLOAD_FOLDER;  //设置上传目录
     form.keepExtensions = true;  //保留后缀
     form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
     form.parse(req, function(err, fields, files) {
@@ -172,7 +171,7 @@ module.exports = {
       var newPath = form.uploadDir + avatarName;
 
       console.log(newPath);
-      var result = fs.renameSync(files.file.path, newPath);  //重命名
+      var result = fs.renameSync(files.file.path, 'public' + newPath);  //重命名
       if (result === undefined) {
         authChecked.send(res, req, 200, {err: 0, data: newPath});
       }
