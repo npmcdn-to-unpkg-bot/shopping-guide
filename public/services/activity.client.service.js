@@ -3,9 +3,9 @@
  */
 
 angular.module('webapp')
-  .service('KillService', ['$http', '$q', KillService]);
+  .service('ActivityService', ['$http', '$q', ActivityService]);
 
-function KillService($http, $q) {
+function ActivityService($http, $q) {
   function handleRequest(method, url, data) {
     var defered = $q.defer();
     var config = {
@@ -30,19 +30,19 @@ function KillService($http, $q) {
 
   return {
     list: function(params) {
-      return handleRequest('GET', '/kill', params);
+      return handleRequest('GET', '/activity', params);
     },
     save: function(data) {
-      return handleRequest('POST', '/kill', data);
+      return handleRequest('POST', '/activity', data);
     },
     put: function(id, data) {
-      return handleRequest('PUT', '/kill/'+ id, data);
+      return handleRequest('PUT', '/activity/'+ id, data);
     },
     detail: function(id) {
-      return handleRequest('GET', '/kill/'+ id);
+      return handleRequest('GET', '/activity/'+ id);
     },
     del: function(id) {
-      return handleRequest('DELETE', '/kill/'+ id);
+      return handleRequest('DELETE', '/activity/'+ id);
     }
   }
 }

@@ -26,12 +26,12 @@ module.exports = {
 
 
 
-    var sql = `select * from kill where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from activity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
 
-      var sql = `select count(id) as count from kill where ${where} `;
+      var sql = `select count(id) as count from activity where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
@@ -52,7 +52,7 @@ module.exports = {
 
     req.body.createTime = date.valueOf();
 
-    var sql = "INSERT INTO kill SET ?";
+    var sql = "INSERT INTO activity SET ?";
 
     pool(sql, req.body).then(function(data) {
       if (data) {

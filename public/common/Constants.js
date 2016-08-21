@@ -58,7 +58,7 @@ angular.module('webapp')
       }
     ],
     //活动状态
-    killStatus: [
+    activityStatus: [
       {
         text: '未启用', value: 0
       },

@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('KillController', ['$scope', 'KillService', '$uibModal', 'CONFIGS', KillController]);
+  .controller('ActivityController', ['$scope', 'ActivityService', '$uibModal', 'CONFIGS', ActivityController]);
 
-function KillController($scope, KillService, $uibModal, CONFIGS) {
+function ActivityController($scope, ActivityService, $uibModal, CONFIGS) {
 
   var vm = $scope.vm = {};
 
@@ -44,7 +44,7 @@ function KillController($scope, KillService, $uibModal, CONFIGS) {
     }
     $scope.maxSize = 10;
 
-    KillService.list(con).then(
+    ActivityService.list(con).then(
       function(data) {
         $scope.totalItems = data.count;
         $scope.dataList = data.data;
@@ -113,7 +113,7 @@ function KillController($scope, KillService, $uibModal, CONFIGS) {
           if (form.$valid === false) {
             return false;
           }
-          KillService.save($scope.vm).then(function(data) {
+          ActivityService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
             console.log(err);
@@ -151,7 +151,7 @@ function KillController($scope, KillService, $uibModal, CONFIGS) {
       controller: function($scope, CONFIGS, $uibModalInstance) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        KillService.detail(id).then(function(data) {
+        ActivityService.detail(id).then(function(data) {
           $scope.title = "修改用户";
           $scope.vm = data.data;
         }, function(err) {
@@ -161,7 +161,7 @@ function KillController($scope, KillService, $uibModal, CONFIGS) {
           if (form.$valid === false) {
             return false;
           }
-          KillService.put(id, $scope.vm).then(function(data) {
+          ActivityService.put(id, $scope.vm).then(function(data) {
             $uibModalInstance.close($scope.vm);
           }, function(err) {
             console.log(err);
@@ -185,7 +185,7 @@ function KillController($scope, KillService, $uibModal, CONFIGS) {
       templateUrl: 'views/temptate/user/delete.html',
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
-          KillService.del(id).then(function(data) {
+          ActivityService.del(id).then(function(data) {
             $uibModalInstance.close(index);
           }, function(err) {
             console.log(err);

@@ -22,9 +22,9 @@ webapp.config([
         templateUrl: 'views/merchant.html',
         controller: 'MerchantController'
       })
-      .when('/kill', {
-        templateUrl: 'views/kill.html',
-        controller: 'KillController'
+      .when('/activity', {
+        templateUrl: 'views/activity.html',
+        controller: 'ActivityController'
       })
       .otherwise({
         redirectTo: '/'
