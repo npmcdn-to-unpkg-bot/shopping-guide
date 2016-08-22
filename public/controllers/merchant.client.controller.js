@@ -46,7 +46,6 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
     $scope.maxSize = 10;
     MerchantService.list(con).then(
       function(data) {
-        // totalItems ?
         $scope.totalItems = data.count;
         $scope.dataList = data.data;
       },
@@ -108,18 +107,17 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
         );
 
         $scope.getUserName = function(id) {
-           angular.forEach($scope.userList,function(value, index) {
-             if (value.id === id) {
+          angular.forEach($scope.userList, function(value, index) {
+            if (value.id === id) {
               $scope.vm.user_name = value.name;
-             }
-           });
-        }
-
+            }
+          });
+        };
 
 
         for (var i = 1; i <= 4; i++) {
-          (function(n){
-            var uploader = $scope['uploader'+n] = new FileUploader({
+          (function(n) {
+            var uploader = $scope['uploader' + n] = new FileUploader({
               url: 'merchant/upload',
               autoUpload: true
             });
@@ -131,10 +129,10 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
               }
             });
-            $scope.vm['file'+n] = [];
+            $scope.vm['file' + n] = [];
             uploader.onSuccessItem = function(fileItem, response, status, headers) {
               if (status === 200) {
-                $scope.vm['file'+n].push(response.data);
+                $scope.vm['file' + n].push(response.data);
               }
             };
           })(i);
@@ -152,10 +150,10 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
             return false;
           }
 
-          $scope.vm.identity_front = $scope.vm.file1[$scope.vm.file1.length-1];
-          $scope.vm.identity_back = $scope.vm.file2[$scope.vm.file2.length-1];
-          $scope.vm.info = $scope.vm.file3[$scope.vm.file3.length-1];
-          $scope.vm.money_photo = $scope.vm.file4[$scope.vm.file4.length-1];
+          $scope.vm.identity_front = $scope.vm.file1[$scope.vm.file1.length - 1];
+          $scope.vm.identity_back = $scope.vm.file2[$scope.vm.file2.length - 1];
+          $scope.vm.info = $scope.vm.file3[$scope.vm.file3.length - 1];
+          $scope.vm.money_photo = $scope.vm.file4[$scope.vm.file4.length - 1];
 
           console.log($scope.vm);
 
@@ -198,14 +196,64 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
       controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
-        $scope.uploader = new FileUploader({
-          url: 'upload.php',
-          autoUpload: true
-        });
+
+        $scope.getUserName = function(id) {
+          angular.forEach($scope.userList, function(value, index) {
+            if (value.id === id) {
+              $scope.vm.user_name = value.name;
+            }
+          });
+        };
+
+        UserService.list().then(
+          function(data) {
+            $scope.userList = data.data;
+          },
+          function(err) {
+          }
+        );
+
+
+        for (var i = 1; i <= 4; i++) {
+          (function(n) {
+            var uploader = $scope['uploader' + n] = new FileUploader({
+              url: 'merchant/upload',
+              autoUpload: true
+            });
+
+            uploader.filters.push({
+              name: 'imageFilter',
+              fn: function(item, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+              }
+            });
+            uploader.onSuccessItem = function(fileItem, response, status, headers) {
+              if (status === 200) {
+                if (n == 1) {
+                  $scope.vm.identity_front = response.data;
+                }
+                if (n == 2) {
+                  $scope.vm.identity_back = response.data;
+                }
+                if (n == 3) {
+                  $scope.vm.info = response.data;
+                }
+                if (n == 4) {
+                  $scope.vm.money_photo = response.data;
+                }
+
+              }
+            };
+          })(i);
+
+        }
+
 
         MerchantService.detail(id).then(function(data) {
           $scope.title = "修改用户";
           $scope.vm = data.data;
+
         }, function(err) {
           console.log(err);
         });
@@ -213,6 +261,8 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
           if (form.$valid === false) {
             return false;
           }
+
+          console.log($scope.vm);
           MerchantService.put(id, $scope.vm).then(function(data) {
             $uibModalInstance.close($scope.vm);
           }, function(err) {

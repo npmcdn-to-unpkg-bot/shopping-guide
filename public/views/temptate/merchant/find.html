@@ -7,8 +7,33 @@
 <div class="modal-body">
     <form class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label">商户名</label>
-            <p class="form-control-static">{{user.name}}</p>
+            <label class="col-sm-2 control-label">身份认证信息正面</label>
+            <p class="form-control-static"><a href="{{user.identity_front}}" target="_blank">
+                <img ng-src="{{user.identity_front}}" width="100" height="100"/>
+            </a>
+            </p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">身份认证信息背面</label>
+            <p class="form-control-static"><a href="{{user.identity_back}}" target="_blank">
+                <img ng-src="{{user.identity_back}}" width="100" height="100"/>
+            </a>
+            </p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">店铺认证信息正面</label>
+            <p class="form-control-static">
+                <a href="{{user.info}}" target="_blank">
+                    <img ng-src="{{user.info}}" width="100" height="100"/>
+                </a>
+            </p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">保证金截图</label>
+            <p class="form-control-static"><a href="{{user.money_photo}}" target="_blank">
+                <img ng-src="{{user.money_photo}}" width="100" height="100"/>
+            </a>
+            </p>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">关联用户</label>
@@ -20,11 +45,13 @@
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">商户审核状态</label>
-            <p class="form-control-static">{{user.status === 0 ? '待审核' : user.status === 1 ? '已驳回' : user.status === 2 ? '已通过' : '无法识别'}}</p>
+            <p class="form-control-static">{{user.status === 0 ? '待审核' : user.status === 1 ? '已驳回' : user.status === 2 ?
+                '已通过' : '无法识别'}}</p>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">保证金审核状态</label>
-            <p class="form-control-static">{{user.money_status === 0 ? '待审核' : user.money_status === 1 ? '已驳回' : user.money_status === 2 ? '已通过' : '无法识别'}}</p>
+            <p class="form-control-static">{{user.money_status === 0 ? '待审核' : user.money_status === 1 ? '已驳回' :
+                user.money_status === 2 ? '已通过' : '无法识别'}}</p>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">预付金</label>

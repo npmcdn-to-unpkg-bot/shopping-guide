@@ -38,8 +38,8 @@ function MerchantService($http, $q) {
     save: function(data) {
       return handleRequest('POST', '/merchant', data);
     },
-    put: function(data) {
-      return handleRequest('PUT', '/merchant', data);
+    put: function(id, data) {
+      return handleRequest('PUT', '/merchant/'+ id, data);
     },
     detail: function(id) {
       return handleRequest('GET', '/merchant/'+ id);
