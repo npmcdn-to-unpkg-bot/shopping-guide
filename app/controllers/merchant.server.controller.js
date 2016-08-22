@@ -1,7 +1,7 @@
 var pool = require('../../config/pool.js');
 var connection = require('../../config/connection.js');
 var authChecked = require('../authChecked/authChecked');
-
+var moment = require('moment');
 
 var formidable = require('formidable');
 var fs = require('fs');
@@ -75,7 +75,6 @@ module.exports = {
             authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
           });
 
-        // authChecked.send(res, req, 200, {err: 0, data: data});
       }
     }, function(err) {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
@@ -97,6 +96,7 @@ module.exports = {
   },
 
   edit: function(req, res, next) {
+    req.body.updateTime = moment().format("YYYY-MM-DD");
     var json = req.body;
     var sql = `update merchant set ? where ?`;
     var array = [];
@@ -105,9 +105,25 @@ module.exports = {
     delete json["id"];
     array.unshift(req.body);
 
-    console.log(array);
     pool(sql, array).then(function(data) {
-      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+
+      var sql = `update commodity set merchant_name='${json.name}' where merchant_id = ${array[1].id}`;
+
+      pool(sql, array).then(function(_data) {
+
+        var sql = "select * from merchant where id = " + array[1].id + "";
+
+        pool(sql).then(function(data) {
+          authChecked.send(res, req, 200, {err: 0, data: data[0]});
+        }, function() {
+          authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+        });
+
+      }, function() {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
+
+      
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
