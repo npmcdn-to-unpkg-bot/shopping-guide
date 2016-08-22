@@ -22,7 +22,21 @@ module.exports = {
     var where = `1=1 `;
     for(obj in query){
       if(query[obj] != null){
-        where += ` and ${obj}=${query[obj]}`
+        if (obj ==='signed_at') {
+          
+          if (query[obj][0]) {
+            var strTIme = moment(query[obj][0]).format("YYYY-MM-DD");
+            where += ` and createTime >= '${strTIme}'`  
+          }
+
+          if (query[obj][1]) {
+            var endTIme = moment(query[obj][1]).format("YYYY-MM-DD");
+            where += ` and createTime <= '${endTIme}'`  
+          }
+        }
+        else {
+          where += ` and ${obj}=${query[obj]}`
+        }
       }
     }
 
