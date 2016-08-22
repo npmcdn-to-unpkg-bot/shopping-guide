@@ -12,15 +12,6 @@
 
     <div class="row" style="margin: 20px;">
         <div class="col-xs-2">
-            <div>保证金：</div>
-            <select
-                    class="form-control input-sm"
-                    ng-model="vm.filters.money"
-                    ng-options="type.value as type.text for type in  vm.CONFIGS.moneyStatus"
-                    ng-change="vm.search(true)">
-            </select>
-        </div>
-        <div class="col-xs-2">
             <div>审核状态：</div>
             <select
                     class="form-control input-sm"
@@ -98,9 +89,9 @@
         <tr class="text-center" ng-repeat="list in dataList">
             <td>{{$index+1}}</td>
             <td>{{list.name}}</td>
-            <td>{{list.user_id}}</td>
+            <td>{{list.user_name}}</td>
             <td>{{list.phone}}</td>
-            <td>{{list.money_photo}}</td>
+            <td>{{list.money_status === 0 ? '待审核' : list.money_status === 1 ? '已驳回' : list.money_status === 2 ? '已通过' : '无法识别'}}</td>
             <td>{{list.account}}</td>
             <td>{{list.updateTime | date:'yyyy/MM/dd'}}</td>
             <td>{{list.createTime | date:'yyyy/MM/dd'}}</td>

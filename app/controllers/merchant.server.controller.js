@@ -56,12 +56,18 @@ module.exports = {
 
     var date = new Date();
 
-    var sql = "INSERT INTO user SET ?";
+    delete req.body.file1;
+    delete req.body.file2;
+    delete req.body.file3;
+    delete req.body.file4;
+
+
+    var sql = "INSERT INTO merchant SET ?";
 
     pool(sql, req.body).then(function(data) {
       if (data) {
 
-          var sql = "select * from user where name like '%" + req.body.name + "%'";
+          var sql = "select * from merchant where name like '%" + req.body.name + "%'";
 
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -80,7 +86,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from user where id = " + req.params.nid + "";
+    var sql = "select * from merchant where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -92,7 +98,7 @@ module.exports = {
 
   edit: function(req, res, next) {
     var json = req.body;
-    var sql = `update user set ? where ?`;
+    var sql = `update merchant set ? where ?`;
     var array = [];
 
     array.push({id: req.body.id});
@@ -111,7 +117,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from  user where id = " + req.params.nid + "";
+    var sql = "delete from  merchant where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -122,18 +128,16 @@ module.exports = {
   },
 
   upload: function(req, res, next) {
-
     var form = new formidable.IncomingForm();   //创建上传表单
     form.encoding = 'utf-8';    //设置编辑
-    form.uploadDir = 'public' + AVATAR_UPLOAD_FOLDER;  //设置上传目录
+    form.uploadDir = AVATAR_UPLOAD_FOLDER;  //设置上传目录
     form.keepExtensions = true;  //保留后缀
     form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
-
     form.parse(req, function(err, fields, files) {
 
       if (err) {
         res.locals.error = err;
-        authChecked.send(res, req, 200, {err: 0, data: {manager: 'error'} });
+        authChecked.send(res, req, 400, {err: 1, data: {error: '连接错误'} });
         return;   
       }  
 
@@ -158,21 +162,20 @@ module.exports = {
 
       if(extName.length == 0){
           res.locals.error = '后缀名有误';
-          authChecked.send(res, req, 200, {err: 0, data: {manager: 'error'} });
+          authChecked.send(res, req, 400, {err: 1, data: {err: '后缀名有误'} });
           return;           
       }
 
+      console.log(files);
       var avatarName = Math.random() + '.' + extName;
       var newPath = form.uploadDir + avatarName;
 
       console.log(newPath);
-      fs.renameSync(files.file.path, newPath);  //重命名
+      var result = fs.renameSync(files.file.path, 'public' + newPath);  //重命名
+      if (result === undefined) {
+        authChecked.send(res, req, 200, {err: 0, data: newPath});
+      }
     });
-
-
-
-    // res.locals.success = '上传成功';
-    // authChecked.send(res, req, 200, {err: 0, data: {manager: 'ok'} });
   }
 
 
