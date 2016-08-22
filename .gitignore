@@ -12,3 +12,4 @@ npm-debug.log
 dist
 public/upload
 config/logs
+.idea/workspace.xml
