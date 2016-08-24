@@ -105,7 +105,7 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
 
         var commodity_query = {};
 
-        CommodityService.list(commodity_query).then(function(data) {
+        CommodityService.all(commodity_query).then(function(data) {
           $scope.commodity_list = data.data;
           }, function(err) {
             console.log(err);
@@ -173,7 +173,7 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
 
         var commodity_query = {};
 
-        CommodityService.list(commodity_query).then(function(data) {
+        CommodityService.all(commodity_query).then(function(data) {
           $scope.commodity_list = data.data;
           }, function(err) {
             console.log(err);
