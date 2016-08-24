@@ -12,20 +12,11 @@
 
     <div class="row" style="margin: 20px;">
         <div class="col-xs-2">
-            <div>审核状态：</div>
+            <div>商品状态：</div>
             <select
                     class="form-control input-sm"
                     ng-model="vm.filters.status"
-                    ng-options="type.value as type.text for type in  vm.CONFIGS.merchantStatus"
-                    ng-change="vm.search(true)">
-            </select>
-        </div>
-         <div class="col-xs-2">
-            <div>保证金状态：</div>
-            <select
-                    class="form-control input-sm"
-                    ng-model="vm.filters.money_status"
-                    ng-options="type.value as type.text for type in  vm.CONFIGS.moneyStatus"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.shopType"
                     ng-change="vm.search(true)">
             </select>
         </div>
@@ -119,7 +110,7 @@
             </td>
         </tr>
         <tr class="text-center">
-            <td colspan="10">
+            <td colspan="12">
                 <ul uib-pagination
                     boundary-links="true"
                     total-items="totalItems"

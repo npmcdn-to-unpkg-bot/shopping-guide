@@ -139,11 +139,15 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Use
 
         }
 
-        $scope.title = "新增商户";
+        $scope.title = "新增商品";
 
         $scope.CONFIGS = CONFIGS;
         $scope.vm.status = CONFIGS.merchantStatus[0].value;
-        $scope.vm.money_status = CONFIGS.moneyStatus[0].value;
+
+        $scope.filterStatus = function(filters) {
+         return filters.value < 3;
+        };
+
 
         $scope.save = function(form) {
           if (form.$valid === false) {
