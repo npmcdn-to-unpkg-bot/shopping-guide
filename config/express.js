@@ -66,7 +66,7 @@ module.exports = function() {
   require('../app/routes/shop.server.routes.js')(app);
   require('../app/routes/activity.server.routes.js')(app);
   require('../app/routes/ad.server.routes.js')(app);
-  require('../app/routes/commodity.server.routes.js')(app);
+  require('../app/routes/type.server.routes.js')(app);
   
 
   app.use(function(req, res, next) {

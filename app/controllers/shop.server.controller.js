@@ -66,6 +66,19 @@ module.exports = {
 
   },
 
+  all: function(req, res, next) {
+
+    var sql = `select * from commodity where ${where} order by id`;
+
+    pool(sql ,query).then(function(data) {
+
+        authChecked.send(res, req, 200, {err: 0, data: data});
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+  },
+
   create: function(req, res, next) {
 
     var date = new Date();
@@ -81,7 +94,7 @@ module.exports = {
     pool(sql, req.body).then(function(data) {
       if (data) {
 
-          var sql = "select * from commodity where name like '%" + req.body.name + "%'";
+          var sql = "select * from commodity where name like '%" + req.body.name + "%' order by id desc limit 1";
 
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data: data[0]});
