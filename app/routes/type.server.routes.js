@@ -10,4 +10,7 @@ module.exports = function(app) {
     .get(TypeController.getById)
     .put(TypeController.edit)
     .delete(TypeController.deleteById);
+
+   app.route('/typeAll')
+	.get(TypeController.all);
 };

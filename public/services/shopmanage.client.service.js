@@ -36,7 +36,7 @@ function ShopManageService($http, $q) {
       return handleRequest('GET', '/shop', params);
     },
     all: function(params) {
-      return handleRequest('PUT', '/shop', params);
+      return handleRequest('GET', '/shopAll', params);
     },
     save: function(data) {
       return handleRequest('POST', '/shop', data);

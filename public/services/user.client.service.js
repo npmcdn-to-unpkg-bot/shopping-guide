@@ -33,7 +33,7 @@ function UserService($http, $q) {
       return handleRequest('GET', '/user', params);
     },
     all: function(params) {
-      return handleRequest('PUT', '/user', params);
+      return handleRequest('GET', '/userAll', params);
     },
     save: function(data) {
       return handleRequest('POST', '/user', data);
