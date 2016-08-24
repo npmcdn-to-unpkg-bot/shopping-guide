@@ -22,6 +22,10 @@ webapp.config([
         templateUrl: 'views/merchant.html',
         controller: 'MerchantController'
       })
+      .when('/shop', {
+        templateUrl: 'views/shopmanage.html',
+        controller: 'ShopManageController'
+      })
       .when('/activity', {
         templateUrl: 'views/activity.html',
         controller: 'ActivityController'

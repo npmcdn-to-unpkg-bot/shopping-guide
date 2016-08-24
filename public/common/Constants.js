@@ -25,7 +25,7 @@ angular.module('webapp')
       }
     ],
     //性别
-    sexType:[
+    sexType: [
       {
         text: '男', value: 0
       },
@@ -99,4 +99,27 @@ angular.module('webapp')
         text: '无效', value: 1
       }
     ],
-});
+    // 商品状态：
+    // 0：已提交，待审核
+    // 1：已驳回
+    // 2：审核通过，未上架
+    // 3：已上架
+    shopType: [
+      {
+        text: '待审核', value: 0
+      },
+      {
+        text: '已驳回', value: 1
+      },
+      {
+        text: '审核通过', value: 2
+      },
+      {
+        text: '上架', value: 3
+      },
+      {
+        text: '下架', value: 4
+      }
+    ]
+
+  });

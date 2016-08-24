@@ -1,0 +1,137 @@
+<div>
+    <pre style="border-radius: 0;margin-bottom: 0;">商品管理</pre>
+    <div class="row" style="margin: 20px;">
+        <div class="col-xs-6">
+            <input class="form-control input-sm" type="text" ng-keypress="vm.searchKeypress($event)" ng-model="vm.query"
+                   placeholder="请输入关键词">
+        </div>
+        <div class="col-xs-2">
+            <button class="btn btn-sm btn-danger btn-o" ng-click="vm.keywords=vm.query;vm.search(true)">搜索</button>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 20px;">
+        <div class="col-xs-2">
+            <div>审核状态：</div>
+            <select
+                    class="form-control input-sm"
+                    ng-model="vm.filters.status"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.merchantStatus"
+                    ng-change="vm.search(true)">
+            </select>
+        </div>
+         <div class="col-xs-2">
+            <div>保证金状态：</div>
+            <select
+                    class="form-control input-sm"
+                    ng-model="vm.filters.money_status"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.moneyStatus"
+                    ng-change="vm.search(true)">
+            </select>
+        </div>
+        <div class="col-xs-2">
+            <div>上架时间：</div>
+            <div uib-dropdown auto-close="disabled" class="daterange-dropdown" is-open="isopen1">
+                <a uib-dropdown-toggle class="btn btn-default btn-sm dropdown-toggle">
+                    请选择时间
+                    <i class="fa fa-calendar"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" style="width: 680px;">
+                    <li class="clearfix">
+                        <div class="datepicker-wrapper col-sm-6">从:
+                            <div uib-datepicker ng-model="signed_at_gte" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                        <div class="datepicker-wrapper col-sm-6">到:
+                            <div uib-datepicker ng-model="signed_at_lte" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <div class="datepicker-wrapper col-sm-12 text-center">
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    ng-click="vm.filters['signed_at'] = [signed_at_gte.valueOf(), signed_at_lte.valueOf()];isopen1=false;vm.search(true)">确定</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-left: 35px;">
+        <div class="criteria">
+            <label class="criterion btn-primary" ng-if="vm.keywords">
+                关键词:{{vm.keywords}} <span class="close"
+                                          ng-click="vm.keywords=null;vm.query='';vm.search(true)">&times;</span>
+            </label>
+            <label class="criterion btn-primary" ng-if="vm.filters.money_status || vm.filters.money_status == 0">
+                保证金:{{vm.moneyStatusName(vm.filters.money_status)}} <span class="close"
+                                                                   ng-click="vm.filters.money_status=null;vm.search(true)">&times;</span>
+            </label>
+            <label class="criterion btn-primary" ng-if="vm.filters.status || vm.filters.status == 0">
+                审核状态:{{vm.merchantStatusName(vm.filters.status)}} <span class="close"
+                                                                          ng-click="vm.filters.status=null;vm.search(true)">&times;</span>
+            </label>
+            <label class="criterion btn-primary" ng-if="vm.filters.signed_at">
+                入驻时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
+                <span class="close" ng-click="vm.filters.signed_at=null;vm.search(true)">&times;</span>
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="12" class="text-right">
+                <button type="button" class="btn btn-primary" ng-click="add(dataList.length)">新增</button>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-center"></th>
+            <th class="text-center">标题</th>
+            <th class="text-center">大类名称</th>
+            <th class="text-center">子分类</th>
+            <th class="text-center">商品名称</th>
+            <th class="text-center">商品图片</th>
+            <th class="text-center">商品价格</th>
+            <th class="text-center">商品折扣价</th>
+            <th class="text-center">淘宝链接</th>
+            <th class="text-center">阿里妈妈链接</th>
+            <th class="text-center">商品状态</th>
+            <th class="text-center">操作</th>
+        </tr>
+        <tr class="text-center" ng-repeat="list in dataList">
+            <td>{{$index+1}}</td>
+            <td>{{list.title}}</td>
+            <td>{{list.type}}</td>
+            <td>{{list.type}}</td>
+            <td>{{list.name}}</td>
+            <td>{{list.photo}}</td>
+            <td>{{list.price}}</td>
+            <td>{{list.SALE}}</td>
+            <td>{{list.tabao_url}}</td>
+            <td>{{list.alimama_url}}</td>
+            <td>{{list.status === 0 ? '待审核' : list.status === 1 ? '已驳回' : list.status === 2 ? '已通过' : '无法识别'}}</td>
+            <td>
+                <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
+
+                <button type="button" class="btn btn-danger btn-sm" ng-click="edit(list.id, $index)">编辑</button>
+
+                <button type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">删除</button>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td colspan="10">
+                <ul uib-pagination
+                    boundary-links="true"
+                    total-items="totalItems"
+                    ng-model="currentPage"
+                    class="pagination-sm"
+                    max-size="maxSize"
+                    ng-change="vm.search()"
+                    previous-text="上一页"
+                    next-text="下一页"
+                    first-text="首页"
+                    last-text="尾页"></ul>
+            </td>
+        </tr>
+    </table>
+</div>
