@@ -32,6 +32,9 @@ function UserService($http, $q) {
     list: function(params) {
       return handleRequest('GET', '/user', params);
     },
+    all: function(params) {
+      return handleRequest('PUT', '/user', params);
+    },
     save: function(data) {
       return handleRequest('POST', '/user', data);
     },

@@ -1,14 +1,15 @@
-var MerchantController = require('../controllers/shop.server.controller.js');
+var ShoptController = require('../controllers/shop.server.controller.js');
 
 module.exports = function(app) {
   app.route('/shop')
-    .get(MerchantController.list)
-    .post(MerchantController.create);
+    .get(ShoptController.list)
+    .post(ShoptController.create)
+    .put(ShoptController.all);
 
   app.route('/shop/:nid')
-    .get(MerchantController.getById)
-    .put(MerchantController.edit)
-    .delete(MerchantController.deleteById)
-    .post(MerchantController.upload);
+    .get(ShoptController.getById)
+    .put(ShoptController.edit)
+    .delete(ShoptController.deleteById)
+    .post(ShoptController.upload);
 
 };
