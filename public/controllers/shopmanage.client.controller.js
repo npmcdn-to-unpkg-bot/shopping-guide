@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('ShopManageController', ['$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'UserService', 'FileUploader', ShopManageController]);
+  .controller('ShopManageController', ['$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'FileUploader', ShopManageController]);
 
-function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, UserService, FileUploader) {
+function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, MerchantService, FileUploader) {
 
   var vm = $scope.vm = {};
 
@@ -97,19 +97,19 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Use
       controller: function($scope, CONFIGS, $uibModalInstance, UserService, FileUploader) {
         $scope.vm = {};
 
-        UserService.list().then(
+        MerchantService.list().then(
           function(data) {
             console.log(data);
-            $scope.userList = data.data;
+            $scope.merchantList = data.data;
           },
           function(err) {
           }
         );
 
         $scope.getUserName = function(id) {
-          angular.forEach($scope.userList, function(value, index) {
+          angular.forEach($scope.merchantList, function(value, index) {
             if (value.id === id) {
-              $scope.vm.user_name = value.name;
+              $scope.vm.merchant_name = value.name;
             }
           });
         };
@@ -202,16 +202,17 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Use
         $scope.CONFIGS = CONFIGS;
 
         $scope.getUserName = function(id) {
-          angular.forEach($scope.userList, function(value, index) {
+          angular.forEach($scope.merchantList, function(value, index) {
             if (value.id === id) {
-              $scope.vm.user_name = value.name;
+              $scope.vm.merchant_name = value.name;
             }
           });
         };
 
-        UserService.list().then(
+        MerchantService.list().then(
           function(data) {
-            $scope.userList = data.data;
+            console.log(data);
+            $scope.merchantList = data.data;
           },
           function(err) {
           }

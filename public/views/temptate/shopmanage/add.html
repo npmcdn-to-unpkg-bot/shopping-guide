@@ -84,23 +84,19 @@
         <!--</div>-->
 
         <div class="form-group">
-            <label>商户</label>
+            <label>商铺</label>
             <select
                     class="form-control"
-                    name="user_id"
-                    ng-model="vm.user_id"
-                    ng-change="getUserName(vm.user_id)"
-                    ng-options="type.id as type.name for type in userList">
+                    name="merchant_id"
+                    ng-model="vm.merchant_id"
+                    ng-change="getUserName(vm.merchant_id)"
+                    ng-options="type.id as type.name for type in merchantList">
             </select>
         </div>
         <div class="form-group">
-            <label>商户名</label>
-            <input type="text" class="form-control" name="user_name" ng-model="vm.user_name" ng-disabled="true"
-                   placeholder="商户名">
-        </div>
-        <div class="form-group">
             <label>商铺名</label>
-            <input type="text" class="form-control" name="name" ng-model="vm.name" placeholder="商铺名">
+            <input type="text" class="form-control" name="merchant_name" ng-model="vm.merchant_name" ng-disabled="true"
+                   placeholder="商户名">
         </div>
         <div class="form-group">
             <label>商品类型</label>

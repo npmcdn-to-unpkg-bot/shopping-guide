@@ -35,6 +35,9 @@ function MerchantService($http, $q) {
     list: function(params) {
       return handleRequest('GET', '/merchant', params);
     },
+    all: function(params) {
+      return handleRequest('GET', '/merchantAll', params);
+    },
     save: function(data) {
       return handleRequest('POST', '/merchant', data);
     },

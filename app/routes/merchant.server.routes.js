@@ -4,6 +4,8 @@ module.exports = function(app) {
   app.route('/merchant')
     .get(MerchantController.list)
     .post(MerchantController.create);
+  app.route('/merchantAll')
+    .get(MerchantController.all);
 
   app.route('/merchant/:nid')
     .get(MerchantController.getById)

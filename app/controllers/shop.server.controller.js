@@ -46,7 +46,7 @@ module.exports = {
 
 
     
-    var sql = `select * from commodity where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from type_commodity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
       
@@ -68,7 +68,7 @@ module.exports = {
 
   all: function(req, res, next) {
 
-    var sql = `select * from commodity order by id`;
+    var sql = `select * from type_commodity order by id`;
 
     pool(sql).then(function(data) {
 
