@@ -10,4 +10,7 @@ module.exports = function(app) {
     .get(UserController.getById)
     .put(UserController.edit)
     .delete(UserController.deleteById);
+
+  app.route('/userAll')
+	.get(UserController.all);
 };

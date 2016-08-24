@@ -50,7 +50,7 @@ module.exports = {
 
     var sql = `select * from type order by id`;
 
-    pool(sql ,query).then(function(data) {
+    pool(sql).then(function(data) {
 
         authChecked.send(res, req, 200, {err: 0, data: data});
 
