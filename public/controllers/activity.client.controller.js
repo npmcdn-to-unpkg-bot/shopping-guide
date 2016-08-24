@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('ActivityController', ['$scope', 'ActivityService', 'CommodityService', '$uibModal', 'CONFIGS', ActivityController]);
+  .controller('ActivityController', ['$scope', 'ActivityService', 'ShopManageService', '$uibModal', 'CONFIGS', ActivityController]);
 
-function ActivityController($scope, ActivityService, CommodityService, $uibModal, CONFIGS) {
+function ActivityController($scope, ActivityService, ShopManageService, $uibModal, CONFIGS) {
 
   var vm = $scope.vm = {};
 
@@ -105,7 +105,7 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
 
         var commodity_query = {};
 
-        CommodityService.all(commodity_query).then(function(data) {
+        ShopManageService.all(commodity_query).then(function(data) {
           $scope.commodity_list = data.data;
           }, function(err) {
             console.log(err);
@@ -173,7 +173,7 @@ function ActivityController($scope, ActivityService, CommodityService, $uibModal
 
         var commodity_query = {};
 
-        CommodityService.all(commodity_query).then(function(data) {
+        ShopManageService.all(commodity_query).then(function(data) {
           $scope.commodity_list = data.data;
           }, function(err) {
             console.log(err);
