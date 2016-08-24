@@ -1,7 +1,7 @@
 var pool = require('../../config/pool.js');
 var connection = require('../../config/connection.js');
 var authChecked = require('../authChecked/authChecked');
-
+var moment = require('moment');
 
 module.exports = {
 
@@ -16,7 +16,7 @@ module.exports = {
     var where = `1=1 `;
     for(obj in query){
       if(query[obj] != null){
-        where += ` and ${obj}=${query[obj]}`
+          where += ` and ${obj}=${query[obj]}`;
       }
     }
 
@@ -26,12 +26,12 @@ module.exports = {
 
 
 
-    var sql = `select * from commodity where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from type where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
 
-      var sql = `select count(id) as count from commodity where ${where} `;
+      var sql = `select count(id) as type from ad_commodity where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
@@ -46,19 +46,29 @@ module.exports = {
 
   },
 
+  all: function(req, res, next) {
+
+    var sql = `select * from type order by id`;
+
+    pool(sql ,query).then(function(data) {
+
+        authChecked.send(res, req, 200, {err: 0, data: data});
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+  },
+
   create: function(req, res, next) {
 
-    var date = new Date();
-
-    var sql = "INSERT INTO activity SET ?";
+    var sql = `call type_add(${req.body.pid}, ${req.body.name}, @a)`;
 
     pool(sql, req.body).then(function(data) {
       if (data) {
+          var sql = "select * from type where name like '%" + req.body.name + "%' order by id desc limit 1";
 
-          var sql = "select * from user where name like '%" + req.body.name + "%'";
-
-          pool(sql).then(function(data) {
-            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+          pool(sql).then(function(_data) {
+            authChecked.send(res, req, 200, {err: 0, data: _data[0]});
           }, function() {
             authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
           });
@@ -74,7 +84,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from kill where id = " + req.params.nid + "";
+    var sql = "select * from type where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -85,17 +95,16 @@ module.exports = {
   },
 
   edit: function(req, res, next) {
-    var json = req.body;
-    var sql = `update kill set ? where ?`;
-    var array = [];
+    var sql = `call type_edit(${req.body.pid}, ${req.body.id}, ${req.body.name}, @a)`;
 
-    array.push({id: req.body.id});
-    delete json["id"];
-    array.unshift(req.body);
+    pool(sql).then(function(data) {
+      var sql = "select * from type where id = " + array[1].id + "";
 
-    console.log(array);
-    pool(sql, array).then(function(data) {
-      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+      pool(sql).then(function(data) {
+        authChecked.send(res, req, 200, {err: 0, data: data[0]});
+      }, function() {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
@@ -105,7 +114,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from kill where id = " + req.params.nid + "";
+    var sql = `call type_edit(${req.params.nid },@a)`;
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});

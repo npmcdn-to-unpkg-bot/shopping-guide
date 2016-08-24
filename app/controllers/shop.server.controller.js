@@ -26,12 +26,12 @@ module.exports = {
           
           if (query[obj][0]) {
             var strTIme = moment(query[obj][0]).format("YYYY-MM-DD");
-            where += ` and createTime >= '${strTIme}'`  
+            where += ` and updateTime >= '${strTIme}'`  
           }
 
           if (query[obj][1]) {
             var endTIme = moment(query[obj][1]).format("YYYY-MM-DD");
-            where += ` and createTime <= '${endTIme}'`  
+            where += ` and updateTime <= '${endTIme}'`  
           }
         }
         else {
@@ -46,7 +46,7 @@ module.exports = {
 
 
     
-    var sql = `select * from merchant where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from commodity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
       
@@ -66,6 +66,19 @@ module.exports = {
 
   },
 
+  all: function(req, res, next) {
+
+    var sql = `select * from commodity order by id`;
+
+    pool(sql ,query).then(function(data) {
+
+        authChecked.send(res, req, 200, {err: 0, data: data});
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+  },
+
   create: function(req, res, next) {
 
     var date = new Date();
@@ -76,12 +89,12 @@ module.exports = {
     delete req.body.file4;
 
 
-    var sql = "INSERT INTO merchant SET ?";
+    var sql = "INSERT INTO commodity SET ?";
 
     pool(sql, req.body).then(function(data) {
       if (data) {
 
-          var sql = "select * from merchant where name like '%" + req.body.name + "%'";
+          var sql = "select * from commodity where name like '%" + req.body.name + "%' order by id desc limit 1";
 
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -99,7 +112,7 @@ module.exports = {
 
   getById: function(req, res, next) {
 
-    var sql = "select * from merchant where id = " + req.params.nid + "";
+    var sql = "select * from commodity where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -112,7 +125,7 @@ module.exports = {
   edit: function(req, res, next) {
     req.body.updateTime = moment().format("YYYY-MM-DD");
     var json = req.body;
-    var sql = `update merchant set ? where ?`;
+    var sql = `update commodity set ? where ?`;
     var array = [];
 
     array.push({id: req.body.id});
@@ -121,11 +134,9 @@ module.exports = {
 
     pool(sql, array).then(function(data) {
 
-      var sql = `update commodity set merchant_name='${json.name}' where merchant_id = ${array[1].id}`;
 
-      pool(sql, array).then(function(_data) {
 
-        var sql = "select * from merchant where id = " + array[1].id + "";
+        var sql = "select * from commodity where id = " + array[1].id + "";
 
         pool(sql).then(function(data) {
           authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -133,9 +144,6 @@ module.exports = {
           authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
         });
 
-      }, function() {
-        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-      });
 
       
     }, function() {
@@ -147,7 +155,7 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = "delete from  merchant where id = " + req.params.nid + "";
+    var sql = "delete from  commodity where id = " + req.params.nid + "";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
