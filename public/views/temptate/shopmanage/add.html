@@ -41,208 +41,103 @@
 </div>
 <div class="modal-body">
     <form name="myForm" ng-submit="save(myForm)" novalidate>
-        <div class="form-group">
-            <label>身份认证信息正面</label>
-            <input ng-show="vm.identity_front == null"  type="file" nv-file-select="onFileSelect($files)" uploader="uploader1"/>
-            <div ng-show="vm.identity_front">
-            <a ng-href="{{vm.identity_front}}" target="_blank">
-                <img ng-src="{{vm.identity_front}}" width="100" height="100"/>
-            </a>
-            <button style="float: none;" class="close"
-                    type="button"
-                    ng-click="vm.identity_front = null">
-                &times;
-            </button>
+        <!--<div class="form-group">-->
+            <!--<label>身份认证信息正面</label>-->
+            <!--<input ng-show="vm.identity_front == null"  type="file" nv-file-select="onFileSelect($files)" uploader="uploader1"/>-->
+            <!--<div ng-show="vm.identity_front">-->
+            <!--<a ng-href="{{vm.identity_front}}" target="_blank">-->
+                <!--<img ng-src="{{vm.identity_front}}" width="100" height="100"/>-->
+            <!--</a>-->
+            <!--<button style="float: none;" class="close"-->
+                    <!--type="button"-->
+                    <!--ng-click="vm.identity_front = null">-->
+                <!--&times;-->
+            <!--</button>-->
 
-            </div>
+            <!--</div>-->
 
-        </div>
-        <div class="form-group" ng-if="uploader1.queue.length > 0">
-            <label>身份认证信息正面预览</label>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>文件名</th>
-                    <th>图片</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in uploader1.queue">
-                    <td ng-bind="item.file.name"></td>
-                    <td ng-thumb="{ file: item._file, height: 100, width:100 }"></td>
-                    <td ng-show="vm.uploader1.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <!--</div>-->
+        <!--<div class="form-group" ng-if="uploader1.queue.length > 0">-->
+            <!--<label>身份认证信息正面预览</label>-->
+            <!--<table class="table">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<th>文件名</th>-->
+                    <!--<th>图片</th>-->
+                    <!--<th>操作</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="item in uploader1.queue">-->
+                    <!--<td ng-bind="item.file.name"></td>-->
+                    <!--<td ng-thumb="{ file: item._file, height: 100, width:100 }"></td>-->
+                    <!--<td ng-show="vm.uploader1.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>-->
+                    <!--<td>-->
+                        <!--<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">-->
+                            <!--<span class="glyphicon glyphicon-trash"></span>-->
+                        <!--</button>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            <!--</table>-->
 
-        </div>
-
-
+        <!--</div>-->
 
         <div class="form-group">
-            <label>身份认证信息背面</label>
-            <input ng-show="vm.identity_back == null" type="file" nv-file-select="" uploader="uploader2"/>
-            <div ng-show="vm.identity_back">
-                <a ng-href="{{vm.identity_back}}" target="_blank">
-                    <img ng-src="{{vm.identity_back}}" width="100" height="100"/>
-                </a>
-                <button style="float: none;" class="close"
-                        type="button"
-                        ng-click="vm.identity_back = null">
-                    &times;
-                </button>
-
-            </div>
-        </div>
-        <div class="form-group" ng-if="uploader2.queue.length > 0">
-            <label>身份认证信息背面预览</label>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>文件名</th>
-                    <th>图片</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in uploader2.queue">
-                    <td ng-bind="item.file.name"></td>
-                    <td ng-thumb="{ file: item._file, height: 100, width:100 }"></td>
-                    <td ng-show="vm.uploader2.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-
-        <div class="form-group">
-            <label>店铺认证信息正面</label>
-            <input ng-show="vm.info == null" type="file" nv-file-select="" uploader="uploader3"/>
-            <div ng-show="vm.info">
-                <a ng-href="{{vm.info}}" target="_blank">
-                    <img ng-src="{{vm.info}}" width="100" height="100"/>
-                </a>
-                <button style="float: none;" class="close"
-                        type="button"
-                        ng-click="vm.info = null">
-                    &times;
-                </button>
-
-            </div>
-        </div>
-        <div class="form-group" ng-if="uploader3.queue.length > 0">
-            <label>店铺认证信息正面预览</label>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>文件名</th>
-                    <th>图片</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in uploader3.queue">
-                    <td ng-bind="item.file.name"></td>
-                    <td ng-thumb="{ file: item._file, height: 100, width:100 }"></td>
-                    <td ng-show="vm.uploader3.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-
-        <div class="form-group">
-            <label>保证金截图</label>
-            <input ng-show="vm.money_photo == null" type="file" nv-file-select="" uploader="uploader4"/>
-            <div ng-show="vm.money_photo">
-                <a ng-href="{{vm.money_photo}}" target="_blank">
-                    <img ng-src="{{vm.money_photo}}" width="100" height="100"/>
-                </a>
-                <button style="float: none;" class="close"
-                        type="button"
-                        ng-click="vm.money_photo = null">
-                    &times;
-                </button>
-
-            </div>
-        </div>
-        <div class="form-group" ng-if="uploader4.queue.length > 0">
-            <label>保证金截图预览</label>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>文件名</th>
-                    <th>图片</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in uploader4.queue">
-                    <td ng-bind="item.file.name"></td>
-                    <td ng-thumb="{ file: item._file, height: 100, width:100 }"></td>
-                    <td ng-show="vm.uploader4.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-
-        <div class="form-group">
-            <label>商户</label>
+            <label>商铺</label>
             <select
                     class="form-control"
-                    name="user_id"
-                    ng-model="vm.user_id"
-                    ng-change="getUserName(vm.user_id)"
-                    ng-options="type.id as type.name for type in userList">
+                    name="merchant_id"
+                    ng-model="vm.merchant_id"
+                    ng-change="getUserName(vm.merchant_id)"
+                    ng-options="type.id as type.name for type in merchantList">
             </select>
         </div>
         <div class="form-group">
-            <label>商户名</label>
-            <input type="text" class="form-control" name="user_name" ng-model="vm.user_name" ng-disabled="true"
+            <label>商铺名</label>
+            <input type="text" class="form-control" name="merchant_name" ng-model="vm.merchant_name" ng-disabled="true"
                    placeholder="商户名">
         </div>
         <div class="form-group">
-            <label>商铺名</label>
-            <input type="text" class="form-control" name="name" ng-model="vm.name" placeholder="商铺名">
+            <label>商品类型</label>
+            <select
+                    class="form-control"
+                    name="type"
+                    ng-model="vm.type"
+                    ng-options="type.value as type.text for type in  CONFIGS.merchantStatus">
+            </select>
         </div>
         <div class="form-group">
-            <label>商户审核手机号码</label>
-            <input type="text" class="form-control" name="phone" ng-model="vm.phone" placeholder="电话" required>
-            <div class="tips-error" ng-if="myForm.phone.$error.required && myForm.$submitted==true">
-                必填项
-            </div>
+            <label>商品标题</label>
+            <input type="text" class="form-control" name="title" ng-model="vm.title" placeholder="商品标题">
         </div>
         <div class="form-group">
-            <label>预付金账号</label>
-            <input type="text" class="form-control" name="account" ng-model="vm.account" placeholder="预付金账号">
-            <div class="tips-error" ng-if="myForm.account.$error.required && myForm.$submitted==true">
-                必填项
-            </div>
+            <label>商品名称</label>
+            <input type="text" class="form-control" name="name" ng-model="vm.name" placeholder="商品名称">
+        </div>
+        <div class="form-group">
+            <label>商品图片</label>
+            <input type="text" class="form-control" name="photo" ng-model="vm.photo" placeholder="商品图片">
+        </div>
+        <div class="form-group">
+            <label>商品价格</label>
+            <input type="text" class="form-control" name="price" ng-model="vm.price" placeholder="商品价格">
+        </div>
+        <div class="form-group">
+            <label>商品折扣价</label>
+            <input type="text" class="form-control" name="SALE" ng-model="vm.SALE" placeholder="商品折扣价">
+        </div>
+        <div class="form-group">
+            <label>淘宝链接</label>
+            <input type="text" class="form-control" name="tabao_url" ng-model="vm.tabao_url" placeholder="淘宝链接">
+        </div>
+        <div class="form-group">
+            <label>阿里妈妈链接</label>
+            <input type="text" class="form-control" name="alimama_url" ng-model="vm.alimama_url" placeholder="阿里妈妈链接">
+        </div>
+        <div class="form-group">
+            <label>商品描述(alt)</label>
+            <input type="text" class="form-control" name="describe" ng-model="vm.describe" placeholder="商品描述">
         </div>
         <div class="form-group">
             <label>商户审核</label>
@@ -250,16 +145,7 @@
                     class="form-control"
                     name="status"
                     ng-model="vm.status"
-                    ng-options="type.value as type.text for type in  CONFIGS.merchantStatus">
-            </select>
-        </div>
-        <div class="form-group">
-            <label>保证金审核</label>
-            <select
-                    class="form-control"
-                    name="money_status"
-                    ng-model="vm.money_status"
-                    ng-options="type.value as type.text for type in  CONFIGS.moneyStatus">
+                    ng-options="type.value as type.text for type in  CONFIGS.shopType | filter:filterStatus">
             </select>
         </div>
         <button type="submit" class="btn btn-default">保存</button>

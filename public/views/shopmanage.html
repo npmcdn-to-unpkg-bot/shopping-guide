@@ -12,20 +12,11 @@
 
     <div class="row" style="margin: 20px;">
         <div class="col-xs-2">
-            <div>审核状态：</div>
+            <div>商品状态：</div>
             <select
                     class="form-control input-sm"
                     ng-model="vm.filters.status"
-                    ng-options="type.value as type.text for type in  vm.CONFIGS.merchantStatus"
-                    ng-change="vm.search(true)">
-            </select>
-        </div>
-         <div class="col-xs-2">
-            <div>保证金状态：</div>
-            <select
-                    class="form-control input-sm"
-                    ng-model="vm.filters.money_status"
-                    ng-options="type.value as type.text for type in  vm.CONFIGS.moneyStatus"
+                    ng-options="type.value as type.text for type in  vm.CONFIGS.shopType"
                     ng-change="vm.search(true)">
             </select>
         </div>
@@ -80,15 +71,14 @@
 
     <table class="table table-bordered">
         <tr>
-            <td colspan="12" class="text-right">
+            <td colspan="11" class="text-right">
                 <button type="button" class="btn btn-primary" ng-click="add(dataList.length)">新增</button>
             </td>
         </tr>
         <tr>
             <th class="text-center"></th>
             <th class="text-center">标题</th>
-            <th class="text-center">大类名称</th>
-            <th class="text-center">子分类</th>
+            <th class="text-center">分类</th>
             <th class="text-center">商品名称</th>
             <th class="text-center">商品图片</th>
             <th class="text-center">商品价格</th>
@@ -101,25 +91,28 @@
         <tr class="text-center" ng-repeat="list in dataList">
             <td>{{$index+1}}</td>
             <td>{{list.title}}</td>
-            <td>{{list.type}}</td>
-            <td>{{list.type}}</td>
+            <td>{{list.type_name}}</td>
             <td>{{list.name}}</td>
             <td>{{list.photo}}</td>
             <td>{{list.price}}</td>
             <td>{{list.SALE}}</td>
-            <td>{{list.tabao_url}}</td>
-            <td>{{list.alimama_url}}</td>
-            <td>{{list.status === 0 ? '待审核' : list.status === 1 ? '已驳回' : list.status === 2 ? '已通过' : '无法识别'}}</td>
+            <td><a ng-if="list.tabao_url" class="glyphicon glyphicon-new-window ng-scope" href="{{list.tabao_url}}" target="_blank"></a></td>
+            <td><a ng-if="list.alimama_url" class="glyphicon glyphicon-new-window ng-scope" href="{{list.alimama_url}}" target="_blank"></a></td>
+            <td>{{list.status === 0 ? '待审核' : list.status === 1 ? '已驳回' : list.status === 2 ? '已通过' : list.status === 3 ? '已上架' : list.status === 4 ? '已下架' :'无法识别'}}</td>
             <td>
                 <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>
 
                 <button type="button" class="btn btn-danger btn-sm" ng-click="edit(list.id, $index)">编辑</button>
 
                 <button type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">删除</button>
+
+                <button ng-if="list.status == 2" type="button" class="btn btn-info btn-sm" ng-click="del(list.id, $index)">上架</button>
+
+                <button ng-if="list.status == 3" type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">下架</button>
             </td>
         </tr>
         <tr class="text-center">
-            <td colspan="10">
+            <td colspan="11">
                 <ul uib-pagination
                     boundary-links="true"
                     total-items="totalItems"

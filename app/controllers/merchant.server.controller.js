@@ -66,6 +66,19 @@ module.exports = {
 
   },
 
+  all: function(req, res, next) {
+
+    var sql = `select * from merchant order by id`;
+
+    pool(sql).then(function(data) {
+
+      authChecked.send(res, req, 200, {err: 0, data: data});
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+  },
+
   create: function(req, res, next) {
 
     var date = new Date();
