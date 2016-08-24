@@ -34,6 +34,9 @@ module.exports = {
             where += ` and updateTime <= '${endTIme}'`  
           }
         }
+        else if ( obj === 'status' && query[obj] === 2 ) {
+          where += ` and ${obj} >= ${query[obj]}`
+        }
         else {
           where += ` and ${obj}=${query[obj]}`
         }

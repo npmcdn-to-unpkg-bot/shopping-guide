@@ -3,8 +3,7 @@ var TypeController = require('../controllers/type.server.controller.js');
 module.exports = function(app) {
   app.route('/type')
     .get(TypeController.list)
-    .post(TypeController.create)
-    .put(TypeController.all);
+    .post(TypeController.create);
 
   app.route('/type/:nid')
     .get(TypeController.getById)
