@@ -115,29 +115,23 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         };
 
 
-        for (var i = 1; i <= 4; i++) {
-          (function(n) {
-            var uploader = $scope['uploader' + n] = new FileUploader({
-              url: 'merchant/upload',
-              autoUpload: true
-            });
+        var uploader = $scope.uploader = new FileUploader({
+          url: 'merchant/upload',
+          autoUpload: true
+        });
 
-            uploader.filters.push({
-              name: 'imageFilter',
-              fn: function(item, options) {
-                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-              }
-            });
-            $scope.vm['file' + n] = [];
-            uploader.onSuccessItem = function(fileItem, response, status, headers) {
-              if (status === 200) {
-                $scope.vm['file' + n].push(response.data);
-              }
-            };
-          })(i);
-
-        }
+        uploader.filters.push({
+          name: 'imageFilter',
+          fn: function(item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+          if (status === 200) {
+            console.log(response.data);
+          }
+        };
 
         $scope.title = "新增商品";
 
@@ -145,7 +139,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         $scope.vm.status = CONFIGS.merchantStatus[0].value;
 
         $scope.filterStatus = function(filters) {
-         return filters.value < 3;
+          return filters.value < 3;
         };
 
 
