@@ -48,7 +48,7 @@ module.exports = {
 
   all: function(req, res, next) {
 
-    var sql = `select * from user where ${where} order by id`;
+    var sql = `select * from user order by id`;
 
     pool(sql ,query).then(function(data) {
 
