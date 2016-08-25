@@ -130,6 +130,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
           if (status === 200) {
             console.log(response.data);
+            $scope.vm.photo = response.data;
           }
         };
 
@@ -148,14 +149,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
             return false;
           }
 
-          $scope.vm.identity_front = $scope.vm.file1[$scope.vm.file1.length - 1];
-          $scope.vm.identity_back = $scope.vm.file2[$scope.vm.file2.length - 1];
-          $scope.vm.info = $scope.vm.file3[$scope.vm.file3.length - 1];
-          $scope.vm.money_photo = $scope.vm.file4[$scope.vm.file4.length - 1];
-
           console.log($scope.vm);
-
-
           MerchantService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
