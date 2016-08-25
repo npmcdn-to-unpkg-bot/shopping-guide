@@ -37,6 +37,7 @@ module.exports = function() {
 
   log.use(app);
 
+  require('../app/routes/admin.server.routes.js')(app);
 
   app.use(function(req, res, next) {
     if (req.originalUrl !== '/login') {
@@ -44,7 +45,7 @@ module.exports = function() {
       auth.get_user_by_token(cookie.token)
         .then(function(data) {
           if (data.status === 200) {
-            return next();
+            return next({'role': data.data.data.role, 'token': cookie.token});
           }
           else if (data.status === 401) {
             auth.send(res, req, data.status, data);
@@ -55,12 +56,50 @@ module.exports = function() {
         }, function(err) {
         });
     } else {
-      return next();
+      return next(0);
     }
   });
 
+app.use(function(err, req, res, next) {
+  if(err){
+    //超级管理员
+    if (err.role === 0) {
+      req.session = {'role': err.role, 'id': 0};
+      next();
+      // next({'role': err.role, 'id': 0});
+    }
+    //普通用户
+    else if (err.role === 1) {
+      auth.send(res, req, 401, {});
+    }
+    //商户
+    else{
 
-  require('../app/routes/admin.server.routes.js')(app);
+      if (req.originalUrl === '/user' || req.originalUrl === '/merchant' || req.originalUrl === '/shop') {
+        auth.get_user_by_role(err.token)
+          .then(function(data) {
+            if (data.status === 200) {
+              req.session = {'role': data.data.data.role, 'id': data.data.data.id};
+              next();
+              // next({'role': data.data.data.role, 'id': data.data.data.id});
+            }
+            else if (data.status === 401) {
+              auth.send(res, req, data.status, data);
+            } else {
+              auth.send(res, req, data.status, data);
+            }
+          }, function(err) {
+          });
+      }
+      else {
+        auth.send(res, req, 401, {});
+      }
+      
+    }
+
+  }
+})
+
   require('../app/routes/user.server.routes.js')(app);
   require('../app/routes/merchant.server.routes.js')(app);
   require('../app/routes/shop.server.routes.js')(app);
@@ -69,7 +108,7 @@ module.exports = function() {
   require('../app/routes/type.server.routes.js')(app);
   
 
-  app.use(function(req, res, next) {
+  app.use(function(err, req, res, next) {
     res.status(404);
     try {
       return res.json('Not Found');

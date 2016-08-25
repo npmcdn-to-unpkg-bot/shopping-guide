@@ -13,7 +13,6 @@ module.exports = {
 
   list: function(req, res, next) {
 
-
     var query = req.query.filters ? JSON.parse(req.query.filters) : {};
 
     var num = req.query.num ? req.query.num : 10;
