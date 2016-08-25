@@ -94,7 +94,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, MerchantService, TypeService, FileUploader) {
+      controller: function($scope, CONFIGS, $uibModalInstance, ShopManageService, MerchantService, TypeService, FileUploader) {
         $scope.vm = {};
         MerchantService.all().then(
           function(data) {
@@ -111,7 +111,6 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
           function(err) {
           }
         );
-
 
 
         $scope.getUserName = function(id) {
@@ -158,7 +157,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
           }
 
           console.log($scope.vm);
-          MerchantService.save($scope.vm).then(function(data) {
+          ShopManageService.save($scope.vm).then(function(data) {
             $uibModalInstance.close(data);
           }, function(err) {
             console.log(err);
@@ -193,7 +192,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
   $scope.edit = function(id, index) {
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, MerchantService, FileUploader) {
+      controller: function($scope, CONFIGS, $uibModalInstance, ShopManageService, MerchantService, TypeService, FileUploader) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
 
@@ -213,45 +212,34 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
           }
         );
 
+        TypeService.all().then(
+          function(data) {
+            $scope.shopTypes = data.data;
+          },
+          function(err) {
+          }
+        );
 
-        for (var i = 1; i <= 4; i++) {
-          (function(n) {
-            var uploader = $scope['uploader' + n] = new FileUploader({
-              url: 'merchant/upload',
-              autoUpload: true
-            });
 
-            uploader.filters.push({
-              name: 'imageFilter',
-              fn: function(item, options) {
-                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-              }
-            });
-            uploader.onSuccessItem = function(fileItem, response, status, headers) {
-              if (status === 200) {
-                if (n == 1) {
-                  $scope.vm.identity_front = response.data;
-                }
-                if (n == 2) {
-                  $scope.vm.identity_back = response.data;
-                }
-                if (n == 3) {
-                  $scope.vm.info = response.data;
-                }
-                if (n == 4) {
-                  $scope.vm.money_photo = response.data;
-                }
+        var uploader = $scope.uploader = new FileUploader({
+          url: 'merchant/upload',
+          autoUpload: true
+        });
 
-              }
-            };
-          })(i);
-
-        }
+        uploader.filters.push({
+          name: 'imageFilter',
+          fn: function(item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+          $scope.vm.photo = response.data;
+        };
 
 
         ShopManageService.detail(id).then(function(data) {
-          $scope.title = "修改用户";
+          $scope.title = "修改商品";
           $scope.vm = data.data;
 
         }, function(err) {

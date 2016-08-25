@@ -88,7 +88,7 @@ module.exports = {
     pool(sql, req.body).then(function(data) {
       if (data) {
 
-          var sql = "select * from commodity where name like '%" + req.body.name + "%' order by id desc limit 1";
+          var sql = "select * from type_commodity where name like '%" + req.body.name + "%' order by id desc limit 1";
 
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data: data[0]});
