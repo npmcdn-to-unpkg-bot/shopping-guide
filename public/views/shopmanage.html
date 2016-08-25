@@ -93,7 +93,7 @@
             <td>{{list.title}}</td>
             <td>{{list.type_name}}</td>
             <td>{{list.name}}</td>
-            <td>{{list.photo}}</td>
+            <td><a ng-if="list.photo" class="glyphicon glyphicon-new-window ng-scope" href="{{list.photo}}" target="_blank"></a></td>
             <td>{{list.price}}</td>
             <td>{{list.SALE}}</td>
             <td><a ng-if="list.tabao_url" class="glyphicon glyphicon-new-window ng-scope" href="{{list.tabao_url}}" target="_blank"></a></td>
