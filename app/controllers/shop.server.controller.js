@@ -84,16 +84,7 @@ module.exports = {
 
   create: function(req, res, next) {
 
-    var date = new Date();
-
-    delete req.body.file1;
-    delete req.body.file2;
-    delete req.body.file3;
-    delete req.body.file4;
-
-
     var sql = "INSERT INTO commodity SET ?";
-
     pool(sql, req.body).then(function(data) {
       if (data) {
 
