@@ -84,10 +84,7 @@ module.exports = {
 
   create: function(req, res, next) {
 
-    var date = new Date();
-
     var sql = "INSERT INTO commodity SET ?";
-
     pool(sql, req.body).then(function(data) {
       if (data) {
 

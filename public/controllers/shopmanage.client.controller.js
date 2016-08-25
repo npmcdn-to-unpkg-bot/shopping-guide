@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('ShopManageController', ['$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'FileUploader', ShopManageController]);
+  .controller('ShopManageController', ['$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'TypeService', 'FileUploader', ShopManageController]);
 
-function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, MerchantService, FileUploader) {
+function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, MerchantService, TypeService, FileUploader) {
 
   var vm = $scope.vm = {};
 
@@ -94,17 +94,25 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, UserService, FileUploader) {
+      controller: function($scope, CONFIGS, $uibModalInstance, MerchantService, TypeService, FileUploader) {
         $scope.vm = {};
-
-        MerchantService.list().then(
+        MerchantService.all().then(
           function(data) {
-            console.log(data);
             $scope.merchantList = data.data;
           },
           function(err) {
           }
         );
+
+        TypeService.all().then(
+          function(data) {
+            $scope.shopTypes = data.data;
+          },
+          function(err) {
+          }
+        );
+
+
 
         $scope.getUserName = function(id) {
           angular.forEach($scope.merchantList, function(value, index) {
@@ -185,7 +193,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
   $scope.edit = function(id, index) {
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, FileUploader) {
+      controller: function($scope, CONFIGS, $uibModalInstance, MerchantService, FileUploader) {
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
 
@@ -197,9 +205,8 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
           });
         };
 
-        MerchantService.list().then(
+        MerchantService.all().then(
           function(data) {
-            console.log(data);
             $scope.merchantList = data.data;
           },
           function(err) {
