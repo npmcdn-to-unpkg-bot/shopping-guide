@@ -7,7 +7,7 @@ module.exports = {
   //显示类型
   show_type: function (req, res, next) {
 
-    var sql = `select *,ceil ((right_num-left_num-1)/2) from type order by left_num`;
+    var sql = `select *,ceil ((right_num-left_num-1)/2) as children from type where id != 1 order by left_num`;
 
     pool(sql).then(function(data) {
 
@@ -21,10 +21,12 @@ module.exports = {
 
   //显示广告
   show_ab: function (req, res, next) {
-    var query = req.query.filters ? JSON.parse(req.query.filters) : {};
+    var query = req.query.filters ? req.query.filters : {};
 
     var num = req.query.num ? req.query.num : 10;
     var page = req.query.page ? (req.query.page-1) * num : 0;
+
+    var or = ''
 
     var where = `1=1 `;
     for(obj in query){
@@ -39,6 +41,10 @@ module.exports = {
               where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0 and status = 2";
             }
           }
+          else if (obj === "addr") {
+            or += ` or (default_status = 1 and ${obj}=${query[obj]}) `;
+            where += ` and ${obj}=${query[obj]}`;
+          }
           else {
             where += ` and ${obj}=${query[obj]}`;
           }
@@ -49,7 +55,9 @@ module.exports = {
       where += ` and name like '%${req.query.keywords}%'`;
     }
 
-
+    if(or){
+      where = '(' +where+ ')' + or
+    }
 
     var sql = `select * from ad_commodity where ${where} order by id limit ${page},${num}`;
 
@@ -73,7 +81,7 @@ module.exports = {
   //显示抢购
   show_ac: function (req, res, next) {
 
-    var query = req.query.filters ? JSON.parse(req.query.filters) : {};
+    var query = req.query.filters ? req.query.filters : {};
 
     var num = req.query.num ? req.query.num : 10;
     var page = req.query.page ? (req.query.page-1) * num : 0;
@@ -127,7 +135,8 @@ module.exports = {
 
   //显示 热销/最新
   show_hot_new: function (req, res, next) {
-    var query = req.query.filters ? JSON.parse(req.query.filters) : {};
+
+    var query = req.query.filters ? req.query.filters : {};
 
     var num = req.query.num ? req.query.num : 10;
     var page = req.query.page ? (req.query.page-1) * num : 0;

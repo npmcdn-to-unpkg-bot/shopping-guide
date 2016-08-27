@@ -85,6 +85,8 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
         $scope.vm.status = CONFIGS.adStatus[0].value;
+        $scope.vm.addr = CONFIGS.adStatus[0].value;
+        $scope.vm.default_status = CONFIGS.adDefault_status[0].value;
         $scope.commodity_list = [];
 
         $scope.popup1 = {

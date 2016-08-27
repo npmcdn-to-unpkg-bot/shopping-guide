@@ -26,7 +26,7 @@ module.exports = {
 
 
 
-    var sql = `select *,ceil ((right_num-left_num-1)/2) from type where ${where} order by left_num limit ${page},${num}`;
+    var sql = `select *,ceil ((right_num-left_num-1)/2) as children from type where ${where} order by left_num limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
@@ -48,7 +48,7 @@ module.exports = {
 
   all: function(req, res, next) {
 
-    var sql = `select *,ceil ((right_num-left_num-1)/2) from type order by left_num`;
+    var sql = `select *,ceil ((right_num-left_num-1)/2) as children from type order by left_num`;
 
     pool(sql).then(function(data) {
 

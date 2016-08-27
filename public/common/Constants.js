@@ -90,6 +90,24 @@ angular.module('webapp')
         text: '已通过', value: 2
       }
     ],
+    //广告位置
+    adAddr: [
+      {
+        text: '主banner', value: 0
+      },
+      {
+        text: '二级banner', value: 1
+      }
+    ],
+    //广告永久性
+    adDefault_status: [
+      {
+        text: '非永久广告', value: 0
+      },
+      {
+        text: '永久广告', value: 1
+      }
+    ],
     //有效性
     adType: [
       {

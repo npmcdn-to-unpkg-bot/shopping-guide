@@ -50,7 +50,7 @@
 
     <table class="table table-bordered">
         <tr>
-            <td colspan="8" class="text-right">
+            <td colspan="9" class="text-right">
                 <button type="button" class="btn btn-primary" ng-click="add(dataList.length)">新增</button>
             </td>
         </tr>
@@ -59,6 +59,7 @@
             <th class="text-center">商品名</th>
             <th class="text-center">banner图片</th>
             <th class="text-center">广告位置</th>
+            <th class="text-center">是否永久</th>
             <th class="text-center">开始时间</th>
             <th class="text-center">结束时间</th>
             <th class="text-center">状态</th>
@@ -68,7 +69,8 @@
             <td>{{$index+1}}</td>
             <td>{{list.name}}</td>
             <td><a ng-if="list.photo" class="glyphicon glyphicon-new-window ng-scope" href="{{list.photo}}" target="_blank"></a></td>
-            <td>{{list.addr === 0 ? '主banner' : list.type === 1 ? '耳机banner' : '无法识别'}}</td>
+            <td>{{list.addr === 0 ? '主banner' : list.addr === 1 ? '二级banner' : '无法识别'}}</td>
+            <td>{{list.default_status === 0 ? '非永久广告' : list.default_status === 1 ? '永久广告' : '无法识别'}}</td>
             <td>{{list.strTime | date:'yyyy/MM/dd'}}</td>
             <td>{{list.endTime | date:'yyyy/MM/dd'}}</td>
             <td>{{list.status === 0 ? '待审核' : list.status === 1 ? '已驳回' : list.status === 2 ? '审核通过' : '无法识别'}}</td>
@@ -81,7 +83,7 @@
             </td>
         </tr>
         <tr class="text-center">
-            <td colspan="8">
+            <td colspan="9">
                 <ul uib-pagination
                     boundary-links="true"
                     total-items="totalItems"

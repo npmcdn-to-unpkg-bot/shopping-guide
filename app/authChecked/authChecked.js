@@ -2,7 +2,7 @@ var pool = require('../../config/pool.js');
 
 var send = function(res, req, status, data) {
   res.status(status, {});
-  res.json(data);
+  res.jsonp(data);
 };
 
 
