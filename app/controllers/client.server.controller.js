@@ -31,10 +31,12 @@ module.exports = {
       if(query[obj] != null){
           if (obj === "type") {
             if(query[obj]){
-              where += "and CURRENT_TIMESTAMP>=endTime";
+              // where += "and ( CURRENT_TIMESTAMP>endTime or status < 2 )";
+              where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) < 0 or status < 2 )";
             }
             else {
-              where += "and CURRENT_TIMESTAMP<=endTime";
+              // where += "and CURRENT_TIMESTAMP<=endTime and status = 2";
+              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0 and status = 2";
             }
           }
           else {
@@ -71,22 +73,134 @@ module.exports = {
   //显示抢购
   show_ac: function (req, res, next) {
 
+    var query = req.query.filters ? JSON.parse(req.query.filters) : {};
+
+    var num = req.query.num ? req.query.num : 10;
+    var page = req.query.page ? (req.query.page-1) * num : 0;
+
+    var where = `1=1 `;
+    for(obj in query){
+      if(query[obj] != null){
+          if (obj === "type") {
+            if(query[obj]){
+              // where += "and CURRENT_TIMESTAMP>endTime";
+              // where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) < 0";
+              where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) < 0 or status < 2 )";
+            }
+            else {
+              // where += "and CURRENT_TIMESTAMP<=endTime";
+              // where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0";
+              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0 and status = 2";
+            }
+          }
+          else {
+            where += ` and ${obj}=${query[obj]}`;
+          }
+      }
+    }
+
+    if(req.query.keywords != null){
+      where += ` and name like '%${req.query.keywords}%'`;
+    }
+
+
+
+    var sql = `select * from activity_commodity where ${where} order by id limit ${page},${num}`;
+
+    pool(sql ,query).then(function(data) {
+
+
+      var sql = `select count(id) as count from activity_commodity where ${where} `;
+
+      pool(sql).then(function(_data) {
+        authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
+      }, function(err) {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
+
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
   },
 
-  //显示热销推荐
-  show_hot: function (req, res, next) {
+  //显示 热销/最新
+  show_hot_new: function (req, res, next) {
+    var query = req.query.filters ? JSON.parse(req.query.filters) : {};
 
+    var num = req.query.num ? req.query.num : 10;
+    var page = req.query.page ? (req.query.page-1) * num : 0;
+
+    var order = req.query.order ? req.query.order : 'updateTime';
+    var sort = req.query.sort ? req.query.sort : 'desc';
+
+    var where = `1=1 `;
+    for(obj in query){
+      if(query[obj] != null){
+        if (obj ==='signed_at') {
+          
+          if (query[obj][0]) {
+            var strTime = moment(query[obj][0]).format("YYYY-MM-DD");
+            // where += ` and updateTime >= '${strTime}'`  
+            where += ` and TIMESTAMPDIFF(day,updateTime,'${strTime}') <= 0`;
+          }
+
+          if (query[obj][1]) {
+            var endTime = moment(query[obj][1]).format("YYYY-MM-DD");
+            console.log(endTime);
+            // where += ` and updateTime <= '${endTime}'`  
+            where += ` and TIMESTAMPDIFF(day,updateTime,'${endTime}') >= 0`;
+          }
+        }
+        else if ( obj === 'status' && query[obj] === 2 ) {
+          where += ` and ${obj} >= ${query[obj]}`
+        }
+        else {
+          where += ` and ${obj}=${query[obj]}`
+        }
+      }
+    }
+
+    if(req.query.keywords != null){
+      where += ` and name like '%${req.query.keywords}%'`;
+    }
+
+
+    
+    var sql = `select * from type_commodity where ${where} order by ${order} ${sort} limit ${page},${num}`;
+
+    pool(sql ,query).then(function(data) {
+      
+
+      var sql = `select count(id) as count from merchant `;
+
+      pool(sql).then(function(_data) {
+        authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
+      }, function(err) {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
+
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
   },
 
-  //显示最新更新
-  show_new_shop: function (req, res, next) {
+  //添加阅读/销量
+  add_read: function (req, res, next) {
+    var json = req.body;
+    var sql = `update basic set read = read + 1,sales = sales + 1 where ?`;
+    var array = [];
 
-  },
+    array.push({commodity_id: req.body.commodity_id});
 
-  //子页面显示商品
-  show_type_shop: function (req, res, next) {
-
-  },
+    pool(sql, array).then(function(data) {
+        authChecked.send(res, req, 200, {err: 0, data: data[0]});
+    }, function() {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+  }
 
 
 };

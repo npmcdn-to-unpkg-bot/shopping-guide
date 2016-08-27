@@ -25,13 +25,16 @@ module.exports = {
         if (obj ==='signed_at') {
           
           if (query[obj][0]) {
-            var strTIme = moment(query[obj][0]).format("YYYY-MM-DD");
-            where += ` and updateTime >= '${strTIme}'`  
+            var strTime = moment(query[obj][0]).format("YYYY-MM-DD");
+            // where += ` and updateTime >= '${strTime}'`  
+            where += ` and TIMESTAMPDIFF(day,updateTime,'${strTime}') <= 0`;
           }
 
           if (query[obj][1]) {
-            var endTIme = moment(query[obj][1]).format("YYYY-MM-DD");
-            where += ` and updateTime <= '${endTIme}'`  
+            var endTime = moment(query[obj][1]).format("YYYY-MM-DD");
+            console.log(endTime);
+            // where += ` and updateTime <= '${endTime}'`  
+            where += ` and TIMESTAMPDIFF(day,updateTime,'${endTime}') >= 0`;
           }
         }
         else if ( obj === 'status' && query[obj] === 2 ) {
@@ -85,13 +88,22 @@ module.exports = {
   create: function(req, res, next) {
 
     var sql = "INSERT INTO commodity SET ?";
+
     pool(sql, req.body).then(function(data) {
       if (data) {
 
-          var sql = "select * from type_commodity where name like '%" + req.body.name + "%' order by id desc limit 1";
+          sql = "select * from type_commodity where name like '" + req.body.name + "' order by id desc limit 1";
 
           pool(sql).then(function(data) {
-            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+            sql = `INSERT basic SET commodity_id = ${data[0].id}`;
+
+            pool(sql).then(function(_data) {
+              authChecked.send(res, req, 200, {err: 0, data: data[0]});
+            }, function() {
+              authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+            });
+
+            
           }, function() {
             authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
           });

@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('AdController', ['$scope', 'AdService', 'ShopManageService', '$uibModal', 'CONFIGS', AdController]);
+  .controller('AdController', ['$scope', 'AdService', 'ShopManageService', 'MerchantService', 'FileUploader', '$uibModal', 'CONFIGS', AdController]);
 
-function AdController($scope, AdService, ShopManageService, $uibModal, CONFIGS) {
+function AdController($scope, AdService, ShopManageService, MerchantService, FileUploader, $uibModal, CONFIGS) {
 
   var vm = $scope.vm = {};
 
@@ -80,7 +80,7 @@ function AdController($scope, AdService, ShopManageService, $uibModal, CONFIGS) 
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/ad/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance) {
+      controller: function($scope, CONFIGS, $uibModalInstance, MerchantService, FileUploader) {
         $scope.title = "新增活动";
         $scope.vm = {};
         $scope.CONFIGS = CONFIGS;
@@ -110,6 +110,25 @@ function AdController($scope, AdService, ShopManageService, $uibModal, CONFIGS) 
           }, function(err) {
             console.log(err);
         });
+
+        var uploader = $scope.uploader = new FileUploader({
+          url: 'merchant/upload',
+          autoUpload: true
+        });
+
+        uploader.filters.push({
+          name: 'imageFilter',
+          fn: function(item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+          if (status === 200) {
+            console.log(response.data);
+            $scope.vm.photo = response.data;
+          }
+        };
 
         $scope.save = function(form) {
           if (form.$valid === false) {
@@ -150,7 +169,7 @@ function AdController($scope, AdService, ShopManageService, $uibModal, CONFIGS) 
   $scope.edit = function(id, index) {
     $uibModal.open({
       templateUrl: 'views/temptate/ad/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance) {
+      controller: function($scope, CONFIGS, $uibModalInstance,  MerchantService, FileUploader) {
         $scope.vm = {};
         $scope.commodity_list = [];
         $scope.CONFIGS = CONFIGS;
@@ -180,12 +199,32 @@ function AdController($scope, AdService, ShopManageService, $uibModal, CONFIGS) 
         });
 
 
+        var uploader = $scope.uploader = new FileUploader({
+          url: 'merchant/upload',
+          autoUpload: true
+        });
+
+        uploader.filters.push({
+          name: 'imageFilter',
+          fn: function(item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+          $scope.vm.photo = response.data;
+        };
+
+
         AdService.detail(id).then(function(data) {
           $scope.title = "修改活动";
           $scope.vm = data.data;
         }, function(err) {
           console.log(err);
         });
+
+
+
         $scope.save = function(form) {
           if (form.$valid === false) {
             return false;

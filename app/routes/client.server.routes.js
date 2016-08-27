@@ -1,10 +1,10 @@
 var ClientController = require('../controllers/client.server.controller.js');
 
 module.exports = function(app) {
-  app.route('/shop')
+  app.route('/client')
     .get(ClientController.show_type)
 
-  app.route('/shop/:nid')
+  app.route('/client/:nid')
     .get(ClientController.show_type)
 
 };

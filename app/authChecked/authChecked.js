@@ -27,7 +27,7 @@ var get_user_by_token = function(token) {
 };
 
 
-// 检测cookie
+// 检测商户
 var get_user_by_role = function(token) {
   var msg = null;
   var findByToken = "SELECT * FROM merchant_role WHERE token='" + token + "'";

@@ -18,10 +18,12 @@ module.exports = {
       if(query[obj] != null){
           if (obj === "type") {
             if(query[obj]){
-              where += "and CURRENT_TIMESTAMP>=endTime";
+              // where += "and CURRENT_TIMESTAMP>endTime";
+              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) < 0";
             }
             else {
-              where += "and CURRENT_TIMESTAMP<=endTime";
+              // where += "and CURRENT_TIMESTAMP<=endTime";
+              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0";
             }
           }
           else {

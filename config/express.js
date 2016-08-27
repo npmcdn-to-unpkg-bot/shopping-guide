@@ -46,7 +46,7 @@ module.exports = function() {
       auth.get_user_by_token(cookie.token)
         .then(function(data) {
           if (data.status === 200) {
-            return next({'role': data.data.data.role, 'token': cookie.token});
+              return next({'role': data.data.data.role, 'token': cookie.token, 'user_id': data.data.data.id});
           }
           else if (data.status === 401) {
             auth.send(res, req, data.status, data);
@@ -61,16 +61,33 @@ module.exports = function() {
     }
   });
 
+
+
+app.use(function(err, req, res, next) {
+
+  if(err){
+    if (req.originalUrl === '/clientUser') {
+      return next();
+    }
+    else {
+      return next(err);
+    }
+  }
+  else {
+    auth.send(res, req, 401, {});
+  }
+
+})
+
 require('../app/routes/clientUser.server.routes.js')(app);
 
 
 app.use(function(err, req, res, next) {
   if(err){
+    req.session = err;
     //超级管理员
     if (err.role === 0) {
-      req.session = {'role': err.role, 'id': 0};
       next();
-      // next({'role': err.role, 'id': 0});
     }
     //普通用户
     else if (err.role === 1) {
@@ -82,10 +99,10 @@ app.use(function(err, req, res, next) {
       if (req.originalUrl === '/user' || req.originalUrl === '/merchant' || req.originalUrl === '/shop') {
         auth.get_user_by_role(err.token)
           .then(function(data) {
+
             if (data.status === 200) {
-              req.session = {'role': data.data.data.role, 'id': data.data.data.id};
+              req.session = {'role': err.role, 'merchant_id': data.data.data.id};
               next();
-              // next({'role': data.data.data.role, 'id': data.data.data.id});
             }
             else if (data.status === 401) {
               auth.send(res, req, data.status, data);
@@ -102,6 +119,10 @@ app.use(function(err, req, res, next) {
     }
 
   }
+  else {
+    auth.send(res, req, 401, {});
+  }
+
 })
 
   require('../app/routes/user.server.routes.js')(app);
