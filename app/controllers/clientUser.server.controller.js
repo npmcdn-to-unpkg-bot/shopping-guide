@@ -5,8 +5,8 @@ var moment = require('moment');
 
 module.exports = {
 
+  //查看收藏夹
   list: function(req, res, next) {
-  	console.log(1);
 
     var query = req.query.filters ? JSON.parse(req.query.filters) : {};
 
@@ -46,6 +46,7 @@ module.exports = {
 
   },
 
+  //添加收藏
   create: function(req, res, next) {
 
     var date = new Date();
@@ -63,7 +64,7 @@ module.exports = {
 
   },
 
-
+  //删除收藏
   deleteById: function(req, res, next) {
 
     var sql = "delete from collection where id = " + req.params.nid + "";
