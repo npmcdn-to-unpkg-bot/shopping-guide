@@ -38,6 +38,7 @@ module.exports = function() {
   log.use(app);
 
   require('../app/routes/admin.server.routes.js')(app);
+  require('../app/routes/client.server.routes.js')(app);
 
   app.use(function(req, res, next) {
     if (req.originalUrl !== '/login') {
@@ -59,6 +60,9 @@ module.exports = function() {
       return next(0);
     }
   });
+
+require('../app/routes/clientUser.server.routes.js')(app);
+
 
 app.use(function(err, req, res, next) {
   if(err){
