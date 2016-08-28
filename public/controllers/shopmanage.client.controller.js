@@ -57,7 +57,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
   $scope.loadNews();
 
   vm.merchantStatusName = function(value) {
-    
+
     var status = _.find(CONFIGS.shopType, {value: value});
     if (status) {
       return status.text;
@@ -248,7 +248,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
 
 
           ShopManageService.put(id, $scope.vm).then(function(data) {
-            $uibModalInstance.close($scope.vm);
+            $uibModalInstance.close(data.data);
           }, function(err) {
             console.log(err);
           });
@@ -272,25 +272,33 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         if (key === '上架') {
           $scope.title = '上架';
           list.status = 3;
+          delete list.type_name;
+          delete list.read_num;
+          delete list.preset;
+          delete list.priority;
+          delete list.sales_num;
         } else {
           $scope.title = '下架';
           list.status = 4;
+          delete list.type_name;
+          delete list.read_num;
+          delete list.preset;
+          delete list.priority;
+          delete list.sales_num;
         }
         $scope.sub = function() {
           ShopManageService.put(list.id, list).then(function(data) {
-            console.log(data);
-            $uibModalInstance.close(index, data.data);
+            $uibModalInstance.close(data.data);
           }, function(err) {
             console.log(err);
           });
         }
       }
-    }).result.then(function(index,data) {
-      console.log(index,data);
-      $scope.dataList[index] = data;
+    }).result.then(function(res) {
+      $scope.dataList[index] = res;
     });
-    
-    
+
+
   };
 
 

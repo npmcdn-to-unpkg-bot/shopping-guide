@@ -7,6 +7,24 @@
 <div class="modal-body">
     <form class="form-horizontal">
         <div class="form-group">
+            <label class="col-sm-2 control-label">商铺名</label>
+            <p class="form-control-static">{{user.merchant_name}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品类型</label>
+            <p class="form-control-static">{{user.type_name}}</p>
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品标题</label>
+            <p class="form-control-static">{{user.title}}</p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品名称</label>
+            <p class="form-control-static">{{user.name}}</p>
+        </div>
+        <div class="form-group">
             <label class="col-sm-2 control-label">商品图片</label>
             <p class="form-control-static"><a href="{{user.photo}}" target="_blank">
                 <img ng-src="{{user.photo}}" width="100" height="100"/>
@@ -14,35 +32,32 @@
             </p>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">关联用户</label>
-            <p class="form-control-static">{{user.user_name}}</p>
+            <label class="col-sm-2 control-label">商品价格</label>
+            <p class="form-control-static">{{user.price}}</p>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">商户手机</label>
-            <p class="form-control-static">{{user.phone}}</p>
+            <label class="col-sm-2 control-label">商品折扣价</label>
+            <p class="form-control-static">{{user.SALE}}</p>
         </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">淘宝链接</label>
+            <p class="form-control-static"><a href="{{user.tabao_url}}" target="_blank">{{user.tabao_url}}</a></p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">阿里妈妈链接</label>
+            <p class="form-control-static"><a href="{{user.alimama_url}}" target="_blank">{{user.alimama_url}}</a></p>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品描述</label>
+            <p class="form-control-static">{{user.describe}}</p>
+        </div>
+
         <div class="form-group">
             <label class="col-sm-2 control-label">商户审核状态</label>
             <p class="form-control-static">{{user.status === 0 ? '待审核' : user.status === 1 ? '已驳回' : user.status === 2 ?
-                '已通过' : '无法识别'}}</p>
+                '已通过' : user.status === 3 ? '已上架' : user.status === 4 ? '已下架' : '无法识别'}}</p>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">保证金审核状态</label>
-            <p class="form-control-static">{{user.money_status === 0 ? '待审核' : user.money_status === 1 ? '已驳回' :
-                user.money_status === 2 ? '已通过' : '无法识别'}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">预付金</label>
-            <p class="form-control-static">{{user.account}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">审核时间</label>
-            <p class="form-control-static">{{user.updateTime | date:'yyyy/MM/dd'}}</p>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">入驻时间</label>
-            <p class="form-control-static">{{user.createTime | date:'yyyy/MM/dd'}}</p>
-        </div>
+
     </form>
 </div>
 <div class="modal-footer" style="border-top: none;"></div>
