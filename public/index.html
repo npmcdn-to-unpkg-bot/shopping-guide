@@ -10,6 +10,7 @@
     <title>导购</title>
     <link rel="stylesheet" type="text/css" href="style/common.css">
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/angular-ui-tree/dist/angular-ui-tree.min.css">
     <!--<link rel="stylesheet" type="text/css" href="style/loading.css">-->
 </head>
 <body>
@@ -48,13 +49,13 @@
                     src="images/icon_chara_grey.png">商品管理</a>
             </div>
             <div class="meun-item"><a ng-href="#/activity"><img
-                    src="images/icon_user_grey.png">活动发布
+                    src="images/icon_user_grey.png">活动发布</a>
             </div>
             <div class="meun-item"><a ng-href="#/ad"><img
-                    src="images/icon_user_grey.png">广告投放
+                    src="images/icon_user_grey.png">广告投放</a>
             </div>
-            <div class="meun-item"><img
-                    src="images/icon_rule_grey.png">商品类型
+            <div class="meun-item"><a ng-href="#/typeManagement"><img
+                    src="images/icon_rule_grey.png">商品类型</a>
             </div>
         </item-list>
     </div>
@@ -73,6 +74,7 @@
 <script src="lib/angular-cookies/angular-cookies.js"></script>
 <script src="lib/lodash/dist/lodash.min.js"></script>
 <script src="lib/angular-file-upload/dist/angular-file-upload.min.js"></script>
+<script src="lib/angular-ui-tree/dist/angular-ui-tree.js"></script>
 
 <script src="webapp.js"></script>
 
@@ -100,6 +102,7 @@
 <script src="controllers/ad.client.controller.js"></script>
 
 <script src="services/type.client.service.js"></script>
+<script src="controllers/type.client.controller.js"></script>
 
 
 </body>

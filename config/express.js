@@ -131,7 +131,7 @@ app.use(function(err, req, res, next) {
   require('../app/routes/activity.server.routes.js')(app);
   require('../app/routes/ad.server.routes.js')(app);
   require('../app/routes/type.server.routes.js')(app);
-  
+
 
   app.use(function(err, req, res, next) {
     res.status(404);

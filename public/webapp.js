@@ -3,7 +3,7 @@
  */
 "use strict";
 
-var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap', 'angularFileUpload']);
+var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap', 'angularFileUpload', 'ui.tree']);
 
 
 webapp.config([
@@ -33,6 +33,10 @@ webapp.config([
       .when('/ad', {
         templateUrl: 'views/ad.html',
         controller: 'AdController'
+      })
+      .when('/typeManagement', {
+        templateUrl: 'views/typeManagement.html',
+        controller: 'TypeManagementController'
       })
       .otherwise({
         redirectTo: '/'
