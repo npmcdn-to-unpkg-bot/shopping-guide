@@ -201,7 +201,10 @@ module.exports = {
 
     if(req.query.keywords != undefined){
       where += ` and name like '%${req.query.keywords}%'`;
+    }
 
+    if(req.query.merchant_name != undefined){
+      where += ` and merchant_name like '%${req.query.merchant_name}%'`;
     }
 
     where += ` and status = 3`;
