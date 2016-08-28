@@ -169,6 +169,38 @@ module.exports = {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
 
+    var sql = "delete from  activity where commodity_id = " + req.params.nid + "";
+
+    pool(sql).then(function(data) {
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+    }, function() {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+    var sql = "delete from  ad where commodity_id = " + req.params.nid + "";
+
+    pool(sql).then(function(data) {
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+    }, function() {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+    var sql = "delete from  basic where commodity_id = " + req.params.nid + "";
+
+    pool(sql).then(function(data) {
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+    }, function() {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+    var sql = "delete from  collection where commodity_id = " + req.params.nid + "";
+
+    pool(sql).then(function(data) {
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+    }, function() {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
   },
 
   upload: function(req, res, next) {
