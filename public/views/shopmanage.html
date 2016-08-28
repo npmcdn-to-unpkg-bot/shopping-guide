@@ -54,16 +54,12 @@
                 关键词:{{vm.keywords}} <span class="close"
                                           ng-click="vm.keywords=null;vm.query='';vm.search(true)">&times;</span>
             </label>
-            <label class="criterion btn-primary" ng-if="vm.filters.money_status || vm.filters.money_status == 0">
-                保证金:{{vm.moneyStatusName(vm.filters.money_status)}} <span class="close"
-                                                                   ng-click="vm.filters.money_status=null;vm.search(true)">&times;</span>
-            </label>
             <label class="criterion btn-primary" ng-if="vm.filters.status || vm.filters.status == 0">
                 审核状态:{{vm.merchantStatusName(vm.filters.status)}} <span class="close"
                                                                           ng-click="vm.filters.status=null;vm.search(true)">&times;</span>
             </label>
             <label class="criterion btn-primary" ng-if="vm.filters.signed_at">
-                入驻时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
+                上架时间:{{(vm.filters.signed_at[0] | date:'yyyy/MM/dd') + '-' + (vm.filters.signed_at[1] | date:'yyyy/MM/dd') }}
                 <span class="close" ng-click="vm.filters.signed_at=null;vm.search(true)">&times;</span>
             </label>
         </div>
@@ -77,9 +73,9 @@
         </tr>
         <tr>
             <th class="text-center"></th>
-            <th class="text-center">标题</th>
+            <th class="text-center" style="width:150px;">标题</th>
             <th class="text-center">分类</th>
-            <th class="text-center">商品名称</th>
+            <th class="text-center" style="width:150px;">商品名称</th>
             <th class="text-center">商品图片</th>
             <th class="text-center">商品价格</th>
             <th class="text-center">商品折扣价</th>
@@ -106,9 +102,9 @@
 
                 <button type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">删除</button>
 
-                <button ng-if="list.status == 2" type="button" class="btn btn-info btn-sm" ng-click="del(list.id, $index)">上架</button>
+                <button ng-if="list.status == 2" type="button" class="btn btn-info btn-sm" ng-click="addRemoved(list, $index, '上架')">上架</button>
 
-                <button ng-if="list.status == 3" type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">下架</button>
+                <button ng-if="list.status == 3" type="button" class="btn btn-danger btn-sm" ng-click="addRemoved(list, $index, '下架')">下架</button>
             </td>
         </tr>
         <tr class="text-center">

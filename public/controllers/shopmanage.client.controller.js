@@ -56,16 +56,9 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
 
   $scope.loadNews();
 
-  vm.moneyStatusName = function(value) {
-    var status = _.find(CONFIGS.moneyStatus, {value: value});
-    if (status) {
-      return status.text;
-    }
-    return '';
-  };
-
   vm.merchantStatusName = function(value) {
-    var status = _.find(CONFIGS.merchantStatus, {value: value});
+    
+    var status = _.find(CONFIGS.shopType, {value: value});
     if (status) {
       return status.text;
     }
@@ -237,6 +230,9 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
           $scope.vm.photo = response.data;
         };
 
+        $scope.filterStatus = function(filters) {
+          return filters.value < 3;
+        };
 
         ShopManageService.detail(id).then(function(data) {
           $scope.title = "修改商品";
@@ -250,7 +246,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
             return false;
           }
 
-          console.log($scope.vm);
+
           ShopManageService.put(id, $scope.vm).then(function(data) {
             $uibModalInstance.close($scope.vm);
           }, function(err) {
@@ -267,6 +263,36 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
     });
   };
 
+  //上架 下架
+
+  $scope.addRemoved = function(list, index, key) {
+    $uibModal.open({
+      templateUrl: 'views/temptate/shopmanage/delete.html',
+      controller: function($scope, $uibModalInstance) {
+        if (key === '上架') {
+          $scope.title = '上架';
+          list.status = 3;
+        } else {
+          $scope.title = '下架';
+          list.status = 4;
+        }
+        $scope.sub = function() {
+          ShopManageService.put(list.id, list).then(function(data) {
+            console.log(data);
+            $uibModalInstance.close(index, data.data);
+          }, function(err) {
+            console.log(err);
+          });
+        }
+      }
+    }).result.then(function(index,data) {
+      console.log(index,data);
+      $scope.dataList[index] = data;
+    });
+    
+    
+  };
+
 
   // 删除
 
@@ -274,6 +300,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/delete.html',
       controller: function($scope, $uibModalInstance) {
+        $scope.title = '删除';
         $scope.sub = function() {
           ShopManageService.del(id).then(function(data) {
             $uibModalInstance.close(index);
