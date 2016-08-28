@@ -7,7 +7,22 @@ module.exports = {
   //显示类型
   show_type: function (req, res, next) {
 
+
     var sql = `select *,ceil ((right_num-left_num-1)/2) as children from type where id != 1 order by left_num`;
+
+    pool(sql).then(function(data) {
+
+        authChecked.send(res, req, 200, {err: 0, data: data});
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+  },
+
+  show_type_id: function (req, res, next) {
+
+    var sql = `select *,ceil ((right_num-left_num-1)/2) as children from type where id = ${req.params.nid} order by left_num`;
 
     pool(sql).then(function(data) {
 
@@ -171,8 +186,9 @@ module.exports = {
       }
     }
 
-    if(req.query.keywords != null){
+    if(req.query.keywords != undefined){
       where += ` and name like '%${req.query.keywords}%'`;
+
     }
 
 
@@ -198,11 +214,10 @@ module.exports = {
 
   //添加阅读/销量
   add_read: function (req, res, next) {
-    var json = req.body;
-    var sql = `update basic set read = read + 1,sales = sales + 1 where ?`;
+    var sql = `update basic set read_num = read_num + 1,sales_num = sales_num + 1 where ?`;
     var array = [];
 
-    array.push({commodity_id: req.body.commodity_id});
+    array.push({commodity_id: req.params.nid});
 
     pool(sql, array).then(function(data) {
         authChecked.send(res, req, 200, {err: 0, data: data[0]});
