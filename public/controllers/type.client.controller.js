@@ -2,15 +2,15 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('TypeManagementController', ['$scope', 'TypeService', '$uibModal', 'CONFIGS', TypeManagementController]);
+  .controller('TypeManagementController', ['$scope', 'TypeService', '$uibModal', 'CONFIGS', 'FileUploader', TypeManagementController]);
 
-function TypeManagementController($scope, TypeService, $uibModal, CONFIGS) {
+function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileUploader) {
 
   var vm = $scope.vm = {};
 
   vm.CONFIGS = CONFIGS;
 
-  $scope.dataList = [];
+  $scope.data = [];
 
   $scope.payload = {};
 
@@ -39,12 +39,11 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS) {
   // 列表
 
   $scope.loadNews = function(s) {
-    TypeService.list().then(
+    TypeService.all().then(
       function(data) {
         var json = type_count(data.data, 0, data.data.length);
         console.log(json);
         $scope.data = json;
-
       },
       function(err) {
       }
@@ -53,9 +52,51 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS) {
 
   $scope.loadNews();
 
+  // 删除
+  $scope.remove1 = function(scope) {
+    console.log(scope.$modelValue);
+    $uibModal.open({
+      templateUrl: 'views/temptate/shopmanage/delete.html',
+      controller: function($scope, TypeService, $uibModalInstance) {
+        $scope.title = '删除';
+        var arrs = [];
+        arrs.unshift(scope.$modelValue.id);
+        $scope.sub = function() {
+          if (!scope.$modelValue.list) {
+            TypeService.del(scope.$modelValue.id).then(function(data) {
+              $uibModalInstance.close();
+              scope.remove();
+            }, function(err) {
+              console.log(err);
+            });
+          } else {
+            function getArray(arr) {
+              for (var i = 0; i < arr.length; i++) {
+                if (arr[i].id) {
+                  arrs.unshift(arr[i].id);
+                  if (arr[i].id && arr[i].list) {
+                    getArray(arr[i].list);
+                  }
+                }
+              }
+            }
 
-  $scope.remove = function(scope) {
-    scope.remove();
+            getArray(scope.$modelValue.list);
+          }
+
+          for (var i = 0; i < arrs.length; i++) {
+            TypeService.del(arrs[i]).then(function(data) {
+              if (i === arrs.length) {
+                $uibModalInstance.close();
+                scope.remove();
+              }
+            }, function(err) {
+              console.log(err);
+            });
+          }
+        };
+      }
+    });
   };
 
   $scope.toggle = function(scope) {
@@ -63,123 +104,116 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS) {
   };
 
   $scope.moveLastToTheBeginning = function() {
-    var a = $scope.data.pop();
-    $scope.data.splice(0, 0, a);
+    console.log($scope.data);
+    // var a = $scope.data.pop();
+    // $scope.data.splice(0, 0, a);
   };
 
   $scope.newSubItem = function(scope) {
-    var nodeData = scope.$modelValue;
-    console.log(nodeData);
-    if (!nodeData.list) {
-      nodeData.list = [];
-    }
-    nodeData['list'].push({
-      id: nodeData.id * 10 + nodeData.list.length,
-      name: nodeData.name + '.' + (nodeData.list.length + 1),
-      list: []
+    $uibModal.open({
+      templateUrl: 'views/temptate/tree/tree.html',
+      controller: function($scope, TypeService, $uibModalInstance, FileUploader) {
+        var vm = $scope.vm = {};
+        $scope.title = '增加商品类型';
+
+        var uploader = $scope.uploader = new FileUploader({
+          url: 'merchant/upload',
+          autoUpload: true
+        });
+
+        uploader.filters.push({
+          name: 'imageFilter',
+          fn: function(item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+          $scope.vm.icon = response.data;
+        };
+
+        $scope.save = function(form) {
+          if (form.$valid === false) {
+            return false;
+          }
+          $scope.vm.pid = scope.$modelValue.id;
+          TypeService.save($scope.vm).then(function(data) {
+            $uibModalInstance.close(data.data);
+          }, function(err) {
+            console.log(err);
+          });
+        }
+      }
+    }).result.then(function(data) {
+      var nodeData = scope.$modelValue;
+      if (!nodeData.list) {
+        nodeData.list = [];
+      }
+      nodeData['list'].push({
+        id: data.id,
+        pid: data.pid,
+        name: data.name,
+        icon: data.icon,
+        right_num: data.right_num,
+        left_num: data.left_num,
+        list: []
+      });
+
     });
   };
 
 
-  // 新增
-  // $scope.add = function(len) {
-  //   $uibModal.open({
-  //     templateUrl: 'views/temptate/user/add.html',
-  //     controller: function($scope, CONFIGS, $uibModalInstance) {
-  //       $scope.title = "新增用户";
-  //       $scope.vm = {};
-  //       $scope.CONFIGS = CONFIGS;
-  //       $scope.vm.sex = CONFIGS.sexType[0].value;
-  //       $scope.vm.type = CONFIGS.sexType[1].value;
-  //       $scope.vm.role = CONFIGS.sexType[1].value;
-  //
-  //       $scope.save = function(form) {
-  //         if (form.$valid === false) {
-  //           return false;
-  //         }
-  //         UserService.save($scope.vm).then(function(data) {
-  //           $uibModalInstance.close(data);
-  //         }, function(err) {
-  //           console.log(err);
-  //         });
-  //       };
-  //
-  //       $scope.cancel = function() {
-  //         $uibModalInstance.dismiss('cancel');
-  //       };
-  //     }
-  //   }).result.then(function(item) {
-  //     $scope.dataList.push(item.data);
-  //   });
-  // };
+  // 修改
+  $scope.editItem = function(scope) {
+    $uibModal.open({
+      templateUrl: 'views/temptate/tree/tree.html',
+      controller: function($scope, TypeService, $uibModalInstance, FileUploader) {
+        var vm = $scope.vm = {};
+        $scope.title = '修改商品类型';
+        $scope.vm.name = scope.$modelValue.name;
+        $scope.vm.icon = scope.$modelValue.icon;
 
-  // 查看
-  // $scope.find = function(list) {
-  //   $uibModal.open({
-  //     templateUrl: 'views/temptate/user/find.html',
-  //     controller: function($scope, $uibModalInstance) {
-  //       $scope.user = list;
-  //       $scope.cancel = function() {
-  //         $uibModalInstance.dismiss('cancel');
-  //       };
-  //     }
-  //   })
-  // };
+        var uploader = $scope.uploader = new FileUploader({
+          url: 'merchant/upload',
+          autoUpload: true
+        });
 
+        uploader.filters.push({
+          name: 'imageFilter',
+          fn: function(item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+          $scope.vm.icon = response.data;
+        };
 
-  // 编辑
+        $scope.save = function(form) {
+          if (form.$valid === false) {
+            return false;
+          }
+          TypeService.put(scope.$modelValue.id, {
+            pid: scope.$modelValue.pid,
+            id: scope.$modelValue.id,
+            name: $scope.vm.name,
+            icon: $scope.vm.icon
+          }).then(function(data) {
+            $uibModalInstance.close(data.data);
+          }, function(err) {
+            console.log(err);
+          });
+        }
+      }
+    }).result.then(function(data) {
+      scope.$modelValue.id = data.id;
+      scope.$modelValue.pid = data.pid;
+      scope.$modelValue.name = data.name;
+      scope.$modelValue.icon = data.icon;
+      scope.$modelValue.right_num = data.right_num;
+      scope.$modelValue.left_num = data.left_num;
 
-  // $scope.edit = function(id, index) {
-  //   $uibModal.open({
-  //     templateUrl: 'views/temptate/user/add.html',
-  //     controller: function($scope, CONFIGS, $uibModalInstance) {
-  //       $scope.vm = {};
-  //       $scope.CONFIGS = CONFIGS;
-  //       UserService.detail(id).then(function(data) {
-  //         $scope.title = "修改用户";
-  //         $scope.vm = data.data;
-  //       }, function(err) {
-  //         console.log(err);
-  //       });
-  //       $scope.save = function(form) {
-  //         if (form.$valid === false) {
-  //           return false;
-  //         }
-  //         UserService.put(id, $scope.vm).then(function(data) {
-  //           $uibModalInstance.close($scope.vm);
-  //         }, function(err) {
-  //           console.log(err);
-  //         });
-  //       };
-  //
-  //       $scope.cancel = function() {
-  //         $uibModalInstance.dismiss('cancel');
-  //       };
-  //     }
-  //   }).result.then(function(item) {
-  //     $scope.dataList[index] = item;
-  //   });
-  // };
-
-
-  // 删除
-
-  // $scope.del = function(id, index) {
-  //   $uibModal.open({
-  //     templateUrl: 'views/temptate/user/delete.html',
-  //     controller: function($scope, $uibModalInstance) {
-  //       $scope.sub = function() {
-  //         UserService.del(id).then(function(data) {
-  //           $uibModalInstance.close(index);
-  //         }, function(err) {
-  //           console.log(err);
-  //         });
-  //       }
-  //     }
-  //   }).result.then(function(index) {
-  //     $scope.dataList.splice(index, 1);
-  //   });
-  // };
-
+    });
+  };
 
 }

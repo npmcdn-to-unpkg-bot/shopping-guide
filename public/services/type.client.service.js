@@ -36,7 +36,7 @@ function TypeService($http, $q) {
       return handleRequest('GET', '/type', params);
     },
     all: function(params) {
-      return handleRequest('GET', '/type', params);
+      return handleRequest('GET', '/typeAll', params);
     },
     save: function(data) {
       return handleRequest('POST', '/type', data);

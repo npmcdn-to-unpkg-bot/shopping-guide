@@ -61,14 +61,14 @@ module.exports = {
 
   create: function(req, res, next) {
 
-    var sql = `call type_add(${req.body.pid}, ${req.body.name}, ${req.body.icon}, @a)`;
+    var sql = `call type_add(${req.body.pid}, '${req.body.name}', '${req.body.icon}', @a)`;
 
     pool(sql, req.body).then(function(data) {
       if (data) {
           var sql = "select * from type where name like '%" + req.body.name + "%' order by id desc limit 1";
 
-          pool(sql).then(function(_data) {
-            authChecked.send(res, req, 200, {err: 0, data: _data[0]});
+          pool(sql).then(function(data) {
+            authChecked.send(res, req, 200, {err: 0, data: data[0]});
           }, function() {
             authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
           });
@@ -95,10 +95,10 @@ module.exports = {
   },
 
   edit: function(req, res, next) {
-    var sql = `call type_edit(${req.body.pid}, ${req.body.id}, ${req.body.name}, ${req.body.icon}, @a)`;
+    var sql = `call type_edit(${req.body.pid}, ${req.body.id}, '${req.body.name}', '${req.body.icon}', @a)`;
 
     pool(sql).then(function(data) {
-      var sql = "select * from type where id = " + array[1].id + "";
+      var sql = "select * from type where id = " + req.body.id + "";
 
       pool(sql).then(function(data) {
         authChecked.send(res, req, 200, {err: 0, data: data[0]});
@@ -114,9 +114,11 @@ module.exports = {
 
   deleteById: function(req, res, next) {
 
-    var sql = `call type_edit(${req.params.nid },@a)`;
+    var sql = `call type_del(${req.params.nid },@a)`;
 
     pool(sql).then(function(data) {
+      console.log("----------xxxx----------");
+      console.log(data);
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
