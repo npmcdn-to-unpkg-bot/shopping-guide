@@ -61,7 +61,7 @@ module.exports = {
 
   create: function(req, res, next) {
 
-    var sql = `call type_add(${req.body.pid}, ${req.body.name}, @a)`;
+    var sql = `call type_add(${req.body.pid}, ${req.body.name}, ${req.body.icon}, @a)`;
 
     pool(sql, req.body).then(function(data) {
       if (data) {
@@ -95,7 +95,7 @@ module.exports = {
   },
 
   edit: function(req, res, next) {
-    var sql = `call type_edit(${req.body.pid}, ${req.body.id}, ${req.body.name}, @a)`;
+    var sql = `call type_edit(${req.body.pid}, ${req.body.id}, ${req.body.name}, ${req.body.icon}, @a)`;
 
     pool(sql).then(function(data) {
       var sql = "select * from type where id = " + array[1].id + "";

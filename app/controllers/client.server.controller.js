@@ -57,8 +57,16 @@ module.exports = {
             }
           }
           else if (obj === "addr") {
-            or += ` or (default_status = 1 and ${obj}=${query[obj]}) `;
-            where += ` and ${obj}=${query[obj]}`;
+            if(query[obj] <= 1) {
+              or += ` or (default_status = 1 and ${obj}<=${query[obj]}) `;
+              where += ` and ${obj}<=${query[obj]}`;
+              where += ` and commodity_status = 3`;
+            }
+            else {
+              or += ` or (default_status = 1 and ${obj}>=${query[obj]}) `;
+              where += ` and ${obj}>=${query[obj]}`;
+              where += ` and commodity_status = 3`;
+            }
           }
           else {
             where += ` and ${obj}=${query[obj]}`;
@@ -70,9 +78,13 @@ module.exports = {
       where += ` and name like '%${req.query.keywords}%'`;
     }
 
+    where += ` and commodity_status = 3`;
+
     if(or){
       where = '(' +where+ ')' + or
     }
+
+    where += ` and commodity_status = 3`;
 
     var sql = `select * from ad_commodity where ${where} order by id limit ${page},${num}`;
 
@@ -126,6 +138,7 @@ module.exports = {
       where += ` and name like '%${req.query.keywords}%'`;
     }
 
+    where += ` and commodity_status = 3`;
 
 
     var sql = `select * from activity_commodity where ${where} order by id limit ${page},${num}`;
@@ -188,10 +201,13 @@ module.exports = {
 
     if(req.query.keywords != undefined){
       where += ` and name like '%${req.query.keywords}%'`;
-
     }
 
+    if(req.query.merchant_name != undefined){
+      where += ` and merchant_name like '%${req.query.merchant_name}%'`;
+    }
 
+    where += ` and status = 3`;
     
     var sql = `select * from type_commodity where ${where} order by ${order} ${sort} limit ${page},${num}`;
 

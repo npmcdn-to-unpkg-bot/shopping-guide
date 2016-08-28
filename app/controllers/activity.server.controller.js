@@ -38,7 +38,7 @@ module.exports = {
 
 
 
-    var sql = `select * from activity_commodity where ${where} order by id limit ${page},${num}`;
+    var sql = `select * from activity_commodity where ${where} order by id desc limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
 
