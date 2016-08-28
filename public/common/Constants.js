@@ -91,12 +91,22 @@ angular.module('webapp')
       }
     ],
     //广告位置
+    // 0：主banner
+    // 1：主banner_小图
+    // 2: 二级banner
+    // 3: 二级banner_小图
     adAddr: [
       {
         text: '主banner', value: 0
       },
       {
-        text: '二级banner', value: 1
+        text: '主banner_小图', value: 1
+      },
+      {
+        text: '二级banner', value: 2
+      },
+      {
+        text: '二级banner_小图', value: 3
       }
     ],
     //广告永久性

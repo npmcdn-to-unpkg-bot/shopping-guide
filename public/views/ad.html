@@ -69,7 +69,7 @@
             <td>{{$index+1}}</td>
             <td>{{list.name}}</td>
             <td><a ng-if="list.photo" class="glyphicon glyphicon-new-window ng-scope" href="{{list.photo}}" target="_blank"></a></td>
-            <td>{{list.addr === 0 ? '主banner' : list.addr === 1 ? '二级banner' : '无法识别'}}</td>
+            <td>{{list.addr === 0 ? '主banner' : list.addr === 1 ? '主banner_小图' : list.addr === 2 ? '二级banner' : list.addr === 3 ? '二级banner_小图' : '无法识别'}}</td>
             <td>{{list.default_status === 0 ? '非永久广告' : list.default_status === 1 ? '永久广告' : '无法识别'}}</td>
             <td>{{list.strTime | date:'yyyy/MM/dd'}}</td>
             <td>{{list.endTime | date:'yyyy/MM/dd'}}</td>

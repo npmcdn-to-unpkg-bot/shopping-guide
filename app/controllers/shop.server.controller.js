@@ -57,7 +57,7 @@ module.exports = {
     pool(sql ,query).then(function(data) {
       
 
-      var sql = `select count(id) as count from merchant `;
+      var sql = `select count(id) as count from type_commodity where ${where}`;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
