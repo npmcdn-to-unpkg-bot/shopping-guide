@@ -9,6 +9,10 @@ var authChecked = require('../authChecked/authChecked');
 module.exports = {
   // 登录
   user_login: function(req, res, next) {
+      
+    if(req.body){
+      req.body = req.query;
+    }
 
     var findByName = "SELECT * FROM user WHERE name='" + req.body.name + "'";
 
@@ -18,7 +22,11 @@ module.exports = {
       } else {
         if (data[0].pwd == req.body.pwd) {
           var token = new Date().getTime() + '_' + Math.random();
+          
           res.cookie('token', token, {maxAge: 9000000});
+          res.cookie('user_name', data[0].name, {maxAge: 9000000});
+          res.cookie('nick_name', data[0].nick_name, {maxAge: 9000000});
+
           var sql = "UPDATE user SET token='" + token + "' WHERE name='" + req.body.name + "'";
           pool(sql).then(function(data) {
             authChecked.send(res, req, 200, {err: 0, data : data[0]});
@@ -40,6 +48,10 @@ module.exports = {
   user_create: function(req, res, next) {
 
     req.body.nick_name = req.body.name;
+
+    if(req.body){
+      req.body = req.query;
+    }
 
     var sql = "INSERT INTO user SET ?";
 
