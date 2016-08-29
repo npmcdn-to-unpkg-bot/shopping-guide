@@ -80,7 +80,6 @@ module.exports = {
 
   create: function(req, res, next) {
 
-    var date = new Date();
 
     delete req.body.file1;
     delete req.body.file2;

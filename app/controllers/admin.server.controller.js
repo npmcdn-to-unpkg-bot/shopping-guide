@@ -34,6 +34,32 @@ module.exports = {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
 
-  }
+  },
+
+
+  user_create: function(req, res, next) {
+
+    req.body.nick_name = req.body.name;
+
+    var sql = "INSERT INTO user SET ?";
+
+    pool(sql, req.body).then(function(data) {
+      if (data) {
+
+          var sql = "select * from user where name like '%" + req.body.name + "%' order by id desc limit 1";
+
+          pool(sql).then(function(data) {
+            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+          }, function() {
+            authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+          });
+
+        // authChecked.send(res, req, 200, {err: 0, data: data});
+      }
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+  },
 
 };
