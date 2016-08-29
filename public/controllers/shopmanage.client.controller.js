@@ -116,7 +116,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
 
 
         var uploader = $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
+          url: 'upload',
           autoUpload: true
         });
 
@@ -215,7 +215,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
 
 
         var uploader = $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
+          url: 'upload',
           autoUpload: true
         });
 

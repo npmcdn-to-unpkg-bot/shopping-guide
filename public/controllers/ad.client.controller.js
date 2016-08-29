@@ -114,7 +114,7 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
         });
 
         var uploader = $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
+          url: 'upload',
           autoUpload: true
         });
 
@@ -202,7 +202,7 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
 
 
         var uploader = $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
+          url: 'upload',
           autoUpload: true
         });
 
