@@ -117,8 +117,6 @@ module.exports = {
     var sql = `call type_del(${req.params.nid },@a)`;
 
     pool(sql).then(function(data) {
-      console.log("----------xxxx----------");
-      console.log(data);
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
     }, function() {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});

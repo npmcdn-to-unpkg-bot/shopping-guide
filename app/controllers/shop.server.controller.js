@@ -142,7 +142,7 @@ module.exports = {
 
 
 
-        var sql = "select * from commodity where id = " + array[1].id + "";
+        var sql = "select * from type_commodity where id = " + array[1].id + "";
 
         pool(sql).then(function(data) {
           authChecked.send(res, req, 200, {err: 0, data: data[0]});

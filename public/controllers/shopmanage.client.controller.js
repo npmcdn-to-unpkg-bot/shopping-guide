@@ -137,10 +137,11 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         $scope.title = "新增商品";
 
         $scope.CONFIGS = CONFIGS;
-        $scope.vm.status = CONFIGS.merchantStatus[0].value;
+        console.log(CONFIGS.shopType);
+        $scope.vm.status = CONFIGS.shopType[0].value;
 
         $scope.filterStatus = function(filters) {
-          return filters.value < 3;
+          return filters.value < 5;
         };
 
 
@@ -231,7 +232,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         };
 
         $scope.filterStatus = function(filters) {
-          return filters.value < 3;
+          return filters.value < 5;
         };
 
         ShopManageService.detail(id).then(function(data) {
@@ -271,23 +272,22 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
       controller: function($scope, $uibModalInstance) {
         if (key === '上架') {
           $scope.title = '上架';
-          list.status = 3;
-          delete list.type_name;
-          delete list.read_num;
-          delete list.preset;
-          delete list.priority;
-          delete list.sales_num;
         } else {
           $scope.title = '下架';
-          list.status = 4;
-          delete list.type_name;
-          delete list.read_num;
-          delete list.preset;
-          delete list.priority;
-          delete list.sales_num;
         }
         $scope.sub = function() {
+          if (key === '上架') {
+              list.status = 3;
+            } else {
+              list.status = 4;
+            }
+            delete list.type_name;
+            delete list.read_num;
+            delete list.preset;
+            delete list.priority;
+            delete list.sales_num;
           ShopManageService.put(list.id, list).then(function(data) {
+            
             $uibModalInstance.close(data.data);
           }, function(err) {
             console.log(err);
