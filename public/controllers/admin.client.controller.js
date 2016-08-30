@@ -13,20 +13,7 @@ function AdminController($window, $scope, AdminService, $cookies, $location) {
     AdminService.get_user_by_token({token: $cookies.get('token')}).then(
       function(data) {
         if (data.err === 0) {
-          $location.path('user');
-        }
-      },
-      function(err) {}
-    );
-  }
-
-  // 登录
-  $scope.login = function() {
-    AdminService.save($scope.user).then(
-      function(data) {
-        console.log(data);
-        if (data.err === 0) {
-          if ($cookies.get('role') == 1) {
+          if ($cookies.get('role') == 0) {
             $location.path('user');
           }
           if ($cookies.get('role') == 2) {
@@ -34,7 +21,26 @@ function AdminController($window, $scope, AdminService, $cookies, $location) {
           }
         }
       },
-      function(err) {}
+      function(err) {
+      }
+    );
+  }
+
+  // 登录
+  $scope.login = function() {
+    AdminService.save($scope.user).then(
+      function(data) {
+        if (data.err === 0) {
+          if ($cookies.get('role') == 0) {
+            $location.path('user');
+          }
+          if ($cookies.get('role') == 2) {
+            $location.path('shop');
+          }
+        }
+      },
+      function(err) {
+      }
     );
   };
 

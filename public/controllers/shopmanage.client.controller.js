@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('ShopManageController', ['$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'TypeService', 'FileUploader', ShopManageController]);
+  .controller('ShopManageController', ['$rootScope', '$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'TypeService', 'FileUploader', ShopManageController]);
 
-function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, MerchantService, TypeService, FileUploader) {
+function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManageService, MerchantService, TypeService, FileUploader) {
 
   var vm = $scope.vm = {};
 
@@ -87,7 +87,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/add.html',
-      controller: function($scope, CONFIGS, $uibModalInstance, ShopManageService, MerchantService, TypeService, FileUploader) {
+      controller: function($rootScope,$scope, CONFIGS, $uibModalInstance, ShopManageService, MerchantService, TypeService, FileUploader) {
         $scope.vm = {};
         MerchantService.all().then(
           function(data) {
@@ -100,6 +100,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         TypeService.all().then(
           function(data) {
             $scope.shopTypes = data.data;
+            $scope.vm.type = $scope.shopTypes[0].id;
           },
           function(err) {
           }
@@ -137,7 +138,7 @@ function ShopManageController($scope, CONFIGS, $uibModal, ShopManageService, Mer
         $scope.title = "新增商品";
 
         $scope.CONFIGS = CONFIGS;
-        console.log(CONFIGS.shopType);
+
         $scope.vm.status = CONFIGS.shopType[0].value;
 
         $scope.filterStatus = function(filters) {

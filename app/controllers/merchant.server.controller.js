@@ -2,6 +2,7 @@ var pool = require('../../config/pool.js');
 var connection = require('../../config/connection.js');
 var authChecked = require('../authChecked/authChecked');
 var moment = require('moment');
+var querystring = require('querystring');
 
 var formidable = require('formidable');
 var fs = require('fs');
@@ -67,15 +68,33 @@ module.exports = {
 
   all: function(req, res, next) {
 
-    var sql = `select * from merchant order by id`;
+    var cookie = querystring.parse(req.headers['cookie'].replace(/; /g, '&'));
 
-    pool(sql).then(function(data) {
 
-      authChecked.send(res, req, 200, {err: 0, data: data});
+    if (cookie.role == 2) {
+      var sql = 'select * from merchant where user_name =' + cookie.user_name + ' ';
 
-    }, function(err) {
-      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-    });
+      pool(sql).then(function(data) {
+
+        authChecked.send(res, req, 200, {err: 0, data: data});
+
+      }, function(err) {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
+
+    } else {
+      var sql = `select * from merchant order by id`;
+
+      pool(sql).then(function(data) {
+
+        authChecked.send(res, req, 200, {err: 0, data: data});
+
+      }, function(err) {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
+    }
+
+
   },
 
   create: function(req, res, next) {

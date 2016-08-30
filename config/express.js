@@ -98,11 +98,9 @@ app.use(function(err, req, res, next) {
     }
     //商户
     else{
-
-      if (req.originalUrl === '/user' || req.originalUrl === '/merchant' || req.originalUrl === '/shop') {
+      if (req.originalUrl.indexOf('/shop') >= 0 || req.originalUrl.indexOf('/typeAll') >= 0 ||  req.originalUrl.indexOf('/merchantAll') >= 0) {
         auth.get_user_by_role(err.token)
           .then(function(data) {
-
             if (data.status === 200) {
               req.session = {'role': err.role, 'merchant_id': data.data.data.id};
               next();
