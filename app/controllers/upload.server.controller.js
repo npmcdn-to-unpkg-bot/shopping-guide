@@ -9,6 +9,7 @@ var AVATAR_UPLOAD_FOLDER = '/upload/';
 module.exports = {
 
   upload: function(req, res, next) {
+
     var form = new formidable.IncomingForm();   //创建上传表单
     form.encoding = 'utf-8';    //设置编辑
     form.uploadDir = 'public' + AVATAR_UPLOAD_FOLDER;  //设置上传目录

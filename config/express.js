@@ -37,6 +37,7 @@ module.exports = function() {
 
   log.use(app);
 
+  require('../app/routes/upload.server.routes.js')(app);
   require('../app/routes/admin.server.routes.js')(app);
   require('../app/routes/client.server.routes.js')(app);
 
