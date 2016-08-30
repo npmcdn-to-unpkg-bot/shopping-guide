@@ -6,5 +6,5 @@ module.exports = function(app) {
     .post(ClientUserController.create);
 
   app.route('/clientUser/:nid')
-    .delete(ClientUserController.deleteById)
+    .post(ClientUserController.deleteById)
 };

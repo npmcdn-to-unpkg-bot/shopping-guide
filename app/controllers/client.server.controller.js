@@ -185,7 +185,6 @@ module.exports = {
 
           if (query[obj][1]) {
             var endTime = moment(query[obj][1]).format("YYYY-MM-DD");
-            console.log(endTime);
             // where += ` and updateTime <= '${endTime}'`  
             where += ` and TIMESTAMPDIFF(day,updateTime,'${endTime}') >= 0`;
           }
