@@ -10,7 +10,7 @@ module.exports = {
   // 登录
   user_login: function(req, res, next) {
       
-    if(req.body){
+    if(!req.body.name){
       req.body = req.query;
     }
 
