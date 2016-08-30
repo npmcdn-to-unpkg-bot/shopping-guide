@@ -45,6 +45,27 @@ webapp.config([
 ]).config(UserInterceptor)
   .config(timestampMarker);
 
+webapp.run(['$rootScope', '$cookies', '$location', function($rootScope, $cookies, $location) {
+  $rootScope.$on('$routeChangeStart', function(evt, next, current) {
+    if ($cookies.get('nick_name')) {
+      $rootScope.globals = {
+        nick_name: $cookies.get('nick_name'),
+        role:$cookies.get('role')
+      };
+    }
+
+    $rootScope.loginOut = function() {
+      $location.path('/');
+      $cookies.remove('token');
+      $cookies.remove('user_name');
+      $cookies.remove('nick_name');
+      $cookies.remove('role');
+    }
+  });
+
+}]);
+
+
 function UserInterceptor($httpProvider) {
   $httpProvider.interceptors.push('UserInterceptor');
 }

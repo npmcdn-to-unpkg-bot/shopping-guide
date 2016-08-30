@@ -16,6 +16,9 @@ function UserInterceptor($q, $rootScope, $location, $cookies) {
       if (data === 401) {
         $location.path('/');
         $cookies.remove('token');
+        $cookies.remove('user_name');
+        $cookies.remove('nick_name');
+        $cookies.remove('role');
         $rootScope.$emit("userIntercepted", "notLogin", response);
       }
       // 如果是登录超时

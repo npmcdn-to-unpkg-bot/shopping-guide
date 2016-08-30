@@ -22,10 +22,10 @@ module.exports = {
       } else {
         if (data[0].pwd == req.body.pwd) {
           var token = new Date().getTime() + '_' + Math.random();
-          
           res.cookie('token', token, {maxAge: 9000000});
           res.cookie('user_name', data[0].name, {maxAge: 9000000});
           res.cookie('nick_name', data[0].nick_name, {maxAge: 9000000});
+          res.cookie('role', data[0].role, {maxAge: 9000000});
 
           var sql = "UPDATE user SET token='" + token + "' WHERE name='" + req.body.name + "'";
           pool(sql).then(function(data) {

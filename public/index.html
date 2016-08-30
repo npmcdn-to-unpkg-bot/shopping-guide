@@ -26,14 +26,14 @@
             <p id="logoP"><img id="logo" alt="左右结构项目" src="images/logo.png"><span>后台管理</span></p>
         </div>
         <div id="personInfor">
-            <p id="userName">{{userName || '未登录'}}</p>
-            <p><span>{{nickName}}</span></p>
+            <p id="userName">{{globals.nick_name || '未登录'}}</p>
+            <p><span>{{globals.nick_name}}</span></p>
             <p>
-                <a ng-if="userName">退出登录</a>
-                <a ng-if="!userName" ng-href="#/">请先登录</a>
+                <a href="javascript:void(0)" ng-if="globals.nick_name" ng-click="loginOut()">退出登录</a>
+                <a ng-if="!globals.nick_name" ng-href="#/">请先登录</a>
             </p>
         </div>
-        <item-list>
+        <item-list ng-if="globals.role == 0">
             <div class="meun-title">账号管理</div>
             <div class="meun-item"><a ng-href="#/user"><img
                     src="images/icon_source.png">用户管理</a>
@@ -58,6 +58,18 @@
                     src="images/icon_rule_grey.png">商品类型</a>
             </div>
         </item-list>
+
+        <item-list ng-if="globals.role == 2">
+            <div class="meun-title">账号管理</div>
+            <div class="meun-item"><img
+                    src="images/icon_change_grey.png">修改密码
+            </div>
+            <div class="meun-title">商品管理</div>
+            <div class="meun-item"><a ng-href="#/shop"><img
+                    src="images/icon_chara_grey.png">商品管理</a>
+            </div>
+        </item-list>
+
     </div>
     <!-- 右侧具体内容栏目 -->
     <div id="rightContent" style="background: #ffffff;" ng-class="shows == true?'pd0px':''" ng-view>
@@ -78,35 +90,35 @@
 <script src="lib/angular-ui-tree/dist/angular-ui-tree.js"></script>
 
 
-<!--<script src="webapp.js"></script>-->
+<script src="webapp.js"></script>
 
-<!--<script src="common/Constants.js"></script>-->
-<!--<script src="factory/factory.js"></script>-->
-<!--<script src="directives/directives.js"></script>-->
+<script src="common/Constants.js"></script>
+<script src="factory/factory.js"></script>
+<script src="directives/directives.js"></script>
 
-<!--<script src="services/user.client.service.js"></script>-->
-<!--<script src="controllers/user.client.controller.js"></script>-->
+<script src="services/user.client.service.js"></script>
+<script src="controllers/user.client.controller.js"></script>
 
 
-<!--<script src="services/admin.client.service.js"></script>-->
-<!--<script src="controllers/admin.client.controller.js"></script>-->
+<script src="services/admin.client.service.js"></script>
+<script src="controllers/admin.client.controller.js"></script>
 
-<!--<script src="services/merchant.client.service.js"></script>-->
-<!--<script src="controllers/merchant.client.controller.js"></script>-->
+<script src="services/merchant.client.service.js"></script>
+<script src="controllers/merchant.client.controller.js"></script>
 
-<!--<script src="services/shopmanage.client.service.js"></script>-->
-<!--<script src="controllers/shopmanage.client.controller.js"></script>-->
+<script src="services/shopmanage.client.service.js"></script>
+<script src="controllers/shopmanage.client.controller.js"></script>
 
-<!--<script src="services/activity.client.service.js"></script>-->
-<!--<script src="controllers/activity.client.controller.js"></script>-->
+<script src="services/activity.client.service.js"></script>
+<script src="controllers/activity.client.controller.js"></script>
 
-<!--<script src="services/ad.client.service.js"></script>-->
-<!--<script src="controllers/ad.client.controller.js"></script>-->
+<script src="services/ad.client.service.js"></script>
+<script src="controllers/ad.client.controller.js"></script>
 
-<!--<script src="services/type.client.service.js"></script>-->
-<!--<script src="controllers/type.client.controller.js"></script>-->
+<script src="services/type.client.service.js"></script>
+<script src="controllers/type.client.controller.js"></script>
 
-<script src="dist/all.min.js"></script>
+<!--<script src="dist/all.min.js"></script>-->
 
 
 </body>
