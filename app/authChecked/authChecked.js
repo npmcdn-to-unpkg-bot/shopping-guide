@@ -1,6 +1,14 @@
 var pool = require('../../config/pool.js');
 
 var send = function(res, req, status, data) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if(req.headers.origin){
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  }
+  
+  res.setHeader('Access-Control-Allow-Credentials',true);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+
   res.status(status, {});
   res.jsonp(data);
 };

@@ -207,14 +207,14 @@ module.exports = {
       where += ` and merchant_name like '%${req.query.merchant_name}%'`;
     }
 
-    where += ` and status = 3`;
-    
-    var sql = `select * from type_commodity where ${where} order by ${order} ${sort} limit ${page},${num}`;
+    where += ` and status = 3 and merchant_status = 2 `;
+
+    var sql = `select * from type_commodity_merchant where ${where} order by ${order} ${sort} limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
       
 
-      var sql = `select count(id) as count from type_commodity where ${where} `;
+      var sql = `select count(id) as count from type_commodity_merchant where ${where} `;
 
       pool(sql).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});

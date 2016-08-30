@@ -70,7 +70,7 @@ module.exports = {
 
     pool(sql, req.body).then(function(data) {
       if (data) {
-          var sql = `select * from ad_commodity where commodity_id = ${req.body.commodity_id} and strTime = '${req.body.strTime}' and endTime = '${req.body.endTime}' and status = '${req.body.status}'`;
+          var sql = `select * from ad_commodity where commodity_id = ${req.body.commodity_id} and strTime = '${req.body.strTime}' and endTime = '${req.body.endTime}' and status = '${req.body.status}' order by id desc limit 1`;
 
           pool(sql).then(function(_data) {
             authChecked.send(res, req, 200, {err: 0, data: _data[0]});

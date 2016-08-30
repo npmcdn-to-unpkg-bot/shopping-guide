@@ -117,7 +117,7 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
         $scope.title = '增加商品类型';
 
         var uploader = $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
+          url: 'upload',
           autoUpload: true
         });
 
@@ -174,7 +174,7 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
         $scope.vm.icon = scope.$modelValue.icon;
 
         var uploader = $scope.uploader = new FileUploader({
-          url: 'merchant/upload',
+          url: 'upload',
           autoUpload: true
         });
 

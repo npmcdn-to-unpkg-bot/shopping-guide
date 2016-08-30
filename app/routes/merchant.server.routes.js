@@ -11,6 +11,5 @@ module.exports = function(app) {
     .get(MerchantController.getById)
     .put(MerchantController.edit)
     .delete(MerchantController.deleteById)
-    .post(MerchantController.upload);
 
 };

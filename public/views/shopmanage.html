@@ -102,7 +102,7 @@
 
                 <button type="button" class="btn btn-danger btn-sm" ng-click="del(list.id, $index)">删除</button>
 
-                <button ng-if="list.status == 2" type="button" class="btn btn-info btn-sm" ng-click="addRemoved(list, $index, '上架')">上架</button>
+                <button ng-if="list.status == 2 || list.status == 4" type="button" class="btn btn-info btn-sm" ng-click="addRemoved(list, $index, '上架')">上架</button>
 
                 <button ng-if="list.status == 3" type="button" class="btn btn-danger btn-sm" ng-click="addRemoved(list, $index, '下架')">下架</button>
             </td>

@@ -49,9 +49,6 @@ module.exports = {
   //添加收藏
   create: function(req, res, next) {
 
-    var date = new Date();
-
-
     var sql = "INSERT INTO collection SET ?";
 
     pool(sql, req.body).then(function(data) {
@@ -75,5 +72,37 @@ module.exports = {
       authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
     });
 
-  }
+  },
+
+  //商户申请
+  create_merchant: function(req, res, next) {
+
+    delete req.body.file1;
+    delete req.body.file2;
+    delete req.body.file3;
+    delete req.body.file4;
+
+
+    var sql = "INSERT INTO merchant SET ?";
+
+    pool(sql, req.body).then(function(data) {
+      if (data) {
+
+          var sql = "select * from merchant where name like '%" + req.body.name + "%' order by id desc limit 1";
+
+          pool(sql).then(function(data) {
+            authChecked.send(res, req, 200, {err: 0, data: data[0]});
+          }, function() {
+            authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+          });
+
+      }
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+  },
+
+
+
 };

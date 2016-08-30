@@ -118,7 +118,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
         for (var i = 1; i <= 4; i++) {
           (function(n) {
             var uploader = $scope['uploader' + n] = new FileUploader({
-              url: 'merchant/upload',
+              url: 'upload',
               autoUpload: true
             });
 
@@ -217,7 +217,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
         for (var i = 1; i <= 4; i++) {
           (function(n) {
             var uploader = $scope['uploader' + n] = new FileUploader({
-              url: 'merchant/upload',
+              url: 'upload',
               autoUpload: true
             });
 
