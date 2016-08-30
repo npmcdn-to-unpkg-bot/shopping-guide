@@ -66,8 +66,9 @@ module.exports = function() {
 
 app.use(function(err, req, res, next) {
 
+
   if(err){
-    if (req.originalUrl === '/clientUser') {
+    if (req.originalUrl.indexOf('/clientUser') >= 0) {
       return next();
     }
     else {

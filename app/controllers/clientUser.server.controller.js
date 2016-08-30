@@ -8,12 +8,13 @@ module.exports = {
   //查看收藏夹
   list: function(req, res, next) {
 
-    var query = req.query.filters ? JSON.parse(req.query.filters) : {};
+    var query = req.query.filters ? req.query.filters : {};
 
     var num = req.query.num ? req.query.num : 10;
     var page = req.query.page ? (req.query.page-1) * num : 0;
 
     var where = `1=1 `;
+
     for(obj in query){
       if(query[obj] != null){
         where += ` and ${obj}=${query[obj]}`;
@@ -63,8 +64,8 @@ module.exports = {
 
   //删除收藏
   deleteById: function(req, res, next) {
-
-    var sql = "delete from collection where id = " + req.params.nid + "";
+    console.log(22)
+    var sql = "delete from collection where id = " + req.params.nid + "2323";
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});
