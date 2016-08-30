@@ -47,11 +47,13 @@ module.exports = {
 
   user_create: function(req, res, next) {
 
-    req.body.nick_name = req.body.name;
-
     if(req.body){
       req.body = req.query;
     }
+
+    req.body.nick_name = req.body.name;
+
+    delete req.body.repassword
 
     var sql = "INSERT INTO user SET ?";
 
@@ -69,7 +71,7 @@ module.exports = {
         // authChecked.send(res, req, 200, {err: 0, data: data});
       }
     }, function(err) {
-      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      authChecked.send(res, req, 500, {err: 1, msg: "注册信息有误"});
     });
 
   },

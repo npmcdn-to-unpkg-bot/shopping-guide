@@ -25,6 +25,7 @@ module.exports = {
       where += ` and name like '%${req.query.keywords}%'`;
     }
 
+    where += ` and user_id = ${req.session.user_id} `
 
 
     var sql = `select * from collection_commodity where ${where} order by id limit ${page},${num}`;
@@ -50,22 +51,22 @@ module.exports = {
   //添加收藏
   create: function(req, res, next) {
 
+    req.query.user_id = req.session.user_id;
+
     var sql = "INSERT INTO collection SET ?";
 
-    pool(sql, req.body).then(function(data) {
-      if (data) {
-        authChecked.send(res, req, 200, {err: 0, data: _data[0]});
-      }
+    pool(sql, req.query).then(function(data) {
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
     }, function(err) {
-      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      authChecked.send(res, req, 500, {err: 1, msg: "该商品已经在收藏夹"});
     });
 
   },
 
   //删除收藏
   deleteById: function(req, res, next) {
-    console.log(22)
-    var sql = "delete from collection where id = " + req.params.nid + "2323";
+
+    var sql = "delete from collection where commodity_id = " + req.params.nid + " and user_id= " + req.session.user_id;
 
     pool(sql).then(function(data) {
       authChecked.send(res, req, 200, {err: 0, data: data[0]});

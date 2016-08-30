@@ -69,6 +69,7 @@ app.use(function(err, req, res, next) {
 
   if(err){
     if (req.originalUrl.indexOf('/clientUser') >= 0) {
+      req.session = {'user_id': err.user_id};
       return next();
     }
     else {
