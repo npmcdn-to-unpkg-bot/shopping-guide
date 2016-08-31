@@ -5,6 +5,11 @@ module.exports = function(app) {
     .get(ClientUserController.list)
     .post(ClientUserController.create);
 
+  app.route('/create_merchant')
+    .post(ClientUserController.create_merchant)
+
+
   app.route('/clientUser/:nid')
+  	.get(ClientUserController.getById)
     .post(ClientUserController.deleteById)
 };
