@@ -6,6 +6,8 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var authChecked = require('../authChecked/authChecked');
 
+var sendSMS = require('../../config/sendSMS.js');
+
 module.exports = {
   // 登录
   user_login: function(req, res, next) {
@@ -44,7 +46,7 @@ module.exports = {
 
   },
 
-
+  //注册
   user_create: function(req, res, next) {
 
     if(req.body){
@@ -74,6 +76,6 @@ module.exports = {
       authChecked.send(res, req, 500, {err: 1, msg: "注册信息有误"});
     });
 
-  },
+  }
 
 };
