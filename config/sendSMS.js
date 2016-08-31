@@ -16,14 +16,30 @@ function sign(str){
     return sha1.digest('hex');
 }
 
-function check(){
+function getHeaders(){
+
     var AppSecret = config.AppSecret
 
     var nonce = rd(10000000000,100000000000);
 
-    var curTime=new Date().getTime()；
+    var curTime=new Date().getTime();
 
     var checkSum = sign(AppSecret+noce+curTime);
+
+
+    var headers = {
+            'AppKey': config.sms.AppSecret,
+            'CurTime': curTime,
+            'CheckSum': checkSum,
+            'Nonce': nonce,
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        };
+
+    return headers;
+}
+
+function check(){
+    
 
     var option = {
         uri: config.sms.verifycodeUrl,
@@ -31,22 +47,17 @@ function check(){
             mobile: iphone,
             code: code
         },
-        headers: {
-            'AppKey': config.sms.AppSecret,
-            'CurTime': curTime,
-            'CheckSum': checkSum,
-            'Nonce': nonce,
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
+        headers: getHeaders(),
         json: true // Automatically parses the JSON string in the response 
     };
 
     
 
     // request(option,function(error, response,body){
-        // callback(null,body);
+    //     callback(null,body);
     // },function(err, result){
     //     if(err){
+    //         callback(err);
     //         console.log('获取链接失败');
     //     }else{
     //         console.log('获取链接结束');
@@ -57,36 +68,21 @@ function check(){
 
 function sendCode(iphone, callback){
 
-
-    var AppSecret = config.AppSecret
-
-    var nonce = rd(10000000000,100000000000);
-
-    var curTime=new Date().getTime()；
-
-    var checkSum = sign(AppSecret+noce+curTime);
-
     var option = {
         uri: config.sms.sendCodeUrl,
         qs: {
             mobile: iphone
         },
-        headers: {
-            'AppKey': config.sms.AppSecret,
-            'CurTime': curTime,
-            'CheckSum': checkSum,
-            'Nonce': nonce,
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
+        headers: getHeaders(),
         json: true // Automatically parses the JSON string in the response 
     };
 
-    callback(null,option);
 
     // request(option,function(error, response,body){
-
+    //     callback(null,body);
     // },function(err, result){
     //     if(err){
+    //         callback(err);
     //         console.log('获取链接失败');
     //     }else{
     //         console.log('获取链接结束');
