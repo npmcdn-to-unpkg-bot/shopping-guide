@@ -78,22 +78,22 @@ function sendCode(iphone, callback){
     };
 
 
-    // request(option,function(error, response,body){
-    //     callback(null,body);
-    // },function(err, result){
-    //     if(err){
-    //         callback(err);
-    //         console.log('获取链接失败');
-    //     }else{
-    //         console.log('获取链接结束');
-    //     }
+    request(option,function(error, response,body){
+        callback(null,body);
+    },function(err, result){
+        if(err){
+            callback(err);
+            console.log('获取链接失败');
+        }else{
+            console.log('获取链接结束');
+        }
         
-    // });
+    });
 }
 
 
 module.exports = {
-    sendcode: function(iphone){
+    sendCode: function(iphone){
                     //对外接口返回Promise函数形式
                     return new Promise(function(resolve, reject){
                         sendCode(iphone, function(err, rows){

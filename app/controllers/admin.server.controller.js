@@ -11,6 +11,10 @@ var sendSMS = require('../../config/sendSMS.js');
 module.exports = {
   // 登录
   user_login: function(req, res, next) {
+
+    sendSMS.sendCode('18627857458').then(function(data){
+      console.log(data);
+    });
       
     if(!req.body.name){
       req.body = req.query;
