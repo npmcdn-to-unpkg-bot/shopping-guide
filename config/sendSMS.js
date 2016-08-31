@@ -41,10 +41,10 @@ function check(){
         json: true // Automatically parses the JSON string in the response 
     };
 
-    callback(null,option);
+    
 
     // request(option,function(error, response,body){
-
+        // callback(null,body);
     // },function(err, result){
     //     if(err){
     //         console.log('获取链接失败');
