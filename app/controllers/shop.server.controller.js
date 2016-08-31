@@ -52,46 +52,30 @@ module.exports = {
       where += ` and name like '%${req.query.keywords}%'`;
     }
 
-    console.log(cookie);
-    if (cookie.role == 2) {
-      var sql = `select * from type_commodity where ${where} order by id desc limit ${page},${num}`;
-
-      pool(sql ,query).then(function(data) {
 
 
-        var sql = `select count(id) as count from type_commodity where ${where}`;
-
-        pool(sql).then(function(_data) {
-          authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
-        }, function(err) {
-          authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-        });
-
-
-      }, function(err) {
-        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-      });
-
-    } else {
-      var sql = `select * from type_commodity where ${where} order by id desc limit ${page},${num}`;
-
-      pool(sql ,query).then(function(data) {
-
-
-        var sql = `select count(id) as count from type_commodity where ${where}`;
-
-        pool(sql).then(function(_data) {
-          authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
-        }, function(err) {
-          authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-        });
-
-
-      }, function(err) {
-        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
-      });
-
+    if(req.session.merchant_id){
+      where += ` and merchant_id = ${req.session.merchant_id}`;
     }
+
+    var sql = `select * from type_commodity where ${where} order by id desc limit ${page},${num}`;
+
+    pool(sql ,query).then(function(data) {
+
+
+      var sql = `select count(id) as count from type_commodity where ${where}`;
+
+      pool(sql).then(function(_data) {
+        authChecked.send(res, req, 200, {err: 0, count: _data[0].count, data: data});
+      }, function(err) {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      });
+
+
+    }, function(err) {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
 
     
 
