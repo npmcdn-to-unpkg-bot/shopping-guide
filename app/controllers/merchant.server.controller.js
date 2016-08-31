@@ -161,6 +161,14 @@ module.exports = {
           });
 
       }
+      else{
+        var sql = `update user set type=1,role=1 where id = ${req.body.user_id}`;
+          pool(sql).then(function(result) {
+
+          }, function() {
+
+          });
+      }
 
       var sql = `update commodity set merchant_name='${json.name}' where merchant_id = ${array[1].id}`;
 
