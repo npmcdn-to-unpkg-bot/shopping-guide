@@ -110,7 +110,7 @@ module.exports = {
 
     pool(sql, array).then(function(data) {
 
-      var sql = `update merchant set user_name='${json.nick_name}' where user_id = ${array[1].id}`;
+      var sql = `update merchant set user_name='${json.name}' where user_id = ${array[1].id}`;
 
       pool(sql, array).then(function(_data) {
         authChecked.send(res, req, 200, {err: 0, data: data[0]});

@@ -145,11 +145,22 @@ module.exports = {
     var sql = `update merchant set ? where ?`;
     var array = [];
 
+
     array.push({id: req.body.id});
     delete json["id"];
     array.unshift(req.body);
 
     pool(sql, array).then(function(data) {
+
+      if(req.body.status == 2 && req.body.money_status == 2){
+        var sql = `update user set type=2,role=2 where id = ${req.body.user_id}`;
+          pool(sql).then(function(result) {
+
+          }, function() {
+
+          });
+
+      }
 
       var sql = `update commodity set merchant_name='${json.name}' where merchant_id = ${array[1].id}`;
 
