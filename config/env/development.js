@@ -29,5 +29,10 @@ module.exports = {
 		} ],  
 		"levels":{ "logInfo": "DEBUG"},        			// 设置记录器的默认显示级别，低于这个级别的日志，不会输出  
 		replaceConsole: false							// 让所有console输出到日志中，以[INFO] console代替console默认样式
+	},
+	sms: {
+		url: 'https://api.netease.im/sms/verifycode.action',
+		AppKey: '508ff4ea690d428db3297013aa14e88e',
+		AppSecret: '46c944a0c086'
 	}
 };
