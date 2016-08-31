@@ -80,7 +80,7 @@
             <th class="text-center">商品价格</th>
             <th class="text-center">商品折扣价</th>
             <th class="text-center">淘宝链接</th>
-            <th class="text-center">阿里妈妈链接</th>
+            <th class="text-center" ng-if="globals.role == 0">阿里妈妈链接</th>
             <th class="text-center">商品状态</th>
             <th class="text-center">操作</th>
         </tr>
@@ -93,7 +93,7 @@
             <td>{{list.price}}</td>
             <td>{{list.SALE}}</td>
             <td><a ng-if="list.tabao_url" class="glyphicon glyphicon-new-window ng-scope" href="{{list.tabao_url}}" target="_blank"></a></td>
-            <td><a ng-if="list.alimama_url" class="glyphicon glyphicon-new-window ng-scope" href="{{list.alimama_url}}" target="_blank"></a></td>
+            <td ng-if="globals.role == 0"><a ng-if="list.alimama_url" class="glyphicon glyphicon-new-window ng-scope" href="{{list.alimama_url}}" target="_blank"></a></td>
             <td>{{list.status === 0 ? '待审核' : list.status === 1 ? '已驳回' : list.status === 2 ? '已通过' : list.status === 3 ? '已上架' : list.status === 4 ? '已下架' :'无法识别'}}</td>
             <td>
                 <button type="button" class="btn btn-info btn-sm" ng-click="find(list)">查看</button>

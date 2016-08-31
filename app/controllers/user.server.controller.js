@@ -47,8 +47,10 @@ module.exports = {
   },
 
   all: function(req, res, next) {
-
     var sql = `select * from user order by id`;
+    if (req.query.id) {
+      sql = 'select * from user where id not in (select user_id from merchant) order by id'
+    }
 
     pool(sql).then(function(data) {
 

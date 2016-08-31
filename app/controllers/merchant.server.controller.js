@@ -41,12 +41,12 @@ module.exports = {
     }
 
     if(req.query.keywords != null){
-      where += ` and name like '%${req.query.keywords}%'`;
+      where += ` and (name like '%${req.query.keywords}%' or user_name like '%${req.query.keywords}%')`;
     }
 
 
     
-    var sql = `select * from merchant where ${where} order by id desc limit ${page},${num}`;
+    var sql = `select * from merchant where ${where} order by id,user_name desc limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
       
