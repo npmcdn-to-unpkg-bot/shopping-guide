@@ -38,7 +38,7 @@ var get_user_by_token = function(token) {
 // 检测商户
 var get_user_by_role = function(token) {
   var msg = null;
-  var findByToken = "SELECT * FROM merchant_role WHERE token='" + token + "'";
+  var findByToken = "SELECT * FROM merchant_role WHERE token='" + token + "' and status = 2 and money_status = 2 ";
   return new Promise(
     function(resolve, reject) {
       pool(findByToken).then(function(data) {
