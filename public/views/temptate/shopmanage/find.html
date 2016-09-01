@@ -43,7 +43,7 @@
             <label class="col-sm-2 control-label">淘宝链接</label>
             <p class="form-control-static"><a href="{{user.tabao_url}}" target="_blank">{{user.tabao_url}}</a></p>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="globals.role == 0">
             <label class="col-sm-2 control-label">阿里妈妈链接</label>
             <p class="form-control-static"><a href="{{user.alimama_url}}" target="_blank">{{user.alimama_url}}</a></p>
         </div>

@@ -12,8 +12,11 @@
                     class="form-control"
                     name="commodity_id"
                     ng-model="vm.commodity_id"
-                    ng-options="commodity_id.id as commodity_id.name for commodity_id in commodity_list">
+                    ng-options="commodity_id.id as commodity_id.name for commodity_id in commodity_list" required>
             </select>
+            <div class="tips-error" ng-if="myForm.commodity_id.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>活动时间</label>
@@ -38,6 +41,9 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="tips-error" ng-if="(!signed_at_gte && !signed_at_lte)  && myForm.$submitted==true">
+                必填项
             </div>
         </div>
 

@@ -97,7 +97,7 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
       controller: function($scope, CONFIGS, $uibModalInstance, UserService, FileUploader) {
         $scope.vm = {};
 
-        UserService.all().then(
+        UserService.all({id:1}).then(
           function(data) {
             console.log(data);
             $scope.userList = data.data;

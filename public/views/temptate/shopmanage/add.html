@@ -49,13 +49,20 @@
                     name="merchant_id"
                     ng-model="vm.merchant_id"
                     ng-change="getUserName(vm.merchant_id)"
-                    ng-options="type.id as type.name for type in merchantList">
+                    ng-options="type.id as type.name for type in merchantList" required>
             </select>
+            <div class="tips-error" ng-if="myForm.merchant_id.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
+
         </div>
         <div class="form-group">
             <label>商铺名</label>
             <input type="text" class="form-control" name="merchant_name" ng-model="vm.merchant_name" ng-disabled="true"
-                   placeholder="商户名">
+                   placeholder="商户名" required>
+            <div class="tips-error" ng-if="myForm.merchant_name.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>商品类型</label>
@@ -63,20 +70,29 @@
                     class="form-control"
                     name="type"
                     ng-model="vm.type"
-                    ng-options="type.id as type.name for type in  shopTypes">
+                    ng-options="type.id as type.name for type in  shopTypes" required>
             </select>
+            <div class="tips-error" ng-if="myForm.type.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>商品标题</label>
-            <input type="text" class="form-control" name="title" ng-model="vm.title" placeholder="商品标题">
+            <input type="text" class="form-control" name="title" ng-model="vm.title" placeholder="商品标题" required>
+            <div class="tips-error" ng-if="myForm.title.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>商品名称</label>
-            <input type="text" class="form-control" name="name" ng-model="vm.name" placeholder="商品名称">
+            <input type="text" class="form-control" name="name" ng-model="vm.name" placeholder="商品名称" required>
+            <div class="tips-error" ng-if="myForm.name.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>商品图片</label>
-            <input ng-show="vm.photo == null" type="file" nv-file-select="onFileSelect($files)"
+            <input ng-show="vm.photo == null" name="file" type="file" nv-file-select="onFileSelect($files)"
                    uploader="uploader"/>
             <div ng-show="vm.photo">
                 <a ng-href="{{vm.photo}}" target="_blank">
@@ -88,6 +104,9 @@
                     &times;
                 </button>
 
+            </div>
+            <div class="tips-error" ng-if="uploader.queue.length <=0 && myForm.$submitted==true">
+                必填项
             </div>
 
         </div>
@@ -118,31 +137,58 @@
         </div>
         <div class="form-group">
             <label>商品价格</label>
-            <input type="text" class="form-control" name="price" ng-model="vm.price" placeholder="商品价格">
+            <input type="text" class="form-control" name="price" ng-model="vm.price"  placeholder="商品价格" required>
+            <div class="tips-error" ng-if="myForm.price.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>商品折扣价</label>
-            <input type="text" class="form-control" name="SALE" ng-model="vm.SALE" placeholder="商品折扣价">
+            <input type="text" class="form-control" name="SALE" ng-model="vm.SALE" placeholder="商品折扣价" required>
+            <div class="tips-error" ng-if="myForm.SALE.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
         <div class="form-group">
             <label>淘宝链接</label>
-            <input type="text" class="form-control" name="tabao_url" ng-model="vm.tabao_url" placeholder="淘宝链接">
+            <input type="text" class="form-control" name="tabao_url" ng-model="vm.tabao_url" ng-pattern="/^[a-zA-z]+:\/\/[^s]*/"
+                   placeholder="淘宝链接" required>
+            <div class="tips-error" ng-if="myForm.tabao_url.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
+            <div class="tips-error" ng-if="myForm.tabao_url.$error.pattern && myForm.$submitted==true">
+                请填写正确的链接
+            </div>
+
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="globals.role == 0">
             <label>阿里妈妈链接</label>
-            <input type="text" class="form-control" name="alimama_url" ng-model="vm.alimama_url" placeholder="阿里妈妈链接">
+            <input type="text" class="form-control" name="alimama_url" ng-model="vm.alimama_url" ng-pattern="/^[a-zA-z]+:\/\/[^s]*/"
+                   placeholder="阿里妈妈链接">
+            <div class="tips-error" ng-if="myForm.alimama_url.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
+            <div class="tips-error" ng-if="myForm.alimama_url.$error.pattern && myForm.$submitted==true">
+                请填写正确的链接
+            </div>
         </div>
         <div class="form-group">
             <label>商品描述(alt)</label>
-            <input type="text" class="form-control" name="describe" ng-model="vm.describe" placeholder="商品描述">
+            <input type="text" class="form-control" name="describe" ng-model="vm.describe" placeholder="商品描述" required>
+            <div class="tips-error" ng-if="myForm.describe.$error.required && myForm.$submitted==true">
+                必填项
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="globals.role == 0">
             <label>商品审核</label>
             <select ng-disabled="globals.role == 2"
                     class="form-control"
                     name="status"
                     ng-model="vm.status"
-                    ng-options="type.value as type.text for type in  CONFIGS.shopType | filter:filterStatus">
+                    ng-options="type.value as type.text for type in  CONFIGS.shopType | filter:filterStatus" required>
+                <div class="tips-error" ng-if="myForm.status.$error.required && myForm.$submitted==true">
+                    必填项
+                </div>
             </select>
         </div>
         <button type="submit" class="btn btn-default">保存</button>

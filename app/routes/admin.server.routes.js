@@ -5,7 +5,8 @@ var AdminController = require('../controllers/admin.server.controller.js');
 
 module.exports = function(app) {
   app.route('/login')
-  .post(AdminController.user_login);
+  .post(AdminController.user_login)
+  .get(AdminController.sendSMS);
 
   app.route('/user_create')
   .post(AdminController.user_create);
