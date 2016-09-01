@@ -9,7 +9,7 @@ var authChecked = require('../authChecked/authChecked');
 var sendSMS = require('../../config/sendSMS.js');
 
 var config = require('../../config/config.js');
-var ServerAPI = require('../../config/serverAPI.js');
+var ServerAPI = require('../../config/ServerAPI.js');
 
 module.exports = {
   // 登录
