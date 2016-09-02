@@ -3,7 +3,7 @@
  */
 "use strict";
 
-var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap', 'angularFileUpload', 'ui.tree']);
+var webapp = angular.module("webapp", ['ngRoute', 'ngCookies', 'ui.bootstrap', 'angularFileUpload', 'ui.tree', 'toastr']);
 
 
 webapp.config([
@@ -38,6 +38,10 @@ webapp.config([
         templateUrl: 'views/typeManagement.html',
         controller: 'TypeManagementController'
       })
+      .when('/modify', {
+        templateUrl: 'views/ModifyPassword.html',
+        controller: 'ModifyController'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -50,8 +54,10 @@ webapp.run(['$rootScope', '$cookies', '$location', function($rootScope, $cookies
     if ($cookies.get('nick_name')) {
       $rootScope.globals = {
         nick_name: $cookies.get('nick_name'),
-        role:$cookies.get('role')
+        role: $cookies.get('role')
       };
+      
+      console.log($rootScope.globals);
     }
 
     $rootScope.loginOut = function() {
@@ -62,7 +68,7 @@ webapp.run(['$rootScope', '$cookies', '$location', function($rootScope, $cookies
       $cookies.remove('role');
       $rootScope.globals = {
         nick_name: null,
-        role:null
+        role: null
       };
     }
   });

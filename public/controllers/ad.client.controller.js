@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('AdController', ['$scope', 'AdService', 'ShopManageService', 'MerchantService', 'FileUploader', '$uibModal', 'CONFIGS', AdController]);
+  .controller('AdController', ['$scope', 'AdService', 'ShopManageService', 'MerchantService', 'FileUploader', '$uibModal', 'CONFIGS', 'toastr', AdController]);
 
-function AdController($scope, AdService, ShopManageService, MerchantService, FileUploader, $uibModal, CONFIGS) {
+function AdController($scope, AdService, ShopManageService, MerchantService, FileUploader, $uibModal, CONFIGS, toastr) {
 
   var vm = $scope.vm = {};
 
@@ -137,9 +137,14 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
             return false;
           }
           AdService.save($scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -232,9 +237,14 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
             return false;
           }
           AdService.put(id, $scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data.data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -256,9 +266,14 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           AdService.del(id).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(index);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }

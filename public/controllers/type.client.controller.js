@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('TypeManagementController', ['$scope', 'TypeService', '$uibModal', 'CONFIGS', 'FileUploader', TypeManagementController]);
+  .controller('TypeManagementController', ['$scope', 'TypeService', '$uibModal', 'CONFIGS', 'FileUploader', 'toastr', TypeManagementController]);
 
-function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileUploader) {
+function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileUploader, toastr) {
 
   var vm = $scope.vm = {};
 
@@ -42,7 +42,6 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
     TypeService.all().then(
       function(data) {
         var json = type_count(data.data, 0, data.data.length);
-        console.log(json);
         $scope.data = json;
       },
       function(err) {
@@ -64,10 +63,15 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
         $scope.sub = function() {
           if (!scope.$modelValue.list) {
             TypeService.del(scope.$modelValue.id).then(function(data) {
+              if (data.err == 0) {
+                toastr.success('ok', "操作成功");
+              }
               $uibModalInstance.close();
               scope.remove();
             }, function(err) {
-              console.log(err);
+              if (err.err == 1) {
+                toastr.error(err.msg, "操作失败");
+              }
             });
           } else {
             function getArray(arr) {
@@ -87,11 +91,16 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
           for (var i = 0; i < arrs.length; i++) {
             TypeService.del(arrs[i]).then(function(data) {
               if (i === arrs.length) {
+                if (data.err == 0) {
+                  toastr.success('ok', "操作成功");
+                }
                 $uibModalInstance.close();
                 scope.remove();
               }
             }, function(err) {
-              console.log(err);
+              if (err.err == 1) {
+                toastr.error(err.msg, "操作失败");
+              }
             });
           }
         };
@@ -138,9 +147,14 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
           }
           $scope.vm.pid = scope.$modelValue.id;
           TypeService.save($scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data.data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }
@@ -199,9 +213,14 @@ function TypeManagementController($scope, TypeService, $uibModal, CONFIGS, FileU
             name: $scope.vm.name,
             icon: $scope.vm.icon
           }).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data.data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }

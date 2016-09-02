@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('UserController', ['$scope', 'UserService', '$uibModal', 'CONFIGS', UserController]);
+  .controller('UserController', ['$scope', 'UserService', '$uibModal', 'CONFIGS', 'toastr', UserController]);
 
-function UserController($scope, UserService, $uibModal, CONFIGS) {
+function UserController($scope, UserService, $uibModal, CONFIGS, toastr) {
 
   var vm = $scope.vm = {};
 
@@ -98,9 +98,14 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
             return false;
           }
           UserService.save($scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -139,17 +144,25 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
           $scope.title = "修改用户";
           $scope.vm = data.data;
         }, function(err) {
-          console.log(err);
+          if (err.err == 1) {
+            toastr.error(err.msg, "操作失败");
+          }
         });
         $scope.save = function(form) {
           if (form.$valid === false) {
             return false;
           }
           UserService.put(id, $scope.vm).then(function(data) {
-            $uibModalInstance.close($scope.vm);
-          }, function(err) {
-            console.log(err);
-          });
+              if (data.err == 0) {
+                toastr.success('ok', "操作成功");
+              }
+              $uibModalInstance.close($scope.vm);
+            }, function(err) {
+              if (err.err == 1) {
+                toastr.error(err.msg, "操作失败");
+              }
+            }
+          );
         };
 
         $scope.cancel = function() {
@@ -170,9 +183,14 @@ function UserController($scope, UserService, $uibModal, CONFIGS) {
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           UserService.del(id).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(index);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }

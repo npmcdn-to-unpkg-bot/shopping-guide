@@ -11,6 +11,9 @@
     <link rel="stylesheet" type="text/css" href="style/common.css">
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="lib/angular-ui-tree/dist/angular-ui-tree.min.css">
+    <link rel="stylesheet" href="lib/angular-toastr/dist/angular-toastr.min.css" />
+
+
     <!--<link rel="stylesheet" type="text/css" href="style/loading.css">-->
 </head>
 <body>
@@ -41,8 +44,8 @@
             <div class="meun-item"><a ng-href="#/merchant"><img
                     src="images/icon_chara_grey.png">商户管理</a>
             </div>
-            <div class="meun-item"><img
-                    src="images/icon_change_grey.png">修改密码
+            <div class="meun-item"><a ng-href="#/modify"><img
+                    src="images/icon_change_grey.png">修改密码</a>
             </div>
             <div class="meun-title">商品管理</div>
             <div class="meun-item"><a ng-href="#/shop"><img
@@ -79,15 +82,16 @@
     </div>
 </div>
 
-<script src="lib/angular/angular.js"></script>
-<script src="lib/angular-route/angular-route.js"></script>
-<script src="lib/jquery/dist/jquery.js"></script>
-<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="lib/angular/angular.min.js"></script>
+<script src="lib/angular-route/angular-route.min.js"></script>
+<script src="lib/jquery/dist/jquery.min.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src="lib/angular-cookies/angular-cookies.js"></script>
+<script src="lib/angular-cookies/angular-cookies.min.js"></script>
 <script src="lib/lodash/dist/lodash.min.js"></script>
 <script src="lib/angular-file-upload/dist/angular-file-upload.min.js"></script>
-<script src="lib/angular-ui-tree/dist/angular-ui-tree.js"></script>
+<script src="lib/angular-ui-tree/dist/angular-ui-tree.min.js"></script>
+<script src="lib/angular-toastr/dist/angular-toastr.tpls.js"></script>
 
 
 <script src="webapp.js"></script>
@@ -117,6 +121,8 @@
 
 <script src="services/type.client.service.js"></script>
 <script src="controllers/type.client.controller.js"></script>
+
+<script src="controllers/modifypassword.client.controller.js"></script>
 
 <!--<script src="dist/all.min.js"></script>-->
 

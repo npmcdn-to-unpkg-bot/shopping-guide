@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', 'UserService', 'FileUploader', MerchantController]);
+  .controller('MerchantController', ['$scope', 'CONFIGS', '$uibModal', 'MerchantService', 'UserService', 'FileUploader', 'toastr', MerchantController]);
 
-function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserService, FileUploader) {
+function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserService, FileUploader, toastr) {
 
   var vm = $scope.vm = {};
 
@@ -155,13 +155,15 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
           $scope.vm.info = $scope.vm.file3[$scope.vm.file3.length - 1];
           $scope.vm.money_photo = $scope.vm.file4[$scope.vm.file4.length - 1];
 
-          console.log($scope.vm);
-
-
           MerchantService.save($scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -264,9 +266,14 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
 
           console.log($scope.vm);
           MerchantService.put(id, $scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close($scope.vm);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -288,9 +295,14 @@ function MerchantController($scope, CONFIGS, $uibModal, MerchantService, UserSer
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           MerchantService.del(id).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(index);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }

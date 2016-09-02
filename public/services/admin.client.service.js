@@ -12,9 +12,9 @@ function AdminService($http, $q) {
       url: url
     };
 
-    if ("POST" === method) {
+    if ("POST" === method || "PUT" === method) {
       config.data = data;
-    } else if ("GET" === method) {
+    } else if ("GET" === method || "DELETE" === method) {
       config.params = data;
     }
 
@@ -26,7 +26,6 @@ function AdminService($http, $q) {
 
     return defered.promise;
   }
-
   return {
     list: function(params) {
       return handleRequest('GET', '/login', params);
@@ -39,6 +38,9 @@ function AdminService($http, $q) {
     },
     detail: function(id) {
       return handleRequest('GET', '/login/'+ id);
+    },
+    put: function(id, data) {
+      return handleRequest('PUT', '/modify/'+ id, data);
     }
   }
 }

@@ -9,6 +9,12 @@ module.exports = function(app) {
   .get(AdminController.sendSMS);
 
   app.route('/user_create')
-  .post(AdminController.user_create);
+  .post(AdminController.user_create)
+
+  app.route('/modify/:nid')
+    .put(AdminController.modify);
+
+  app.route('/get_user_by_token')
+    .post(AdminController.get_user_by_token);
 
 };

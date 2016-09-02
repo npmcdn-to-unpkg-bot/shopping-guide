@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/19.
  */
 angular.module('webapp')
-  .controller('ShopManageController', ['$rootScope', '$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'TypeService', 'FileUploader', ShopManageController]);
+  .controller('ShopManageController', ['$rootScope', '$scope', 'CONFIGS', '$uibModal', 'ShopManageService', 'MerchantService', 'TypeService', 'FileUploader', 'toastr', ShopManageController]);
 
-function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManageService, MerchantService, TypeService, FileUploader) {
+function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManageService, MerchantService, TypeService, FileUploader, toastr) {
 
   var vm = $scope.vm = {};
 
@@ -87,7 +87,7 @@ function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManage
   $scope.add = function(len) {
     $uibModal.open({
       templateUrl: 'views/temptate/shopmanage/add.html',
-      controller: function($rootScope,$scope, CONFIGS, $uibModalInstance, ShopManageService, MerchantService, TypeService, FileUploader) {
+      controller: function($rootScope, $scope, CONFIGS, $uibModalInstance, ShopManageService, MerchantService, TypeService, FileUploader) {
         $scope.vm = {};
         MerchantService.all().then(
           function(data) {
@@ -151,11 +151,15 @@ function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManage
             return false;
           }
 
-          console.log($scope.vm);
           ShopManageService.save($scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -250,9 +254,14 @@ function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManage
 
 
           ShopManageService.put(id, $scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data.data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -278,20 +287,24 @@ function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManage
         }
         $scope.sub = function() {
           if (key === '上架') {
-              list.status = 3;
-            } else {
-              list.status = 4;
-            }
-            delete list.type_name;
-            delete list.read_num;
-            delete list.preset;
-            delete list.priority;
-            delete list.sales_num;
+            list.status = 3;
+          } else {
+            list.status = 4;
+          }
+          delete list.type_name;
+          delete list.read_num;
+          delete list.preset;
+          delete list.priority;
+          delete list.sales_num;
           ShopManageService.put(list.id, list).then(function(data) {
-            
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data.data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }
@@ -312,9 +325,14 @@ function ShopManageController($rootScope, $scope, CONFIGS, $uibModal, ShopManage
         $scope.title = '删除';
         $scope.sub = function() {
           ShopManageService.del(id).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(index);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }

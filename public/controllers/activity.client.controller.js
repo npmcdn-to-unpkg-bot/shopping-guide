@@ -2,9 +2,9 @@
  * Created by youpeng on 16/8/4.
  */
 angular.module('webapp')
-  .controller('ActivityController', ['$scope', 'ActivityService', 'ShopManageService', '$uibModal', 'CONFIGS', ActivityController]);
+  .controller('ActivityController', ['$scope', 'ActivityService', 'ShopManageService', '$uibModal', 'CONFIGS', 'toastr', ActivityController]);
 
-function ActivityController($scope, ActivityService, ShopManageService, $uibModal, CONFIGS) {
+function ActivityController($scope, ActivityService, ShopManageService, $uibModal, CONFIGS, toastr) {
 
   var vm = $scope.vm = {};
 
@@ -116,9 +116,14 @@ function ActivityController($scope, ActivityService, ShopManageService, $uibModa
             return false;
           }
           ActivityService.save($scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -191,9 +196,14 @@ function ActivityController($scope, ActivityService, ShopManageService, $uibModa
             return false;
           }
           ActivityService.put(id, $scope.vm).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(data.data);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         };
 
@@ -215,9 +225,14 @@ function ActivityController($scope, ActivityService, ShopManageService, $uibModa
       controller: function($scope, $uibModalInstance) {
         $scope.sub = function() {
           ActivityService.del(id).then(function(data) {
+            if (data.err == 0) {
+              toastr.success('ok', "操作成功");
+            }
             $uibModalInstance.close(index);
           }, function(err) {
-            console.log(err);
+            if (err.err == 1) {
+              toastr.error(err.msg, "操作失败");
+            }
           });
         }
       }
