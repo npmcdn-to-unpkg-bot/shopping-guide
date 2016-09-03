@@ -28,6 +28,7 @@ module.exports = {
         if (data[0].pwd == req.body.pwd) {
           var token = new Date().getTime() + '_' + Math.random();
           res.cookie('token', token, {maxAge: 9000000});
+          res.cookie('id', data[0].id, {maxAge: 9000000});
           res.cookie('user_name', data[0].name, {maxAge: 9000000});
           res.cookie('nick_name', data[0].nick_name, {maxAge: 9000000});
           res.cookie('role', data[0].role, {maxAge: 9000000});
@@ -133,6 +134,7 @@ module.exports = {
           var token = new Date().getTime() + '_' + Math.random();
           res.cookie('token', cookie.token, {maxAge: 9000000});
           res.cookie('user_name', data.data.data.name, {maxAge: 9000000});
+          res.cookie('id', data.data.data.id, {maxAge: 9000000});
           res.cookie('nick_name', data.data.data.nick_name, {maxAge: 9000000});
           res.cookie('role', data.data.data.role, {maxAge: 9000000});
           authChecked.send(res, req, data.status, {err: 0, msg: '登录成功'});

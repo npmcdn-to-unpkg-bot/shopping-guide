@@ -12,12 +12,18 @@ function AdminController($window, $scope, AdminService, $cookies, $location, toa
   if ($cookies.get('token')) {
     AdminService.get_user_by_token({token: $cookies.get('token')}).then(
       function(data) {
-          if ($cookies.get('role') == 0) {
-            $location.path('user');
-          }
-          if ($cookies.get('role') == 2) {
-            $location.path('shop');
-          }
+        if ($cookies.get('role') == 0) {
+          $location.path('user');
+        }
+        if ($cookies.get('role') == 2) {
+          $location.path('shop');
+        }
+
+        if ($cookies.get('role') == 1) {
+          $location.path('merchantsettked');
+        }
+
+
       },
       function(err) {
       }
@@ -28,11 +34,14 @@ function AdminController($window, $scope, AdminService, $cookies, $location, toa
   $scope.login = function() {
     AdminService.save($scope.user).then(
       function(data) {
-          if (data.role == 0) {
-            $location.path('user');
-          }
-          if (data.role == 2) {
-            $location.path('shop');
+        if (data.role == 0) {
+          $location.path('user');
+        }
+        if (data.role == 2) {
+          $location.path('shop');
+        }
+        if (data.role  == 1) {
+          $location.path('merchantsettked');
         }
       },
       function(err) {

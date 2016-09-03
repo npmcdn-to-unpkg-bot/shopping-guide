@@ -138,6 +138,19 @@ module.exports = {
     });
 
   },
+  getUserByMerchant: function(req, res, next) {
+
+    var sql = "select * from merchant where user_id = " + req.params.nid + "";
+
+    pool(sql).then(function(data) {
+      console.log("xxxx---xxxx");
+      console.log(data);
+      authChecked.send(res, req, 200, {err: 0, data: data[0]});
+    }, function() {
+      authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+    });
+
+  },
 
   edit: function(req, res, next) {
     req.body.updateTime = moment().format("YYYY-MM-DD");

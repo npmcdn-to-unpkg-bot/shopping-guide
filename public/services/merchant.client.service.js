@@ -47,6 +47,9 @@ function MerchantService($http, $q) {
     detail: function(id) {
       return handleRequest('GET', '/merchant/'+ id);
     },
+    getUserByMerchant: function(id) {
+      return handleRequest('GET', '/getUserByMerchant/'+ id);
+    },
     del: function(id) {
       return handleRequest('DELETE', '/merchant/'+ id);
     }
