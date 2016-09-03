@@ -47,8 +47,14 @@ function MerchantService($http, $q) {
     detail: function(id) {
       return handleRequest('GET', '/merchant/'+ id);
     },
-    getUserByMerchant: function(id) {
-      return handleRequest('GET', '/getUserByMerchant/'+ id);
+    getUserByMerchant: function() {
+      return handleRequest('GET', '/create_merchant');
+    },
+    create_merchant: function(data) {
+      return handleRequest('POST', '/create_merchant', data);
+    },
+    update_merchant: function(data) {
+      return handleRequest('PUT', '/create_merchant', data);
     },
     del: function(id) {
       return handleRequest('DELETE', '/merchant/'+ id);

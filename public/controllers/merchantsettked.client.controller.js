@@ -12,20 +12,19 @@ function MerchantsettkedController($scope, CONFIGS, $uibModal, MerchantService, 
   $scope.vm.status = CONFIGS.merchantStatus[0].value;
   $scope.vm.money_status = CONFIGS.moneyStatus[0].value;
 
-  console.log($cookies.get('id'));
-  console.log($cookies.get('user_name'));
-
   $scope.vm.user_id = $cookies.get('id');
   $scope.vm.user_name = $cookies.get('user_name');
 
-  var mark = null; // 1:修改 2:新增
-  MerchantService.getUserByMerchant($cookies.get('id')).then(function(data) {
+  // 1:修改 2:新增
+  MerchantService.getUserByMerchant().then(function(data) {
     if (data.data) {
       $scope.vm = data.data;
-      mark = 1;
+      $scope.account = $scope.vm.account;
+      $scope.money_photo = $scope.vm.money_photo;
+      $scope.mark = 1;
 
     } else {
-      mark = 2;
+      $scope.mark = 2;
     }
 
   }, function(err) {
@@ -73,17 +72,15 @@ function MerchantsettkedController($scope, CONFIGS, $uibModal, MerchantService, 
   }
 
   $scope.save = function(form) {
-    console.log(form);
 
     if (form.$valid === false) {
       return false;
     }
-    console.log($scope.vm);
-    console.log(mark);
 
-    if (mark === 1) {
-      MerchantService.put(id, $scope.vm).then(function(data) {
+    if ($scope.mark === 1) {
+      MerchantService.update_merchant($scope.vm).then(function(data) {
         if (data.err == 0) {
+          $scope.vm = data.data;
           toastr.success('ok', "操作成功");
         }
       }, function(err) {
@@ -93,10 +90,10 @@ function MerchantsettkedController($scope, CONFIGS, $uibModal, MerchantService, 
       });
     }
 
-    if (mark === 2) {
-
-        MerchantService.save($scope.vm).then(function(data) {
+    if ($scope.mark === 2) {
+        MerchantService.create_merchant($scope.vm).then(function(data) {
           if (data.err == 0) {
+            $scope.vm = data.data;
             toastr.success('ok', "操作成功");
           }
         }, function(err) {

@@ -120,7 +120,12 @@ module.exports = {
 
    //商户申请
    update_merchant: function(req, res, next) {
-
+    if (req.body.status == 1) {
+      req.body.status = 0;
+    }
+     if (req.body.money_status == 1) {
+      req.body.money_status = 0;
+    }
     req.body.updateTime = moment().format("YYYY-MM-DD");
     var json = req.body;
     var sql = `update merchant set ? where ?`;
