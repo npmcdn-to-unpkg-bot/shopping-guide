@@ -58,14 +58,12 @@ module.exports = {
           }
           else if (obj === "addr") {
             if(query[obj] <= 1) {
-              or += ` or (default_status = 1 and ${obj}<=${query[obj]}) `;
+              or += ` or (default_status = 1 and ${obj}<=${query[obj]} and commodity_status = 3) `;
               where += ` and ${obj}<=${query[obj]}`;
-              where += ` and commodity_status = 3`;
             }
             else {
-              or += ` or (default_status = 1 and ${obj}>=${query[obj]}) `;
+              or += ` or (default_status = 1 and ${obj}>=${query[obj]} and commodity_status = 3) `;
               where += ` and ${obj}>=${query[obj]}`;
-              where += ` and commodity_status = 3`;
             }
           }
           else {
