@@ -10,5 +10,6 @@ module.exports = function(app) {
 
   app.route('/user_create')
   .post(AdminController.user_create);
+  .get(AdminController.editPwd);
 
 };

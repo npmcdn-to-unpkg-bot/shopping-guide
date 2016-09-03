@@ -54,7 +54,6 @@
 
     var serverAPI = new ServerAPI(config.sms.AppKey,config.sms.AppSecret);
     serverAPI.verifycode({mobile: req.query.phone, code: req.query.code},function(err, data){
-      console.log(data);
 
       if(data.code === 200){
 
@@ -95,9 +94,43 @@
     })
 
 
+  },
 
-    
 
+  //修改密码
+  editPwd: function(req, res, next){
+
+    var serverAPI = new ServerAPI(config.sms.AppKey,config.sms.AppSecret);
+    serverAPI.verifycode({mobile: req.query.phone, code: req.query.code},function(err, data){
+
+      if(data.code === 200){
+
+        var sql = `update user set pwd = ${req.query.pwd} where name like '${req.query.name}'`;
+
+        pool(sql).then(function(data) {
+          if (data) {
+
+            var sql = "select * from user where name like '%" + req.body.name + "%' order by id desc limit 1";
+
+            pool(sql).then(function(data) {
+              authChecked.send(res, req, 200, {err: 0, data: data[0]});
+            }, function() {
+              authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+            });
+
+              // authChecked.send(res, req, 200, {err: 0, data: data});
+            }
+          }, function(err) {
+            authChecked.send(res, req, 500, {err: 1, msg: "注册信息有误"});
+          });
+      }
+      else if (data.code === 413){
+        authChecked.send(res, req, 500, {err: 1, msg: "验证码错误"});
+      }
+      else {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      }
+    })
   },
 
 
