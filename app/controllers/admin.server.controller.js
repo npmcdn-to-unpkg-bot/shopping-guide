@@ -1,17 +1,17 @@
 /**
  * Created by youpeng on 16/8/17.
  */
-var pool = require('../../config/pool.js');
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
-var authChecked = require('../authChecked/authChecked');
+ var pool = require('../../config/pool.js');
+ var querystring = require('querystring');
+ var cookieParser = require('cookie-parser');
+ var authChecked = require('../authChecked/authChecked');
 
-var sendSMS = require('../../config/sendSMS.js');
+ var sendSMS = require('../../config/sendSMS.js');
 
-var config = require('../../config/config.js');
-var ServerAPI = require('../../config/ServerAPI.js');
+ var config = require('../../config/config.js');
+ var ServerAPI = require('../../config/ServerAPI.js');
 
-module.exports = {
+ module.exports = {
   // 登录
   user_login: function(req, res, next) {
 
@@ -52,32 +52,51 @@ module.exports = {
   //注册
   user_create: function(req, res, next) {
 
-    if(req.body){
-      req.body = req.query;
-    }
+    var serverAPI = new ServerAPI(config.sms.AppKey,config.sms.AppSecret);
+    serverAPI.verifycode({mobile: req.query.phone, code: req.query.code},function(err, data){
+      console.log(data);
 
-    req.body.nick_name = req.body.name;
+      if(data.code === 200){
 
-    delete req.body.repassword
+        if(req.body){
+          req.body = req.query;
+        }
 
-    var sql = "INSERT INTO user SET ?";
+        req.body.nick_name = req.body.name;
 
-    pool(sql, req.body).then(function(data) {
-      if (data) {
+        delete req.body.repassword
+        delete req.body.code
 
-          var sql = "select * from user where name like '%" + req.body.name + "%' order by id desc limit 1";
+        var sql = "INSERT INTO user SET ?";
 
-          pool(sql).then(function(data) {
-            authChecked.send(res, req, 200, {err: 0, data: data[0]});
-          }, function() {
-            authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+        pool(sql, req.body).then(function(data) {
+          if (data) {
+
+            var sql = "select * from user where name like '%" + req.body.name + "%' order by id desc limit 1";
+
+            pool(sql).then(function(data) {
+              authChecked.send(res, req, 200, {err: 0, data: data[0]});
+            }, function() {
+              authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+            });
+
+              // authChecked.send(res, req, 200, {err: 0, data: data});
+            }
+          }, function(err) {
+            authChecked.send(res, req, 500, {err: 1, msg: "注册信息有误"});
           });
-
-        // authChecked.send(res, req, 200, {err: 0, data: data});
       }
-    }, function(err) {
-      authChecked.send(res, req, 500, {err: 1, msg: "注册信息有误"});
-    });
+      else if (data.code === 413){
+        authChecked.send(res, req, 500, {err: 1, msg: "验证码错误"});
+      }
+      else {
+        authChecked.send(res, req, 500, {err: 1, msg: "服务器错误"});
+      }
+    })
+
+
+
+    
 
   },
 
@@ -91,12 +110,13 @@ module.exports = {
     //   }
     //   res.send(data);
     // });
+    console.log(req.query.phone);
     var serverAPI = new ServerAPI(config.sms.AppKey,config.sms.AppSecret);
-      serverAPI.sendSmsCode({mobile: '18627857458'},function(err, data){
-        console.log(err);
-        console.log(data);
-          res.send(data);
-      })
+    serverAPI.sendSmsCode({mobile: req.query.phone},function(err, data){
+      console.log(err);
+      console.log(data);
+      authChecked.send(res, req, 200, {err: 0, data: data});
+    })
 
   }
 
