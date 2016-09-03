@@ -64,12 +64,22 @@
 
         <item-list ng-if="globals.role == 2">
             <div class="meun-title">账号管理</div>
-            <div class="meun-item"><img
-                    src="images/icon_change_grey.png">修改密码
+            <div class="meun-item"><a ng-href="#/modify"><img
+                    src="images/icon_change_grey.png">修改密码</a>
             </div>
             <div class="meun-title">商品管理</div>
             <div class="meun-item"><a ng-href="#/shop"><img
                     src="images/icon_chara_grey.png">商品管理</a>
+            </div>
+        </item-list>
+        <item-list ng-if="globals.role == 1">
+            <div class="meun-title">账号管理</div>
+            <div class="meun-item"><a ng-href="#/modify"><img
+                    src="images/icon_change_grey.png">修改密码</a>
+            </div>
+            <div class="meun-title">商品管理</div>
+            <div class="meun-item"><a ng-href="#/merchantsettked"><img
+                    src="images/icon_chara_grey.png">入住申请</a>
             </div>
         </item-list>
 
@@ -123,6 +133,7 @@
 <script src="controllers/type.client.controller.js"></script>
 
 <script src="controllers/modifypassword.client.controller.js"></script>
+<script src="controllers/merchantsettked.client.controller.js"></script>
 
 <!--<script src="dist/all.min.js"></script>-->
 

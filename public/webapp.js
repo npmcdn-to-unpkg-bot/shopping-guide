@@ -42,6 +42,10 @@ webapp.config([
         templateUrl: 'views/ModifyPassword.html',
         controller: 'ModifyController'
       })
+      .when('/merchantsettked', {
+        templateUrl: 'views/merchantSettled.html',
+        controller: 'MerchantsettkedController'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -56,7 +60,7 @@ webapp.run(['$rootScope', '$cookies', '$location', function($rootScope, $cookies
         nick_name: $cookies.get('nick_name'),
         role: $cookies.get('role')
       };
-      
+
       console.log($rootScope.globals);
     }
 
