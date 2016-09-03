@@ -5,11 +5,13 @@ var AdminController = require('../controllers/admin.server.controller.js');
 
 module.exports = function(app) {
   app.route('/login')
-  .post(AdminController.user_login)
-  .get(AdminController.sendSMS);
+    .post(AdminController.user_login)
+    .get(AdminController.sendSMS);
 
   app.route('/user_create')
-  .post(AdminController.user_create)
+    .post(AdminController.user_create)
+    .get(AdminController.editPwd);
+
 
   app.route('/modify/:nid')
     .put(AdminController.modify);
