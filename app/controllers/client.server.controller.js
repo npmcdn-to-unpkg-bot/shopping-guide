@@ -82,8 +82,6 @@ module.exports = {
       where = '(' +where+ ')' + or
     }
 
-    where += ` and commodity_status = 3`;
-
     var sql = `select * from ad_commodity where ${where} order by id limit ${page},${num}`;
 
     pool(sql ,query).then(function(data) {
