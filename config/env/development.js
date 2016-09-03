@@ -5,7 +5,7 @@ var path = require("path");
 
 
 module.exports = {
-	port: 80,
+	port: 3000,
 	mysql:{
 		host: 'rm-2zecpf4qs6zs7843u.mysql.rds.aliyuncs.com',
 		port: 3306,

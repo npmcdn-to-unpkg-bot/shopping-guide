@@ -89,21 +89,6 @@ module.exports = {
 
 
   sendSMS: function(req, res, next) {
-
-    sendSMS.sendCode('18627857458').then(function(err, data) {
-      if (err) {
-        res.send(err);
-        // authChecked.send(res, req, 500, {err: 1, msg: "短信发送失败"});
-      }
-      res.send(data);
-    });
-    // var serverAPI = new ServerAPI(config.sms.AppKey,config.sms.AppSecret);
-    //   serverAPI.sendSmsCode({mobile: '18627857458'},function(err, data){
-    //     console.log(err);
-    //     console.log(data);
-    //       res.send(data);
-    //   })
-
   },
 
 
