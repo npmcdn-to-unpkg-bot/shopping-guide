@@ -115,6 +115,8 @@ function ActivityController($scope, ActivityService, ShopManageService, $uibModa
           if (form.$valid === false) {
             return false;
           }
+          $scope.vm.strTime = $scope.vm.strTime.valueOf();
+          $scope.vm.endTime = $scope.vm.endTime.valueOf();
           ActivityService.save($scope.vm).then(function(data) {
             if (data.err == 0) {
               toastr.success('ok', "操作成功");
@@ -195,6 +197,8 @@ function ActivityController($scope, ActivityService, ShopManageService, $uibModa
           if (form.$valid === false) {
             return false;
           }
+          $scope.vm.strTime = $scope.vm.strTime.valueOf();
+          $scope.vm.endTime = $scope.vm.endTime.valueOf();
           ActivityService.put(id, $scope.vm).then(function(data) {
             if (data.err == 0) {
               toastr.success('ok', "操作成功");

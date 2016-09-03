@@ -127,7 +127,6 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
         });
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
           if (status === 200) {
-            console.log(response.data);
             $scope.vm.photo = response.data;
           }
         };
@@ -136,6 +135,8 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
           if (form.$valid === false) {
             return false;
           }
+          $scope.vm.strTime = $scope.vm.strTime.valueOf();
+          $scope.vm.endTime = $scope.vm.endTime.valueOf();
           AdService.save($scope.vm).then(function(data) {
             if (data.err == 0) {
               toastr.success('ok', "操作成功");
@@ -236,6 +237,9 @@ function AdController($scope, AdService, ShopManageService, MerchantService, Fil
           if (form.$valid === false) {
             return false;
           }
+
+          $scope.vm.strTime = $scope.vm.strTime.valueOf();
+          $scope.vm.endTime = $scope.vm.endTime.valueOf();
           AdService.put(id, $scope.vm).then(function(data) {
             if (data.err == 0) {
               toastr.success('ok', "操作成功");
