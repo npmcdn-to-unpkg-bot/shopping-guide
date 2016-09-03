@@ -47,7 +47,7 @@ module.exports = {
     for(obj in query){
       if(query[obj] != null){
           if (obj === "type") {
-            if(query[obj]){
+            if(query[obj] != 0){
               // where += "and ( CURRENT_TIMESTAMP>endTime or status < 2 )";
               where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTime) < 0 or status < 2 )";
             }
