@@ -49,11 +49,11 @@ module.exports = {
           if (obj === "type") {
             if(query[obj]){
               // where += "and ( CURRENT_TIMESTAMP>endTime or status < 2 )";
-              where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) < 0 or status < 2 )";
+              where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTime) < 0 or status < 2 )";
             }
             else {
               // where += "and CURRENT_TIMESTAMP<=endTime and status = 2";
-              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0 and status = 2";
+              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTime) >= 0 and status = 2";
             }
           }
           else if (obj === "addr") {
