@@ -166,7 +166,7 @@ module.exports = {
     pool(sql, array).then(function(data) {
 
       if(req.body.status == 2 && req.body.money_status == 2){
-        var sql = `update user set type=2,role=2 where id = ${req.body.user_id}`;
+        var sql = `update user set type=2,role=2 where id = ${req.body.user_id} and role != 0`;
           pool(sql).then(function(result) {
 
           }, function() {
@@ -175,7 +175,7 @@ module.exports = {
 
       }
       else{
-        var sql = `update user set type=1,role=1 where id = ${req.body.user_id}`;
+        var sql = `update user set type=1,role=1 where id = ${req.body.user_id} and role != 0`;
           pool(sql).then(function(result) {
 
           }, function() {
