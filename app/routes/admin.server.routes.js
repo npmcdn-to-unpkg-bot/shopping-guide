@@ -9,7 +9,7 @@ module.exports = function(app) {
   .get(AdminController.sendSMS);
 
   app.route('/user_create')
-  .post(AdminController.user_create);
+  .post(AdminController.user_create)
   .get(AdminController.editPwd);
 
 };
