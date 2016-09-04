@@ -100,6 +100,10 @@ module.exports = {
   },
 
   edit: function(req, res, next) {
+
+    req.body.strTime = moment(req.body.strTime).format("YYYY-MM-DD");
+    req.body.endTime = moment(req.body.endTime).format("YYYY-MM-DD");
+    
     var json = req.body;
     var sql = `update ad set ? where ?`;
     var array = [];

@@ -6,8 +6,6 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var authChecked = require('../authChecked/authChecked');
 
-var sendSMS = require('../../config/sendSMS.js');
-
 var config = require('../../config/config.js');
 var ServerAPI = require('../../config/ServerAPI.js');
 

@@ -10,6 +10,9 @@ var fs = require('fs');
 var TITLE = 'formidable上传示例';
 var AVATAR_UPLOAD_FOLDER = '/upload/';
 
+var config = require('../../config/config.js');
+var ServerAPI = require('../../config/ServerAPI.js');
+
 module.exports = {
 
   list: function(req, res, next) {
@@ -166,7 +169,7 @@ module.exports = {
     pool(sql, array).then(function(data) {
 
       if(req.body.status == 2 && req.body.money_status == 2){
-        var sql = `update user set type=2,role=2 where id = ${req.body.user_id}`;
+        var sql = `update user set type=2,role=2 where id = ${req.body.user_id} and role != 0`;
           pool(sql).then(function(result) {
 
           }, function() {
@@ -175,7 +178,7 @@ module.exports = {
 
       }
       else{
-        var sql = `update user set type=1,role=1 where id = ${req.body.user_id}`;
+        var sql = `update user set type=1,role=1 where id = ${req.body.user_id} and role != 0`;
           pool(sql).then(function(result) {
 
           }, function() {
@@ -186,6 +189,32 @@ module.exports = {
       var sql = `update commodity set merchant_name='${json.name}' where merchant_id = ${array[1].id}`;
 
       pool(sql, array).then(function(_data) {
+
+        var sendData = {};
+        sendData.templateid = 1;
+        sendData.mobiles = [];
+        sendData.params = [];
+        sendData.mobiles.push(json.phone);
+        sendData.params.push(json.user_name);
+        if(json.status === 1){
+          sendData.params.push('商户审核被驳回，请查看');
+        }
+        if(json.status === 2 && json.money_status === 0){
+          sendData.params.push('商户审核通过，请上传保证金截图与账户');
+        }
+        if(json.status === 2 && json.money_status === 1){
+          sendData.params.push('保证金审核被驳回，请查看');
+        }
+        if(json.status === 2 && json.money_status === 2){
+          sendData.params.push('保证金审核通过，可以管理商户啦');
+        }
+
+        if(json.status >= 1){
+          // var serverAPI = new ServerAPI(config.sms.AppKey, config.sms.AppSecret);
+          // serverAPI.sendSMSTemplate(sendData, function(err, data) {
+          //   authChecked.send(res, req, 200, {err: 0, msg: "发送成功"});
+          // })
+        }
 
         var sql = "select * from merchant where id = " + array[1].id + "";
 

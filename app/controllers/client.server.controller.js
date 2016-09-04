@@ -47,25 +47,23 @@ module.exports = {
     for(obj in query){
       if(query[obj] != null){
           if (obj === "type") {
-            if(query[obj]){
+            if(query[obj] != 0){
               // where += "and ( CURRENT_TIMESTAMP>endTime or status < 2 )";
-              where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) < 0 or status < 2 )";
+              where += "and ( TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTime) < 0 or status < 2 )";
             }
             else {
               // where += "and CURRENT_TIMESTAMP<=endTime and status = 2";
-              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTIme) >= 0 and status = 2";
+              where += "and TIMESTAMPDIFF(day,CURRENT_TIMESTAMP,endTime) >= 0 and status = 2";
             }
           }
           else if (obj === "addr") {
             if(query[obj] <= 1) {
-              or += ` or (default_status = 1 and ${obj}<=${query[obj]}) `;
+              or += ` or (default_status = 1 and ${obj}<=${query[obj]} and commodity_status = 3) `;
               where += ` and ${obj}<=${query[obj]}`;
-              where += ` and commodity_status = 3`;
             }
             else {
-              or += ` or (default_status = 1 and ${obj}>=${query[obj]}) `;
+              or += ` or (default_status = 1 and ${obj}>=${query[obj]} and commodity_status = 3) `;
               where += ` and ${obj}>=${query[obj]}`;
-              where += ` and commodity_status = 3`;
             }
           }
           else {
@@ -83,8 +81,6 @@ module.exports = {
     if(or){
       where = '(' +where+ ')' + or
     }
-
-    where += ` and commodity_status = 3`;
 
     var sql = `select * from ad_commodity where ${where} order by id limit ${page},${num}`;
 

@@ -31,9 +31,6 @@ module.exports = {
 		replaceConsole: false							// 让所有console输出到日志中，以[INFO] console代替console默认样式
 	},
 	sms: {
-		sendCodeUrl: 'https://api.netease.im/sms/sendcode.action',
-		verifycodeUrl: 'https://api.netease.im/sms/verifycode.action',
-		sendtemplateUrl: 'https://api.netease.im/sms/sendtemplate.action',
 		AppKey: '508ff4ea690d428db3297013aa14e88e',
 		AppSecret: '46c944a0c086'
 	}
