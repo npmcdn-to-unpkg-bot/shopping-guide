@@ -23,6 +23,10 @@
             >
             </select>
         </div>
+        <div class="form-group" ng-if="vm.remarks">
+            <label>备注</label>
+            <textarea ng-disabled="true" class="form-control" name="remarks" ng-model="vm.remarks" placeholder="备注"></textarea>
+        </div>
         <div class="form-group">
             <label>身份认证信息正面</label>
             <input ng-show="vm.identity_front == null"  type="file" nv-file-select="onFileSelect($files)" uploader="uploader1"/>

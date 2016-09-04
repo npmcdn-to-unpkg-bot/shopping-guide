@@ -57,6 +57,10 @@
             <p class="form-control-static">{{user.status === 0 ? '待审核' : user.status === 1 ? '已驳回' : user.status === 2 ?
                 '已通过' : user.status === 3 ? '已上架' : user.status === 4 ? '已下架' : '无法识别'}}</p>
         </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">备注</label>
+            <p class="form-control-static">{{user.remarks}}</p>
+        </div>
 
     </form>
 </div>
