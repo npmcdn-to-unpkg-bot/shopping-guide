@@ -19,6 +19,7 @@ function UserInterceptor($q, $rootScope, $location, $cookies) {
         $cookies.remove('user_name');
         $cookies.remove('nick_name');
         $cookies.remove('role');
+        $cookies.remove('id');
         $rootScope.$emit("userIntercepted", "notLogin", response);
       }
       // 如果是登录超时

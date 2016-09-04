@@ -70,6 +70,7 @@ webapp.run(['$rootScope', '$cookies', '$location', function($rootScope, $cookies
       $cookies.remove('user_name');
       $cookies.remove('nick_name');
       $cookies.remove('role');
+      $cookies.remove('id');
       $rootScope.globals = {
         nick_name: null,
         role: null

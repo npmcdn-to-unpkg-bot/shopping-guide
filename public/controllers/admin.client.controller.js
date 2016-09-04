@@ -40,7 +40,7 @@ function AdminController($window, $scope, AdminService, $cookies, $location, toa
         if (data.role == 2) {
           $location.path('shop');
         }
-        if (data.role  == 1) {
+        if (data.role == 1) {
           $location.path('merchantsettked');
         }
       },
