@@ -190,8 +190,6 @@ module.exports = {
 
       pool(sql, array).then(function(_data) {
 
-        console.log(json);
-
         var sendData = {};
         sendData.templateid = 1;
         sendData.mobiles = [];
