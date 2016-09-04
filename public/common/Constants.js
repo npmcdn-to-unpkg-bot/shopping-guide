@@ -104,9 +104,6 @@ angular.module('webapp')
       },
       {
         text: '二级banner', value: 2
-      },
-      {
-        text: '二级banner_小图', value: 3
       }
     ],
     //广告永久性
