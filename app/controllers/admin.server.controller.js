@@ -148,7 +148,7 @@ module.exports = {
     //修改密码
     editPwd: function(req, res, next) {
 
-      var serverAPI = new ServerAPI(config.sms.AppKey, config.sms.AppSecret);
+      var serverAPI = new ServerAPI(config.smsCode.AppKey, config.smsCode.AppSecret);
       serverAPI.verifycode({mobile: req.query.phone, code: req.query.code}, function(err, data) {
 
         if (data.code === 200) {
