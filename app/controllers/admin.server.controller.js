@@ -56,7 +56,7 @@ module.exports = {
   //注册
   user_create: function(req, res, next) {
 
-    var serverAPI = new ServerAPI(config.sms.AppKey, config.sms.AppSecret);
+    var serverAPI = new ServerAPI(config.smsCode.AppKey, config.smsCode.AppSecret);
     serverAPI.verifycode({mobile: req.query.phone, code: req.query.code}, function(err, data) {
 
       if (data.code === 200) {
@@ -183,7 +183,7 @@ module.exports = {
 
 
     sendSMS: function(req, res, next) {
-      var serverAPI = new ServerAPI(config.sms.AppKey, config.sms.AppSecret);
+      var serverAPI = new ServerAPI(config.smsCode.AppKey, config.smsCode.AppSecret);
       serverAPI.sendSmsCode({mobile: req.query.phone}, function(err, data) {
         authChecked.send(res, req, 200, {err: 0, msg: "发送成功"});
       })
