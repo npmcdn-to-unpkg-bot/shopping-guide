@@ -197,13 +197,13 @@ module.exports = {
         sendData.mobiles.push(json.phone);
         sendData.params.push(json.user_name);
         if(json.status === 1){
-          sendData.params.push('商户审核被驳回，请查看');
+          sendData.params.push('商户审核被驳回');
         }
         if(json.status === 2 && json.money_status === 0){
-          sendData.params.push('商户审核通过，请上传保证金截图与账户');
+          sendData.params.push('商户审核通过，快去上传保证金截图与账户吧');
         }
         if(json.status === 2 && json.money_status === 1){
-          sendData.params.push('保证金审核被驳回，请查看');
+          sendData.params.push('保证金审核被驳回');
         }
         if(json.status === 2 && json.money_status === 2){
           sendData.params.push('保证金审核通过，可以管理商户啦');
