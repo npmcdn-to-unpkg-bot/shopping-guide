@@ -191,7 +191,7 @@ module.exports = {
       pool(sql, array).then(function(_data) {
 
         var sendData = {};
-        sendData.templateid = 1;
+        sendData.templateid = 3033081;
         sendData.mobiles = [];
         sendData.params = [];
         sendData.mobiles.push(json.phone);
