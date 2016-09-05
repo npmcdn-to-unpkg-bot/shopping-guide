@@ -212,6 +212,8 @@ module.exports = {
         if(json.status >= 1){
           var serverAPI = new ServerAPI(config.smsNotice.AppKey, config.smsNotice.AppSecret);
           serverAPI.sendSMSTemplate(sendData, function(err, data) {
+            console.log(err);
+            console.log(data);
             // authChecked.send(res, req, 200, {err: 0, msg: "发送成功"});
           })
         }
