@@ -33,7 +33,7 @@ module.exports = {
 	smsCode: {
 		AppKey: '508ff4ea690d428db3297013aa14e88e',
 		AppSecret: '46c944a0c086'
-	}，
+	},
 	smsNotice: {
 		AppKey: '1c1544c0d2cc49de50f8779dbca65a52',
 		AppSecret: '27a8460899f4'
