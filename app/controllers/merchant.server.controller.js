@@ -212,7 +212,7 @@ module.exports = {
         if(json.status >= 1){
           // var serverAPI = new ServerAPI(config.sms.AppKey, config.sms.AppSecret);
           // serverAPI.sendSMSTemplate(sendData, function(err, data) {
-          //   authChecked.send(res, req, 200, {err: 0, msg: "发送成功"});
+          //   // authChecked.send(res, req, 200, {err: 0, msg: "发送成功"});
           // })
         }
 
